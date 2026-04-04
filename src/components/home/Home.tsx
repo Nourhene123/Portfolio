@@ -1,112 +1,227 @@
-import "./Home.css";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import { useEffect } from "react";
 import profilePic from "../../assets/images/profilePic.png";
 import cv from "../../assets/pdf/NourheneFerchichi_CV.pdf";
-import CustomButton from "../../tools/buttons/CustomButton";
 import { HiDownload } from "react-icons/hi";
 import { IoLogoGithub } from "react-icons/io";
-import { FaLinkedin, FaRobot } from "react-icons/fa";
-import { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import { FaLinkedin, FaBriefcase, FaReact, FaHtml5, FaCss3Alt, FaJs, FaPython, FaAngular } from "react-icons/fa";
+import { SiTypescript, SiSpring, SiDjango, SiPostgresql } from "react-icons/si";
+import { VscCode } from "react-icons/vsc";
+import ParticleBackground from "../shared/ParticleBackground";
+import "./Home.css";
+
+const floatingIcons = [
+  { Icon: VscCode, delay: 0, angle: 0, color: "#007ACC" },
+  { Icon: FaReact, delay: 0.1, angle: 36, color: "#61DAFB" },
+  { Icon: FaAngular, delay: 0.2, angle: 72, color: "#DD0031" },
+  { Icon: SiSpring, delay: 0.3, angle: 108, color: "#6DB33F" },
+  { Icon: FaPython, delay: 0.4, angle: 144, color: "#3776AB" },
+  { Icon: SiDjango, delay: 0.5, angle: 180, color: "#092E20" },
+  { Icon: SiTypescript, delay: 0.6, angle: 216, color: "#3178C6" },
+  { Icon: FaJs, delay: 0.7, angle: 252, color: "#F7DF1E" },
+  { Icon: FaHtml5, delay: 0.8, angle: 288, color: "#E34F26" },
+  { Icon: FaCss3Alt, delay: 0.9, angle: 324, color: "#1572B6" },
+];
+
+const socialLinks = [
+  { icon: FaLinkedin, href: "https://www.linkedin.com/in/nourhene-ferchichi/", label: "LinkedIn" },
+  { icon: IoLogoGithub, href: "https://github.com/Nourhene123", label: "GitHub" },
+];
 
 const Home = () => {
+  const y = useMotionValue(0);
+  const ySmooth = useTransform(y, (value) => value);
+
   useEffect(() => {
-    AOS.init({ duration: 1000, once: true });
-  }, []);
+    const controls = animate(y, [-8, 8, -8], {
+      duration: 4,
+      repeat: Infinity,
+      ease: "easeInOut",
+    });
+    return controls.stop;
+  }, [y]);
 
   return (
-   <div
-  id="home"
-  className="home-container relative overflow-hidden min-h-screen flex items-center justify-center px-6 py-16 md:py-20"
->
+    <div id="home" className="home-container">
+      <ParticleBackground />
 
-  <div className="absolute inset-0 -z-10 pointer-events-none">
-    <div className="home-waves"></div>
-  </div>
+      <div className="home-content">
+       
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="home-left"
+        >
+        
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.6 }}
+          >
+            <span className="home-greeting">Hi, I'm</span>
+          </motion.div>
 
-  <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
-    
- 
-    <div
-      className="space-y-5 md:space-y-7 text-center md:text-left"
-      data-aos="fade-right"
-      data-aos-delay="200"
-    >
-   
-      <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-tight">
-        <span className="block">Nourhene</span>
-        <span className="block text-bordeaux-400 drop-shadow-lg">Ferchichi</span>
-      </h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="home-title"
+          >
+            Nourhene
+            <br />
+            <span className="home-title-highlight">Ferchichi</span>
+          </motion.h1>
 
-      <p className="text-lg sm:text-xl md:text-2xl font-mono text-gray-200 tracking-widest uppercase">
-        Full-stack & AI Engineer
-      </p>
+      
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            className="home-role"
+          >
+            Full-Stack & <span className="home-role-highlight">AI Engineer</span>
+          </motion.p>
 
-      <p className="text-sm sm:text-base md:text-lg text-gray-300 leading-relaxed max-w-lg mx-auto md:mx-0 font-light">
-        5th-year Software Engineering student at <strong className="text-white">TEK-UP</strong>, I’m seeking a{" "}
-        <span className="text-bordeaux-300 font-semibold">full-stack AI internship</span> starting{" "}
-        <span className="text-bordeaux-400 font-bold">January 2026</span>.
-        <br className="hidden md:block" />
-        Specialized in <strong className="text-white">Angular • Spring Boot • Django • RAG • LLM</strong>.
-      </p>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="home-bio"
+          >
+            5th-year Software Engineering student at TEK-UP.
+            Building intelligent full-stack solutions with modern technologies.
+          </motion.p>
 
-    
-      <div className="flex flex-wrap justify-center md:justify-start gap-3 pt-3">
-        <a href={cv} download>
-          <CustomButton
-            text="Télécharger CV"
-            color="bordeaux"
-            icon={<HiDownload />}
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+            className="home-badge"
+          >
+            <div className="home-badge-icon">
+              <FaBriefcase className="w-5 h-5 text-white" />
+            </div>
+            <div className="home-badge-text">
+              <p className="home-badge-title">Seeking Full-Stack AI Internship</p>
+              <p className="home-badge-subtitle">January 2026 • 6 months</p>
+            </div>
+          </motion.div>
+
+         
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+            className="home-buttons"
+          >
+            <a href={cv} download className="home-btn-primary">
+              <HiDownload className="w-5 h-5" />
+              Resume
+            </a>
+            <a href="#contact" className="home-btn-secondary">
+              Contact Me
+            </a>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.6 }}
+            className="home-social"
+          >
+            {socialLinks.map(({ icon: Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="home-social-link"
+                aria-label={label}
+              >
+                <Icon className="w-6 h-6" />
+              </a>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="home-right"
+        >
+          <div className="home-image-wrapper">
+            {floatingIcons.map(({ Icon, delay, angle, color }, index) => {
+              const distance = 160;
+              const angleRad = (angle * Math.PI) / 180;
+              const x = Math.cos(angleRad) * distance;
+              const y = Math.sin(angleRad) * distance;
+              return (
+                <motion.div
+                  key={index}
+                  className="home-floating-icon"
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ 
+                    opacity: 1, 
+                    scale: 1,
+                  }}
+                  transition={{
+                    opacity: { delay: 0.8 + delay, duration: 0.4 },
+                    scale: { delay: 0.8 + delay, duration: 0.4 },
+                  }}
+                  style={{ 
+                    left: `calc(50% + ${x}px)`, 
+                    top: `calc(50% + ${y}px)`,
+                    color: color,
+                    animation: `icon-float 3s ease-in-out ${delay}s infinite`,
+                  }}
+                >
+                  <Icon className="w-8 h-8" />
+                </motion.div>
+              );
+            })}
+
+            <motion.div
+              style={{ y: ySmooth }}
+              className="home-image-container"
+              whileHover={{ scale: 1.03 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
+            
+              <div className="home-image-ring" />
            
-          />
-        </a>
-        <a href="https://www.linkedin.com/in/nourhene-ferchichi/" target="_blank" rel="noopener noreferrer">
-          <CustomButton text="LinkedIn" color="gray" icon={<FaLinkedin />}  />
-        </a>
-        <a href="https://github.com/Nourhene123" target="_blank" rel="noopener noreferrer">
-          <CustomButton text="GitHub" color="gray" icon={<IoLogoGithub />}  />
-        </a>
-      </div>
-    </div>
-
-   
-    <div
-      className="relative flex justify-center"
-      data-aos="fade-left"
-      data-aos-delay="400"
-    >
-      
-      <div className="absolute inset-0 -z-10 animate-orbit">
-        <div className="w-96 h-96 md:w-[28rem] md:h-[28rem] rounded-full border border-bordeaux-500/20 blur-3xl"></div>
-      </div>
-
-
-      <div className="relative group p-3 profile-image-container">
-      
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-bordeaux-600/30 to-transparent rounded-full blur-3xl scale-90 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-
-   
-        <div className="relative rounded-full overflow-hidden bg-black/40 backdrop-blur-3xl p-3 border-4 border-white/20 shadow-2xl neon-border group-hover:scale-105 transition-all duration-500">
-          <img
-            src={profilePic}
-            alt="Nourhene Ferchichi"
-            className="w-full h-full object-cover rounded-full transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
-            loading="eager"
-          />
-
-          <div className="absolute -bottom-3 -right-3 bg-gradient-to-r from-bordeaux-600 to-bordeaux-700 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-xl flex items-center gap-1.5 animate-bounce">
-            <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping"></span>
-            Jan 2026
+              <div className="home-image-inner">
+                <img
+                  src={profilePic}
+                  alt="Nourhene Ferchichi"
+                  className="home-profile-img"
+                  loading="eager"
+                />
+              </div>
+            </motion.div>
           </div>
-
-          <div className="absolute top-3 left-3 bg-white/20 backdrop-blur-md p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 scale-75 group-hover:scale-100">
-            <FaRobot className="w-5 h-5 text-bordeaux-300" />
-          </div>
-        </div>
+        </motion.div>
       </div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
+        className="home-scroll"
+      >
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="home-scroll-mouse"
+        >
+          <div className="home-scroll-wheel" />
+        </motion.div>
+      </motion.div>
     </div>
-  </div>
-</div>
   );
 };
 
