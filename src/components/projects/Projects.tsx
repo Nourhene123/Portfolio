@@ -1,171 +1,129 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { FaGithub, FaExternalLinkAlt, FaLightbulb, FaRocket, FaChartLine } from "react-icons/fa";
-import SectionReveal from "../shared/SectionReveal";
+import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+  FaGithub, 
+  FaExternalLinkAlt, 
+  FaLightbulb, 
+  FaRocket, 
+  FaChartLine, 
+  FaFolderOpen,
+  FaCode,
+  FaLayerGroup,
+  FaBrain,
+  FaFilter,
+  FaTimes,
+  FaCalendarAlt
+} from "react-icons/fa";
+import { projects, categoryColors, type Project, type ProjectCategory } from "../../data/projects.data";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { use3DTilt } from "../../hooks/use3DTilt";
 
-interface Project {
-  title: string;
-  short: string;
-  description: string;
-  details: string[];
-  technologies: string[];
-  github: string;
-  liveDemo?: string;
-  problem: string;
-  impact: string[];
-  images?: string[];
-}
+const categoryOrder: ProjectCategory[] = ["AI/ML", "Full-Stack", "Cloud", "DevOps"];
 
-const Projects = () => {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const projects: Project[] = [
-    {
-      title: "MedFlow",
-      short: "AI-powered SaaS platform for medical clinic management with role-based portals.",
-      description:
-        "MedFlow is a full-stack SaaS solution for clinics, featuring role-based access (admin, doctor, receptionist, patient), real-time dashboards, appointment scheduling, patient records, and an AI diagnostic assistant powered by LLMs.",
-      details: [
-        "Built responsive portals for all user roles using Next.js 14 + Tailwind + shadcn/ui",
-        "Implemented RBAC authentication with Auth.js and secure session management",
-        "Developed real-time communication via WebSocket for notifications and updates",
-        "Integrated AI diagnostic assistant using LLM for symptom analysis and triage suggestions",
-        "Deployed on Vercel with CI/CD pipeline",
-      ],
-      technologies: [
-        "Next.js 14",
-        "Tailwind",
-        "shadcn/ui",
-        "Django",
-        "PostgreSQL",
-        "Zod",
-        "Auth.js",
-        "Vercel",
-        "WebSocket",
-      ],
-      github: "",
-      problem: "Medical clinics struggle with fragmented patient management systems and lack AI-assisted triage capabilities, leading to inefficient workflows and longer patient wait times.",
-      impact: [
-        "Reduced patient wait times by 40% through AI-assisted triage",
-        "Streamlined clinic operations with unified role-based platform",
-        "Improved patient satisfaction with real-time updates",
-      ],
+const ProjectStats = ({ projects }: { projects: Project[] }) => {
+  const prefersReducedMotion = useReducedMotion();
+  const stats = useMemo(() => [
+    { 
+      icon: <FaFolderOpen size={20} />, 
+      value: projects.length.toString(), 
+      label: "Projects",
+      color: "#8C4555"
     },
-    {
-      title: "Human Resources Automation Platform",
-      short: "AI-powered HR system with CV parsing, candidate scoring, and employee engagement portals.",
-      description:
-        "A full-featured .NET + Angular HR platform for job posting, candidate management, and employee engagement. Automates CV parsing, skill matching, onboarding, and delivers real-time performance dashboards for candidates and employees.",
-      details: [
-        "Developed candidate portal with real-time application tracking and AI chatbot support (Ollama-powered)",
-        "Built employee portal with performance dashboards, surveys, and goal tracking",
-        "Automated PDF CV parsing using NLP to extract skills, experience, and education",
-        "Implemented intelligent skill matching with dynamic scoring and match percentage",
-        "Reduced application processing time by 15% via automated workflows and email onboarding",
-        "Designed responsive, role-based dashboards using Angular and SQL Server backend",
-      ],
-      technologies: [
-        ".NET",
-        "Angular",
-        "SQL Server",
-        "Ollama",
-        "GitLab",
-      ],
-      github: "",
-      problem: "HR departments spend excessive time manually processing CVs and tracking candidate applications, resulting in delayed hiring decisions and poor candidate experience.",
-      impact: [
-        "Reduced application processing time by 15%",
-        "Automated 80% of CV screening with AI-powered parsing",
-        "Improved candidate experience with real-time tracking",
-      ],
+    { 
+      icon: <FaCode size={20} />, 
+      value: "25+", 
+      label: "Technologies",
+      color: "#4A90A4"
     },
-    {
-      title: "CV-Job Matching System",
-      short: "RAG-powered platform for intelligent candidate-to-job matching with automated scoring.",
-      description:
-        "An AI-driven system that analyzes CVs and job offers using Retrieval-Augmented Generation (RAG), extracts competencies, scores candidates, and reduces manual screening effort.",
-      details: [
-        "Designed ETL pipeline with Airflow to process CVs and job descriptions",
-        "Implemented RAG architecture with Django backend and vector database",
-        "Built NLP engine to extract skills, experience levels, and soft competencies",
-        "Created scoring algorithm with weighted relevance and match percentage",
-        "Reduced manual screening time by 70% in internal testing",
-      ],
-      technologies: [
-        "Django",
-        "Angular",
-        "PostgreSQL",
-        "Airflow",
-        "RAG",
-        "NLP",
-        "ETL",
-      ],
-      github: "",
-      problem: "Recruiters spend 70% of their time manually screening CVs for job matches, missing qualified candidates due to keyword limitations in traditional ATS systems.",
-      impact: [
-        "Reduced manual screening time by 70%",
-        "Increased candidate-job match accuracy by 45%",
-        "Identified qualified candidates missed by keyword-based systems",
-      ],
+    { 
+      icon: <FaBrain size={20} />, 
+      value: projects.filter(p => p.category === "AI/ML").length.toString(), 
+      label: "AI Projects",
+      color: "#6B5B95"
     },
-    {
-      title: "E-commerce with Traffic Analytics",
-      short: "Full-stack online store with real-time product and user analytics dashboard.",
-      description:
-        "A Spring Boot + Angular e-commerce platform with secure authentication, shopping cart, payment integration, and a powerful admin dashboard displaying real-time analytics on products, users, and traffic.",
-      details: [
-        "Built full authentication system with JWT and role-based access",
-        "Implemented shopping cart, wishlist, and secure checkout flow",
-        "Developed real-time analytics engine tracking views, clicks, and conversions",
-        "Created interactive admin dashboard with charts and filters",
-        "Optimized database queries for high-traffic performance",
-      ],
-      technologies: [
-        "Spring Boot",
-        "Angular",
-        "MySQL",
-        "GitLab",
-        "JWT",
-        "Chart.js",
-      ],
-      github: "",
-      problem: "Small businesses lack affordable e-commerce solutions with built-in analytics, forcing them to use multiple disconnected tools for sales and customer insights.",
-      impact: [
-        "Unified e-commerce and analytics in single platform",
-        "Enabled data-driven inventory decisions",
-        "Reduced operational costs by eliminating third-party analytics tools",
-      ],
-    },
-    {
-      title: "Event Management & Space Booking System",
-      short: "Full-cycle event and space reservation platform with secure booking and CI/CD.",
-      description:
-        "A secure and intuitive event management system allowing users to browse, book, and manage events and spaces. Includes full testing suite, Docker containerization, and automated deployment via GitLab CI/CD.",
-      details: [
-        "Designed full-cycle event and space reservation workflow with availability calendar",
-        "Implemented secure and intuitive booking system with confirmation emails",
-        "Wrote comprehensive unit, functional, and integration tests for reliability",
-        "Containerized application with Docker for consistent environments",
-        "Set up CI/CD pipeline with GitLab for automated testing and deployment",
-      ],
-      technologies: [
-        "Symfony",
-        "Twig",
-        "MySQL",
-        "GitLab",
-        "Docker",
-        "PHPUnit",
-        "CI/CD",
-      ],
-      github: "",
-      problem: "Venues struggle with double bookings, manual confirmation processes, and lack of visibility into space utilization across multiple locations.",
-      impact: [
-        "Eliminated double bookings with real-time availability system",
-        "Reduced booking confirmation time by 90%",
-        "Improved space utilization visibility by 60%",
-      ],
-    },
-  ];
+    { 
+      icon: <FaLayerGroup size={20} />, 
+      value: categoryOrder.length.toString(), 
+      label: "Categories",
+      color: "#B58169"
+    }
+  ], [projects]);
+
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+      {stats.map((stat, idx) => (
+        <motion.div
+          key={stat.label}
+          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: idx * 0.1, type: "spring", stiffness: 100 }}
+          whileHover={{ y: prefersReducedMotion ? 0 : -5, scale: prefersReducedMotion ? 1 : 1.02 }}
+          className="relative group"
+        >
+          <div 
+            className="relative p-5 rounded-xl overflow-hidden transition-all duration-300"
+            style={{ 
+              background: "rgba(255, 255, 255, 0.8)",
+              backdropFilter: "blur(10px)",
+              border: `1px solid ${stat.color}20`
+            }}
+          >
+            <div 
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"
+              style={{ 
+                background: `radial-gradient(circle at center, ${stat.color}15 0%, transparent 70%)`
+              }}
+            />
+            
+            <div className="relative z-10 flex items-center gap-3">
+              <motion.div 
+                className="w-10 h-10 rounded-lg flex items-center justify-center"
+                style={{ 
+                  background: `${stat.color}15`,
+                  border: `1px solid ${stat.color}30`
+                }}
+                whileHover={{ rotate: [0, -10, 10, 0] }}
+                transition={{ duration: 0.5 }}
+              >
+                <span style={{ color: stat.color }}>{stat.icon}</span>
+              </motion.div>
+              
+              <div>
+                <motion.span 
+                  className="text-2xl font-bold block"
+                  style={{ color: "#2C2A35" }}
+                >
+                  {stat.value}
+                </motion.span>
+                <span className="text-xs font-medium" style={{ color: "#858376" }}>
+                  {stat.label}
+                </span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+const Project3DCard = ({
+  project,
+  onClick,
+  index
+}: {
+  project: Project;
+  onClick: () => void;
+  index: number;
+}) => {
+  const prefersReducedMotion = useReducedMotion();
+  const { ref: cardRef, rotateX, rotateY, handleMouseMove, handleMouseLeave } = use3DTilt({
+    stiffness: 400,
+    damping: 30,
+    rotateRange: 10
+  });
+  const colors = categoryColors[project.category];
 
   const getInitials = (title: string): string => {
     const words = title.trim().split(" ");
@@ -175,231 +133,732 @@ const Projects = () => {
   };
 
   return (
-    <>
-      <section id="projects" className="py-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          <SectionReveal>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-800 text-center mb-4">
-              Featured Projects
-            </h2>
-            <p className="text-slate-500 text-center mb-12 max-w-2xl mx-auto">
-              Full-stack applications showcasing AI integration, modern architectures, and measurable business impact.
-            </p>
-          </SectionReveal>
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ 
+        delay: index * 0.1, 
+        duration: 0.5,
+        type: "spring",
+        stiffness: 100
+      }}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+        perspective: 1000,
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={onClick}
+      className="cursor-pointer"
+    >
+      <motion.article
+        whileHover={{ y: prefersReducedMotion ? 0 : -8, scale: prefersReducedMotion ? 1 : 1.02 }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        className="group relative rounded-2xl overflow-hidden h-full flex flex-col"
+        style={{ 
+          backgroundColor: "rgba(255, 255, 255, 0.95)",
+          border: `1px solid ${colors.border}`,
+          boxShadow: `0 4px 20px ${colors.text}10, 0 1px 3px rgba(0,0,0,0.05)`,
+          transformStyle: "preserve-3d",
+        }}
+      >
+        <div 
+          className="absolute top-0 left-0 right-0 h-1.5 transition-all duration-300 group-hover:h-2"
+          style={{ background: colors.gradient }} 
+        />
+        <div className="absolute top-3 right-3 z-20">
+          <motion.span
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="px-3 py-1 text-xs font-semibold rounded-full"
+            style={{
+              backgroundColor: colors.bg,
+              color: colors.text,
+              border: `1px solid ${colors.border}`
+            }}
+          >
+            {project.category}
+          </motion.span>
+        </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((p, i) => (
-              <SectionReveal key={i} delay={i * 0.1}>
-                <motion.article
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                  className="group bg-white border border-slate-200 rounded-2xl p-6 hover:border-bordeaux-500/50 hover:shadow-xl transition-all duration-500 cursor-pointer h-full flex flex-col"
-                  onClick={() => setSelectedProject(p)}
+        <div 
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          style={{
+            background: `radial-gradient(circle at 50% 0%, ${colors.text}15 0%, transparent 70%)`
+          }}
+        />
+
+        <motion.div 
+          className="absolute inset-0 pointer-events-none"
+          initial={{ x: "-100%", opacity: 0 }}
+          whileHover={{ x: "100%", opacity: [0, 0.4, 0] }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+          style={{
+            background: prefersReducedMotion ? "none" : "linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)",
+          }}
+        />
+
+        <div className="relative z-10 p-6 flex flex-col h-full pt-8">
+         
+          <div className="flex items-start justify-between mb-4">
+            <motion.div 
+              className="w-14 h-14 rounded-xl flex items-center justify-center text-lg font-bold"
+              style={{
+                background: colors.gradient,
+                boxShadow: `0 4px 15px ${colors.text}40`
+              }}
+              whileHover={{ rotate: [0, -5, 5, 0], scale: 1.05 }}
+              transition={{ duration: 0.5 }}
+            >
+              <span className="text-white">{getInitials(project.title)}</span>
+            </motion.div>
+            
+            <div className="flex gap-2">
+              {project.github && (
+                <motion.a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-lg transition-all duration-300"
+                  style={{ 
+                    backgroundColor: `${colors.text}10`,
+                    color: colors.text
+                  }}
+                  onClick={(e) => e.stopPropagation()}
+                  whileHover={{ scale: 1.1, backgroundColor: `${colors.text}20` }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-bordeaux-600 to-bordeaux-800 flex items-center justify-center text-slate-800 text-xl font-bold group-hover:scale-110 transition-transform duration-300">
-                      {getInitials(p.title)}
-                    </div>
-                    <div className="flex gap-2">
-                      {p.github && (
-                        <a
-                          href={p.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 text-gray-400 hover:text-bordeaux-300 transition-colors"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <FaGithub className="w-5 h-5" />
-                        </a>
-                      )}
-                      {p.liveDemo && (
-                        <a
-                          href={p.liveDemo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 text-gray-400 hover:text-bordeaux-300 transition-colors"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <FaExternalLinkAlt className="w-5 h-5" />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-
-                  <h3 className="text-xl font-bold text-slate-800 mb-2 group-hover:text-bordeaux-600 transition-colors">
-                    {p.title}
-                  </h3>
-                  <p className="text-sm text-bordeaux-300 font-medium mb-3">
-                    {p.short}
-                  </p>
-                  <p className="text-slate-500 text-sm leading-relaxed mb-4 flex-grow">
-                    {p.description.slice(0, 120)}...
-                  </p>
-
-                  <div className="bg-bordeaux-900/20 border border-bordeaux-500/20 rounded-lg p-3 mb-4">
-                    <p className="text-xs text-bordeaux-300 font-semibold flex items-center gap-1">
-                      <FaChartLine className="w-3 h-3" />
-                      {p.impact[0]}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2 mt-auto">
-                    {p.technologies.slice(0, 4).map((t, idx) => (
-                      <span
-                        key={idx}
-                        className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded-md border border-slate-200"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                    {p.technologies.length > 4 && (
-                      <span className="px-2 py-1 text-gray-500 text-xs">
-                        +{p.technologies.length - 4}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="mt-4 pt-4 border-t border-slate-200">
-                    <span className="text-sm text-bordeaux-400 font-medium group-hover:text-bordeaux-300 transition-colors flex items-center gap-2">
-                      View Details
-                      <motion.span
-                        className="inline-block"
-                        whileHover={{ x: 4 }}
-                      >
-                        →
-                      </motion.span>
-                    </span>
-                  </div>
-                </motion.article>
-              </SectionReveal>
-            ))}
+                  <FaGithub className="w-5 h-5" />
+                </motion.a>
+              )}
+              {project.liveDemo && (
+                <motion.a
+                  href={project.liveDemo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-lg transition-all duration-300"
+                  style={{ 
+                    backgroundColor: `${colors.text}10`,
+                    color: colors.text
+                  }}
+                  onClick={(e) => e.stopPropagation()}
+                  whileHover={{ scale: 1.1, backgroundColor: `${colors.text}20` }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <FaExternalLinkAlt className="w-4 h-4" />
+                </motion.a>
+              )}
+            </div>
           </div>
+
+          <div className="flex items-center gap-2 mb-3">
+            <FaCalendarAlt className="w-3 h-3" style={{ color: "#858376" }} />
+            <span className="text-xs font-medium" style={{ color: "#858376" }}>
+              {project.year}
+            </span>
+          </div>
+
+          <h3 
+            className="text-xl font-bold mb-2 transition-colors duration-300"
+            style={{ color: "#2C2A35" }}
+          >
+            {project.title}
+          </h3>
+          <p 
+            className="text-sm font-medium mb-3"
+            style={{ color: colors.text }}
+          >
+            {project.short}
+          </p>
+          <p 
+            className="text-sm leading-relaxed mb-4 flex-grow"
+            style={{ color: "#858376" }}
+          >
+            {project.description.slice(0, 120)}...
+          </p>
+
+          <motion.div 
+            className="rounded-lg p-3 mb-4"
+            style={{ 
+              backgroundColor: colors.bg,
+              border: `1px solid ${colors.border}`
+            }}
+            whileHover={{ scale: 1.02 }}
+          >
+            <p 
+              className="text-xs font-medium flex items-center gap-2"
+              style={{ color: colors.text }}
+            >
+              <FaChartLine className="w-3 h-3" />
+              {project.impact[0]}
+            </p>
+          </motion.div>
+
+          <div className="flex flex-wrap gap-2 mt-auto">
+            {project.technologies.slice(0, 4).map((t, idx) => (
+              <motion.span
+                key={idx}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.05 }}
+                whileHover={{ 
+                  scale: 1.08, 
+                  y: -2,
+                  backgroundColor: `${colors.text}15`,
+                  boxShadow: `0 4px 10px ${colors.text}20`
+                }}
+                className="px-2.5 py-1 text-xs font-medium rounded-full transition-all duration-300 cursor-default"
+                style={{
+                  backgroundColor: colors.bg,
+                  color: colors.text,
+                  border: `1px solid ${colors.border}`
+                }}
+              >
+                {t}
+              </motion.span>
+            ))}
+            {project.technologies.length > 4 && (
+              <span 
+                className="px-2.5 py-1 text-xs font-medium rounded-full"
+                style={{ color: "#858376" }}
+              >
+                +{project.technologies.length - 4}
+              </span>
+            )}
+          </div>
+
+          <motion.div 
+            className="mt-4 pt-4 flex items-center justify-between"
+            style={{ borderTop: `1px solid ${colors.border}` }}
+            whileHover={{ x: 4 }}
+          >
+            <span 
+              className="text-sm font-semibold flex items-center gap-2"
+              style={{ color: colors.text }}
+            >
+              View Details
+              <motion.span
+                animate={{ x: [0, 4, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                →
+              </motion.span>
+            </span>
+            <FaFolderOpen className="w-4 h-4" style={{ color: colors.text }} />
+          </motion.div>
+        </div>
+      </motion.article>
+    </motion.div>
+  );
+};
+
+Project3DCard.displayName = "Project3DCard";
+
+const ProjectsFloatingParticles = () => {
+  const prefersReducedMotion = useReducedMotion();
+  const particles = useMemo(() =>
+    Array.from({ length: 15 }, (_, i) => ({
+      id: i,
+      x: `${(i * 47) % 100}%`,
+      y: `${(i * 67) % 100}%`,
+      color: i % 3 === 0 ? "#8C4555" : i % 3 === 1 ? "#B58169" : "#4A90A4",
+      duration: 10 + (i % 10),
+      delay: (i % 5) * 0.5,
+      xOffset: i % 2 === 0 ? 15 : -15,
+    })),
+  []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute w-2 h-2 rounded-full"
+          style={{
+            left: p.x,
+            top: p.y,
+            background: p.color,
+            filter: "blur(1px)",
+          }}
+          animate={prefersReducedMotion ? {} : {
+            y: [0, -50, 0],
+            x: [0, p.xOffset, 0],
+            opacity: [0, 0.6, 0],
+            scale: [1, 1.5, 1],
+          }}
+          transition={{
+            duration: p.duration,
+            repeat: Infinity,
+            delay: p.delay,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
+const Projects = () => {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [activeFilter, setActiveFilter] = useState<string>("All");
+
+  const categories = useMemo(() => ["All", ...new Set(projects.map(p => p.category))], []);
+  
+  const filteredProjects = activeFilter === "All" 
+    ? projects 
+    : projects.filter(p => p.category === activeFilter);
+
+  return (
+    <>
+      <section 
+        id="projects" 
+        className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
+        style={{ backgroundColor: "#f5f4f2" }}
+      >
+        <ProjectsFloatingParticles />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div 
+            className="absolute -top-40 -right-40 w-96 h-96 rounded-full opacity-20"
+            style={{ background: "radial-gradient(circle, #B58169 0%, transparent 70%)" }}
+            animate={{ scale: [1, 1.2, 1], x: [0, 30, 0], y: [0, -20, 0] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div 
+            className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-15"
+            style={{ background: "radial-gradient(circle, #8C4555 0%, transparent 70%)" }}
+            animate={{ scale: [1, 1.3, 1], x: [0, -20, 0], y: [0, 30, 0] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          />
+          <motion.div 
+            className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full opacity-10"
+            style={{ background: "radial-gradient(circle, #4A90A4 0%, transparent 70%)" }}
+            animate={{ scale: [1, 1.15, 1] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+            className="text-center mb-12"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold mb-6"
+              style={{ 
+                backgroundColor: "rgba(140, 69, 85, 0.1)", 
+                color: "#8C4555",
+                border: "1px solid rgba(140, 69, 85, 0.2)"
+              }}
+            >
+              <FaFolderOpen className="w-4 h-4" />
+              <span>Portfolio</span>
+              <FaRocket className="w-4 h-4" />
+            </motion.div>
+
+            <motion.h2 
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
+              style={{ color: "#2C2A35" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
+              Featured{" "}
+              <span 
+                className="relative inline-block"
+                style={{ color: "#8C4555" }}
+              >
+                Projects
+                <motion.svg
+                  className="absolute -bottom-2 left-0 w-full"
+                  viewBox="0 0 200 12"
+                  preserveAspectRatio="none"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  whileInView={{ pathLength: 1, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6, duration: 0.8 }}
+                >
+                  <motion.path
+                    d="M0,8 Q50,0 100,8 T200,8"
+                    fill="none"
+                    stroke="#8C4555"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    initial={{ pathLength: 0 }}
+                    whileInView={{ pathLength: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.8, duration: 0.6 }}
+                  />
+                </motion.svg>
+              </span>
+            </motion.h2>
+
+            <motion.p 
+              className="text-lg max-w-2xl mx-auto leading-relaxed"
+              style={{ color: "#858376" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+            >
+              Full-stack applications showcasing AI integration, modern architectures, 
+              and measurable business impact.
+            </motion.p>
+          </motion.div>
+
+          <ProjectStats projects={projects} />
+
+          <motion.div 
+            className="flex flex-wrap justify-center gap-3 mb-10"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+          >
+            {categories.map((category) => {
+              const colors = category === "All" 
+                ? { bg: "rgba(140, 69, 85, 0.1)", text: "#8C4555", border: "rgba(140, 69, 85, 0.2)" }
+                : categoryColors[category as ProjectCategory];
+              
+              return (
+                <motion.button
+                  key={category}
+                  onClick={() => setActiveFilter(category)}
+                  className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2"
+                  style={{
+                    backgroundColor: activeFilter === category ? colors.text : colors.bg,
+                    color: activeFilter === category ? "#ffffff" : colors.text,
+                    border: `1px solid ${activeFilter === category ? colors.text : colors.border}`,
+                    boxShadow: activeFilter === category ? `0 4px 15px ${colors.text}40` : "none"
+                  }}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {category === "All" ? <FaFilter className="w-3 h-3" /> : null}
+                  {category}
+                  {category !== "All" && (
+                    <span 
+                      className="ml-1 px-1.5 py-0.5 rounded-full text-xs"
+                      style={{
+                        backgroundColor: activeFilter === category ? "rgba(255,255,255,0.3)" : colors.text + "20",
+                        color: activeFilter === category ? "#ffffff" : colors.text
+                      }}
+                    >
+                      {projects.filter(p => p.category === category).length}
+                    </span>
+                  )}
+                </motion.button>
+              );
+            })}
+          </motion.div>
+
+          {/* Projects Grid */}
+          <motion.div 
+            layout
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((project, i) => (
+                <Project3DCard
+                  key={project.id}
+                  project={project}
+                  onClick={() => setSelectedProject(project)}
+                  index={i}
+                />
+              ))}
+            </AnimatePresence>
+          </motion.div>
+
+          {filteredProjects.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-20"
+            >
+              <p style={{ color: "#858376" }}>No projects found in this category.</p>
+            </motion.div>
+          )}
         </div>
       </section>
 
-      {selectedProject && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
-            onClick={() => setSelectedProject(null)}
-          />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 50 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 50 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="relative bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-bordeaux-500/30 shadow-2xl"
-          >
-            <button
+      <AnimatePresence>
+        {selectedProject && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="absolute inset-0 backdrop-blur-md"
+              style={{ backgroundColor: "rgba(44, 42, 53, 0.7)" }}
               onClick={() => setSelectedProject(null)}
-              className="absolute top-4 right-4 z-10 p-2 bg-slate-100 hover:bg-slate-200 rounded-full text-slate-600 transition-all duration-300"
+            />
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: 100, rotateX: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: 100, rotateX: 10 }}
+              transition={{ 
+                duration: 0.5, 
+                ease: [0.16, 1, 0.3, 1],
+                type: "spring",
+                stiffness: 200,
+                damping: 25
+              }}
+              className="relative rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+              style={{
+                backgroundColor: "#ffffff",
+                border: `1px solid ${categoryColors[selectedProject.category].border}`,
+                transformStyle: "preserve-3d",
+                perspective: 1000
+              }}
             >
-              ✕
-            </button>
+              <div 
+                className="absolute top-0 left-0 right-0 h-2"
+                style={{ 
+                  background: categoryColors[selectedProject.category].gradient 
+                }} 
+              />
 
-            <div className="p-8">
-              <div className="mb-6">
-                <h2 className="text-3xl font-bold text-slate-800 mb-2">
-                  {selectedProject.title}
-                </h2>
-                <p className="text-bordeaux-300">{selectedProject.short}</p>
-              </div>
+              <motion.button
+                onClick={() => setSelectedProject(null)}
+                className="absolute top-4 right-4 z-10 p-2 rounded-full transition-all duration-300"
+                style={{ 
+                  backgroundColor: "rgba(140, 69, 85, 0.08)",
+                  color: "#8C4555"
+                }}
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <FaTimes className="w-5 h-5" />
+              </motion.button>
 
-              <div className="aspect-video bg-gradient-to-br from-bordeaux-900/30 to-gray-800/30 rounded-xl mb-6 flex items-center justify-center border border-bordeaux-500/20">
-                <div className="text-center">
-                  <FaRocket className="w-12 h-12 text-bordeaux-400 mx-auto mb-3" />
-                  <p className="text-slate-500">Project Demo Preview</p>
-                  <p className="text-slate-400 text-sm mt-1">
-                    Add screenshots to project.images array
+              <div className="p-8 pt-10">
+                <div className="mb-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span
+                      className="px-3 py-1 text-xs font-semibold rounded-full"
+                      style={{
+                        backgroundColor: categoryColors[selectedProject.category].bg,
+                        color: categoryColors[selectedProject.category].text,
+                        border: `1px solid ${categoryColors[selectedProject.category].border}`
+                      }}
+                    >
+                      {selectedProject.category}
+                    </span>
+                    <span className="text-sm flex items-center gap-1" style={{ color: "#858376" }}>
+                      <FaCalendarAlt className="w-3 h-3" />
+                      {selectedProject.year}
+                    </span>
+                  </div>
+                  
+                  <h2 
+                    className="text-3xl font-bold mb-2"
+                    style={{ color: "#2C2A35" }}
+                  >
+                    {selectedProject.title}
+                  </h2>
+                  <p style={{ color: categoryColors[selectedProject.category].text }}>
+                    {selectedProject.short}
                   </p>
                 </div>
-              </div>
 
-              <div className="space-y-4 mb-6">
-                <div className="bg-red-900/20 border border-red-500/30 rounded-xl p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <FaLightbulb className="w-5 h-5 text-red-400" />
-                    <h3 className="font-semibold text-red-300">Problem</h3>
+                <motion.div 
+                  className="aspect-video rounded-xl mb-6 flex items-center justify-center"
+                  style={{
+                    background: categoryColors[selectedProject.category].gradient,
+                  }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <div className="text-center text-white">
+                    <FaRocket className="w-16 h-16 mx-auto mb-3 opacity-80" />
+                    <p className="text-lg font-medium opacity-90">Project Demo Preview</p>
+                    <p className="text-sm mt-1 opacity-70">
+                      Interactive demo coming soon
+                    </p>
                   </div>
-                  <p className="text-slate-600 text-sm">{selectedProject.problem}</p>
+                </motion.div>
+
+                <div className="space-y-4 mb-6">
+                  <motion.div 
+                    className="rounded-xl p-4"
+                    style={{ 
+                      backgroundColor: "rgba(140, 69, 85, 0.04)",
+                      border: "1px solid rgba(140, 69, 85, 0.1)"
+                    }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <FaLightbulb className="w-5 h-5" style={{ color: "#8C4555" }} />
+                      <h3 className="font-semibold" style={{ color: "#2C2A35" }}>Problem</h3>
+                    </div>
+                    <p className="text-sm" style={{ color: "#858376" }}>
+                      {selectedProject.problem}
+                    </p>
+                  </motion.div>
+
+                  <motion.div 
+                    className="rounded-xl p-4"
+                    style={{ 
+                      backgroundColor: "rgba(74, 144, 164, 0.04)",
+                      border: "1px solid rgba(74, 144, 164, 0.1)"
+                    }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <FaRocket className="w-5 h-5" style={{ color: "#4A90A4" }} />
+                      <h3 className="font-semibold" style={{ color: "#2C2A35" }}>Solution</h3>
+                    </div>
+                    <ul className="space-y-2">
+                      {selectedProject.details.map((detail, idx) => (
+                        <motion.li 
+                          key={idx} 
+                          className="text-sm flex items-start gap-2"
+                          style={{ color: "#858376" }}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.4 + idx * 0.05 }}
+                        >
+                          <span 
+                            className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
+                            style={{ backgroundColor: "#4A90A4" }}
+                          />
+                          <span>{detail}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </motion.div>
+
+                  <motion.div 
+                    className="rounded-xl p-4"
+                    style={{ 
+                      backgroundColor: categoryColors[selectedProject.category].bg,
+                      border: `1px solid ${categoryColors[selectedProject.category].border}`
+                    }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.5 }}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <FaChartLine className="w-5 h-5" style={{ color: categoryColors[selectedProject.category].text }} />
+                      <h3 className="font-semibold" style={{ color: "#2C2A35" }}>Impact</h3>
+                    </div>
+                    <ul className="space-y-2">
+                      {selectedProject.impact.map((item, idx) => (
+                        <motion.li 
+                          key={idx} 
+                          className="text-sm flex items-start gap-2 font-medium"
+                          style={{ color: "#858376" }}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.5 + idx * 0.05 }}
+                        >
+                          <span style={{ color: categoryColors[selectedProject.category].text }}>✓</span>
+                          <span>{item}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </motion.div>
                 </div>
 
-                <div className="bg-blue-900/20 border border-blue-500/30 rounded-xl p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <FaRocket className="w-5 h-5 text-blue-400" />
-                    <h3 className="font-semibold text-blue-300">Solution</h3>
-                  </div>
-                  <ul className="space-y-1">
-                    {selectedProject.details.map((detail, idx) => (
-                      <li key={idx} className="text-slate-600 text-sm flex items-start gap-2">
-                        <span className="text-blue-400 mt-1">•</span>
-                        <span>{detail}</span>
-                      </li>
+              
+                <motion.div 
+                  className="mb-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <h3 className="text-lg font-semibold mb-3" style={{ color: "#2C2A35" }}>
+                    Tech Stack
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProject.technologies.map((tech, idx) => (
+                      <motion.span
+                        key={idx}
+                        className="px-3 py-1.5 text-sm rounded-full"
+                        style={{
+                          backgroundColor: categoryColors[selectedProject.category].bg,
+                          color: categoryColors[selectedProject.category].text,
+                          border: `1px solid ${categoryColors[selectedProject.category].border}`
+                        }}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.6 + idx * 0.03 }}
+                        whileHover={{ scale: 1.1, y: -2 }}
+                      >
+                        {tech}
+                      </motion.span>
                     ))}
-                  </ul>
-                </div>
-
-                <div className="bg-green-900/20 border border-green-500/30 rounded-xl p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <FaChartLine className="w-5 h-5 text-green-400" />
-                    <h3 className="font-semibold text-green-300">Impact</h3>
                   </div>
-                  <ul className="space-y-1">
-                    {selectedProject.impact.map((item, idx) => (
-                      <li key={idx} className="text-green-200 text-sm flex items-start gap-2 font-medium">
-                        <span className="text-green-400 mt-1">✓</span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+                </motion.div>
 
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-slate-800 mb-3">Tech Stack</h3>
-                <div className="flex flex-wrap gap-2">
-                  {selectedProject.technologies.map((tech, idx) => (
-                    <span
-                      key={idx}
-                      className="px-3 py-1.5 bg-bordeaux-900/40 text-bordeaux-200 text-sm rounded-full border border-bordeaux-500/30"
+                <motion.div 
+                  className="flex gap-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 }}
+                >
+                  {selectedProject.github && (
+                    <motion.a
+                      href={selectedProject.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-lg transition-all duration-300"
+                      style={{ 
+                        backgroundColor: categoryColors[selectedProject.category].bg,
+                        color: categoryColors[selectedProject.category].text,
+                        border: `1px solid ${categoryColors[selectedProject.category].border}`
+                      }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                     >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+                      <FaGithub className="w-5 h-5" />
+                      View on GitHub
+                    </motion.a>
+                  )}
+                  {selectedProject.liveDemo && (
+                    <motion.a
+                      href={selectedProject.liveDemo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-white transition-all duration-300"
+                      style={{ 
+                        background: categoryColors[selectedProject.category].gradient,
+                        boxShadow: `0 4px 15px ${categoryColors[selectedProject.category].text}40`
+                      }}
+                      whileHover={{ scale: 1.05, boxShadow: `0 6px 25px ${categoryColors[selectedProject.category].text}60` }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <FaExternalLinkAlt className="w-5 h-5" />
+                      Live Demo
+                    </motion.a>
+                  )}
+                </motion.div>
               </div>
-
-              <div className="flex gap-4">
-                {selectedProject.github && (
-                  <a
-                    href={selectedProject.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-700 transition-colors"
-                  >
-                    <FaGithub className="w-5 h-5" />
-                    View on GitHub
-                  </a>
-                )}
-                {selectedProject.liveDemo && (
-                  <a
-                    href={selectedProject.liveDemo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-bordeaux-600 to-bordeaux-700 hover:from-bordeaux-500 hover:to-bordeaux-600 rounded-lg text-white transition-all"
-                  >
-                    <FaExternalLinkAlt className="w-5 h-5" />
-                    Live Demo
-                  </a>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

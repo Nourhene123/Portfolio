@@ -34,7 +34,6 @@ const ParticleBackground = () => {
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Gradient Orbs */}
       <motion.div
         animate={{
           x: [0, 100, 0],
@@ -62,7 +61,6 @@ const ParticleBackground = () => {
         className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-pink-600/10 rounded-full blur-3xl"
       />
 
-      {/* Floating Particles */}
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
@@ -87,7 +85,6 @@ const ParticleBackground = () => {
         />
       ))}
 
-      {/* Connection Lines - Tech Grid Effect */}
       <svg className="absolute inset-0 w-full h-full opacity-10">
         <defs>
           <pattern
@@ -107,7 +104,6 @@ const ParticleBackground = () => {
         <rect width="100%" height="100%" fill="url(#grid)" />
       </svg>
 
-      {/* AI Nodes Animation */}
       <motion.div
         animate={{
           rotate: 360,
