@@ -5,9 +5,64 @@ export interface ExperienceEntry {
   location: string;
   bullets: string[];
   tools: string[];
+  color: string;
+  icon: string;
 }
 
 export const EXPERIENCES: ExperienceEntry[] = [
+  {
+    role: "End-of-Studies Intern – Software Engineering (AI & FullStack)",
+    company: "Smartovate | سمارتوفيت",
+    period: "Jan 2026 - Present · 4 mos",
+    location: "Remote",
+    bullets: [
+      "Contributing to the development of SUBUL, an AI-driven career guidance and personalized learning platform",
+      "Designed and implemented cloud infrastructure on AWS (EKS, RDS, CI/CD)",
+      "Developed AI solutions using Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG)",
+      "Built and maintained full-stack web applications using Next.js (React) and Flask (Python)",
+      "Implemented RESTful APIs and integrated AI services into backend systems",
+      "Applied DevOps best practices including CI/CD pipelines, Docker, and cloud monitoring (Grafana)",
+      "Focused on scalability, performance, security, and reliability of distributed systems",
+      "Collaborated with cross-functional teams using Agile/Scrum methodologies",
+    ],
+    tools: [
+      "AWS",
+      "Python",
+      "Flask",
+      "Next.js",
+      "React",
+      "LLMs",
+      "RAG",
+      "Docker",
+      "CI/CD",
+      "REST APIs",
+      "Git",
+      "RDS",
+      "EKS",
+      "Grafana",
+    ],
+    color: "#8C4555",
+    icon: "brain",
+  },
+  {
+    role: "Software Engineering Intern",
+    company: "NST GROUPE",
+    period: "Jun 2025 - Aug 2025 · 3 mos",
+    location: "On-site",
+    bullets: [
+      "Developed a University Management Platform using Angular & Spring Boot",
+      "Implemented secure role-based access with Spring Security",
+      "Created dashboards for students, teachers & admins",
+    ],
+    tools: [
+      "Spring Boot",
+      "Spring Security",
+      "Angular",
+      "PostgreSQL",
+    ],
+    color: "#B58169",
+    icon: "school",
+  },
   {
     role: "Software Engineering Intern",
     company: "Neuro Smart Technologies",
@@ -30,6 +85,8 @@ export const EXPERIENCES: ExperienceEntry[] = [
       "Java",
       "TypeScript",
     ],
+    color: "#4A90A4",
+    icon: "university",
   },
   {
     role: "Full-Stack Developer Intern – End-of-Studies Project",
@@ -53,5 +110,7 @@ export const EXPERIENCES: ExperienceEntry[] = [
       "REST API",
       "JWT",
     ],
+    color: "#6B5B95",
+    icon: "rocket",
   },
 ];

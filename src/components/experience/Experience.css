@@ -18,8 +18,7 @@
 .timeline::before {
   content: "";
   position: absolute;
-  left: 40px; /* center of badges (half of the first column below) */
-  top: 0;
+  left: 40px; 
   bottom: 0;
   width: 4px;
   background: linear-gradient(180deg, rgba(186, 183, 176, 0.2), rgba(186, 183, 176, 0.1));
@@ -242,7 +241,6 @@
     padding-left: 0.5rem;
   }
 
-  /* Handle tool buttons wrapping */
   .tools-container {
     gap: 0.5rem;
     flex-wrap: wrap;

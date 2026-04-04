@@ -172,7 +172,7 @@
 }
 
 .details-container.expanded {
-  max-height: 500px; /* enough for 3-5 lines */
+  max-height: 500px;
   opacity: 1;
 }
 
@@ -187,7 +187,6 @@
 }
 
 
-/* Responsive */
 @media (max-width: 1024px){
   .projects-grid{ grid-template-columns: repeat(2,1fr);} 
 }

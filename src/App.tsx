@@ -7,7 +7,6 @@ import ScrollToTopButton from "./tools/ScrollToTopButton";
 
 import Home from "./components/home/Home";
 
-// Lazy loading des composants
 const About = React.lazy(() => import("./components/about/About"));
 const Skills = React.lazy(() => import("./components/skills/Skills"));
 const Education = React.lazy(() => import("./components/education/Education"));
@@ -24,7 +23,7 @@ function App() {
     const timer = setTimeout(() => {
       setLoading(false);
       setTimeout(() => setFadeIn(true), 100);
-    }, 2000); // 2 secondes de skeleton
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -41,7 +40,6 @@ function App() {
       <NavBar />
       <Home />
 
-      {/* Tous les composants lazy sont dans Suspense */}
       <Suspense fallback={<div className="h-96" />}>
         <About />
         <Skills />

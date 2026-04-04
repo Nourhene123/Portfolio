@@ -9,7 +9,6 @@
   );
 }
 
-/* Card animations and effects */
 .skill-category {
   transition: all 0.3s ease;
   position: relative;
@@ -41,7 +40,6 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* Responsive padding and grid adjustments */
 @media (min-width: 640px) {
   .skills-container {
     padding: 3rem 8%;
@@ -54,7 +52,6 @@
   }
 }
 
-/* Skill category cards responsiveness */
 .skill-category {
   transition: transform 0.2s ease-in-out;
 }
@@ -63,7 +60,6 @@
   transform: translateY(-5px);
 }
 
-/* Mobile-first layout adjustments */
 @media (max-width: 768px) {
   .skills-container {
     padding-top: 4rem;
@@ -82,7 +78,6 @@
   }
 }
 
-/* Tablet layout */
 @media (min-width: 769px) and (max-width: 1023px) {
   .skill-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -90,7 +85,6 @@
   }
 }
 
-/* Animation for skill items */
 .skill-item {
   transition: all 0.3s ease;
   position: relative;
