@@ -1,0 +1,38 @@
+:root {
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --accent: #fff;
+  --muted: #94a3b8;
+  --text: #cbd5e1;
+}
+
+.experience-card {
+  background: var(--card-bg);
+  color: white;
+  border-radius: 18px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+}
+.experience-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.exp-details-wrapper {
+  overflow: hidden;
+  transition: max-height 0.6s ease, opacity 0.4s ease;
+}
+
+.exp-details {
+  margin-top: 1rem;
+  transition: opacity 0.4s ease;
+}
+
+.expanded .exp-details {
+  opacity: 1;
+}

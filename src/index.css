@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+#root {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* In your CSS file, e.g., index.css or App.css */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: #000; /* or #111827 to match your gradient */
+  color: white;
+  transition: background-color 0.5s ease-in-out;
+}
+
+a {
+  text-decoration: none;
+}
+
+

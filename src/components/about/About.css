@@ -1,0 +1,94 @@
+.about-container {
+  padding: 6rem 5%;
+  min-height: 100vh;
+  background: linear-gradient(
+    to bottom,  
+    #000000,
+    #111827,
+    #1a2a4f
+  );
+}
+
+/* Responsive padding */
+@media (min-width: 640px) {
+  .about-container {
+    padding: 6rem 8%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .about-container {
+    padding: 6rem 10%;
+  }
+}
+
+/* Mobile-first layout adjustments */
+@media (max-width: 768px) {
+  .about-container {
+    flex-direction: column;
+    gap: 2rem !important;
+    text-align: center;
+    padding-top: 5rem;
+    height: auto;
+  }
+
+  .about-container .max-w-md {
+    max-width: 80%;
+    margin: 0 auto;
+  }
+
+  .about-text {
+    text-align: center !important;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .about-container {
+    gap: 2rem !important;
+  }
+
+  .about-container .max-w-md {
+    max-width: 300px;
+  }
+}
+
+/* Animations for personality trait cards */
+.trait-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.trait-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+  pointer-events: none;
+}
+
+.trait-card:hover::before {
+  left: 100%;
+}
+
+.trait-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to left, rgb(31 41 55), rgb(17 24 39));
+}
