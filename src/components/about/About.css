@@ -3,9 +3,9 @@
   min-height: 100vh;
   background: linear-gradient(
     to bottom,  
-    #000000,
-    #111827,
-    #1a2a4f
+    #f5f4f2,
+    #ebe9e6,
+    #e2e0dc
   );
 }
 
@@ -62,8 +62,8 @@
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(133, 131, 118, 0.3);
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .trait-card::before {
@@ -76,7 +76,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.2),
+    rgba(140, 69, 85, 0.1),
     transparent
   );
   transition: 0.5s;
@@ -89,6 +89,6 @@
 
 .trait-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(to left, rgb(31 41 55), rgb(17 24 39));
+  box-shadow: 0 4px 12px rgba(44, 42, 53, 0.1);
+  background: linear-gradient(to left, rgba(186, 183, 176, 0.3), rgba(255, 255, 255, 0.9));
 }

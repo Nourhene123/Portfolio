@@ -1,4 +1,4 @@
-/* Reset & Base */
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -16,7 +16,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Section Base */
 section {
   padding: 6rem 5%;
   min-height: 100vh;
@@ -29,12 +28,10 @@ section {
   section { padding: 6rem 10%; }
 }
 
-/* Gradient Backgrounds */
 .bg-gradient-dark {
   background: linear-gradient(135deg, var(--bg-dark), var(--bg-darker));
 }
 
-/* Glassmorphism Card */
 .glass-card {
   background: var(--card-bg);
   backdrop-filter: blur(12px);
@@ -51,7 +48,6 @@ section {
   border-color: rgba(59, 130, 246, 0.2);
 }
 
-/* Shimmer Effect */
 .shimmer::before {
   content: '';
   position: absolute;
@@ -67,7 +63,6 @@ section {
   100% { left: 100%; }
 }
 
-/* Fade In on Scroll */
 .fade-in {
   opacity: 0;
   transform: translateY(30px);

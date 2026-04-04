@@ -1,18 +1,39 @@
 @import "tailwindcss";
 
+:root {
+  --color-primary: #8C4555;
+  --color-primary-light: #a85a6b;
+  --color-primary-dark: #703745;
+  --color-dark: #2C2A35;
+  --color-dark-lighter: #3d3b48;
+  --color-accent: #B58169;
+  --color-accent-light: #c99a82;
+  --color-muted: #858376;
+  --color-light: #BAB7B0;
+  --color-lighter: #d4d1ca;
+  --color-bg: #f5f4f2;
+  --color-white: #ffffff;
+  
+  --bg-dark: var(--color-dark);
+  --bg-darker: #1a191f;
+  --text-primary: var(--color-dark);
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-bg-hover: rgba(255, 255, 255, 0.95);
+  --border: rgba(140, 69, 85, 0.2);
+}
+
 #root {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-/* In your CSS file, e.g., index.css or App.css */
 html {
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  background-color: #000; /* or #111827 to match your gradient */
-  color: white;
+  background-color: var(--color-bg);
+  color: var(--color-dark);
   transition: background-color 0.5s ease-in-out;
 }
 

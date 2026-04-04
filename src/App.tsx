@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from "./components/footer/Footer";
-import NavBar from "./components/navbar/NavBar";
+import NavBar from "./components/navbar/Navbar";
 import Skeleton from "./tools/Skeleton";
 import ScrollToTopButton from "./tools/ScrollToTopButton";
 
@@ -10,6 +10,7 @@ import Home from "./components/home/Home";
 // Lazy loading des composants
 const About = React.lazy(() => import("./components/about/About"));
 const Skills = React.lazy(() => import("./components/skills/Skills"));
+const Education = React.lazy(() => import("./components/education/Education"));
 const VolunteerExperience = React.lazy(() => import("./components/VolunteerExperience/VolunteerExperience"));
 const Experience = React.lazy(() => import("./components/experience/Experience"));
 const Projects = React.lazy(() => import("./components/projects/Projects"));
@@ -35,7 +36,7 @@ function App() {
     <div
       className={`transition-opacity duration-1000 ease-in-out ${
         fadeIn ? "opacity-100" : "opacity-0"
-      } bg-gradient-to-b from-[#1a2a4f] via-[#111827] to-black min-h-screen`}
+      } bg-gradient-to-b from-[#f5f4f2] via-[#ebe9e6] to-[#e2e0dc] min-h-screen text-[#2C2A35]`}
     >
       <NavBar />
       <Home />
@@ -47,6 +48,7 @@ function App() {
         <Experience />
         <Projects />
         <VolunteerExperience /> 
+        <Education />
         <Contact />
       </Suspense>
 

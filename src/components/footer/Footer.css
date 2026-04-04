@@ -1,14 +1,14 @@
 .footer {
      background: linear-gradient(
         to bottom,  
-        #000000,
-        #111827,
-        #1a2a4f
+        #f5f4f2,
+        #ebe9e6,
+        #e2e0dc
     );
   width: 100%;
   padding: 1.5rem 2rem;
   backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-top: 1px solid rgba(133, 131, 118, 0.3);
 }
 
 .footer-content {
@@ -29,7 +29,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #94a3b8;
+  color: #858376;
   font-size: 0.95rem;
   transition: all 0.3s ease;
   background: none;
@@ -39,7 +39,7 @@
 }
 
 .nav-link:hover {
-  color: #fff;
+  color: #2C2A35;
 }
 
 .nav-icon {
@@ -48,7 +48,7 @@
 
 .footer-credits {
   text-align: center;
-  color: #94a3b8;
+  color: #858376;
   font-size: 0.9rem;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .tech {
-  color: #94a3b8;
+  color: #8C4555;
   font-weight: 500;
 }
 

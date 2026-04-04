@@ -1,20 +1,20 @@
 :root {
   --card-bg: rgba(255, 255, 255, 0.03);
-  --accent: #fff;
-  --muted: #94a3b8;
-  --text: #cbd5e1;
+  --accent: #B58169;
+  --muted: #BAB7B0;
+  --text: #d4d1ca;
 }
 
 .volunteering-section {
   padding: 6rem 5%;
   min-height: 100vh;
-  background: linear-gradient(to bottom, #000000, #111827, #1a2a4f);
+  background: linear-gradient(to bottom, #1f1d28, #252330, #2C2A35);
 }
 
 .volunteering-title {
   text-align: center;
   font-size: 2.25rem;
-  color: #fff;
+  color: #f5f4f2;
   margin-bottom: 1.5rem;
   font-weight: 700;
 }
@@ -91,8 +91,8 @@
   justify-content: center;
   font-size: 3rem;
   font-weight: 700;
-  color: #ffffff;
-  background: linear-gradient(135deg, #1a2a4f, #111827);
+  color: #f5f4f2;
+  background: linear-gradient(135deg, #8C4555, #B58169);
   text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
   margin-bottom: 0.75rem;
   letter-spacing: 1px;
@@ -106,7 +106,7 @@
 
 /* Content */
 .volunteer-title {
-  color: #fff;
+  color: #f5f4f2;
   font-size: 1.15rem;
   margin: 0;
   font-weight: 600;
@@ -161,7 +161,7 @@
 }
 
 .volunteer-link {
-  color: #06b6d4;
+  color: #B58169;
   font-size: 0.9rem;
   display: inline-flex;
   align-items: center;
@@ -173,7 +173,7 @@
 }
 
 .volunteer-link:hover {
-  color: #67e8f9;
+  color: #c99a82;
 }
 
 /* Toggle */

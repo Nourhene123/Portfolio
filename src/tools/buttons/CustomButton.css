@@ -33,9 +33,9 @@
 
 /* Gray button specific styles */
 .custom-button-gray {
-  background: linear-gradient(to right, #1f2937, #111827);
+  background: linear-gradient(to right, #3d3b48, #2C2A35);
 }
 
 .custom-button-gray:hover {
-  background: linear-gradient(to left, #1f2937, #111827);
+  background: linear-gradient(to left, #3d3b48, #2C2A35);
 }

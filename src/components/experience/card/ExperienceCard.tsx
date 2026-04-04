@@ -1,17 +1,19 @@
 import { memo, useRef, useEffect, useState } from "react";
-import CustomButton from "../../../tools/buttons/CustomButton";
+import { motion } from "framer-motion";
+import { FaMapMarkerAlt, FaCalendar, FaBuilding, FaChevronDown } from "react-icons/fa";
 import type { ExperienceEntry } from "../Data";
-import "./ExperienceCard.css";
 
 export const ExperienceCard = memo(
   ({
     exp,
     isOpen,
     onToggle,
+    index,
   }: {
     exp: ExperienceEntry;
     isOpen: boolean;
     onToggle: () => void;
+    index: number;
   }) => {
     const contentRef = useRef<HTMLDivElement>(null);
     const [maxHeight, setMaxHeight] = useState("0px");
@@ -48,8 +50,11 @@ export const ExperienceCard = memo(
     }, [isOpen]);
 
     return (
-      <article
-        className={`experience-card ${isOpen ? "expanded" : ""}`}
+      <motion.article
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: index * 0.1 }}
+        className={`bg-white rounded-2xl p-6 border border-slate-200 cursor-pointer transition-all duration-300 hover:border-bordeaux-500/40 hover:shadow-lg ${isOpen ? "border-bordeaux-500/50" : ""}`}
         onClick={onToggle}
         role="button"
         aria-expanded={isOpen}
@@ -58,37 +63,62 @@ export const ExperienceCard = memo(
           if (e.key === "Enter" || e.key === " ") onToggle();
         }}
       >
-        <div className="company">{exp.company}</div>
-        <div className="role">{exp.role}</div>
-        <div className="meta">
-          {exp.period}
-          <span className="location">{exp.location}</span>
+        <div className="flex items-start justify-between mb-4">
+          <div>
+            <div className="flex items-center gap-2 text-bordeaux-400 text-sm font-semibold mb-1">
+              <FaBuilding className="w-4 h-4" />
+              {exp.company}
+            </div>
+            <h3 className="text-xl font-bold text-slate-800">{exp.role}</h3>
+          </div>
+          <motion.div
+            animate={{ rotate: isOpen ? 180 : 0 }}
+            transition={{ duration: 0.3 }}
+            className="text-bordeaux-400"
+          >
+            <FaChevronDown className="w-5 h-5" />
+          </motion.div>
+        </div>
+
+        <div className="flex flex-wrap gap-4 text-sm text-slate-500 mb-4">
+          <span className="flex items-center gap-1">
+            <FaCalendar className="w-3 h-3 text-bordeaux-400" />
+            {exp.period}
+          </span>
+          <span className="flex items-center gap-1">
+            <FaMapMarkerAlt className="w-3 h-3 text-bordeaux-400" />
+            {exp.location}
+          </span>
         </div>
 
         <div
           ref={contentRef}
-          className={`exp-details-wrapper ${animating ? "animating" : ""}`}
+          className={`overflow-hidden transition-all duration-500 ${animating ? "" : ""}`}
           style={{ maxHeight, opacity }}
         >
-          <div className="exp-details">
-            <div className="desc">
-              <ul className="bullets">
-                {exp.bullets.map((b, i) => (
-                  <li key={i}>{b}</li>
-                ))}
-              </ul>
-            </div>
+          <div className="pt-4 border-t border-slate-200">
+            <ul className="space-y-2">
+              {exp.bullets.map((b, i) => (
+                <li key={i} className="text-slate-600 text-sm flex items-start gap-2">
+                  <span className="text-bordeaux-400 mt-1">•</span>
+                  <span dangerouslySetInnerHTML={{ __html: b.replace(/\*\*(.+?)\*\*/g, "<strong class='text-slate-800 font-semibold'>$1</strong>") }} />
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        <div className="tools-container flex gap-2 mt-4 flex-wrap">
+        <div className="flex flex-wrap gap-2 mt-4">
           {exp.tools.map((tool, i) => (
-            <CustomButton key={i} text={tool} color="blue" />
+            <span
+              key={i}
+              className="px-3 py-1 bg-bordeaux-900/30 text-bordeaux-300 text-xs font-medium rounded-full border border-bordeaux-700/50"
+            >
+              {tool}
+            </span>
           ))}
         </div>
-
-        <div className="expand-indicator">{"▾"}</div>
-      </article>
+      </motion.article>
     );
   }
 );
