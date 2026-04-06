@@ -113,7 +113,7 @@ const EducationStats = ({ education, certifications }: { education: EducationIte
                 >
                   {stat.value}
                 </motion.span>
-                <span className="text-xs font-medium" style={{ color: "#858376" }}>
+                <span className="text-xs font-medium" style={{ color: "#65635a" }}>
                   {stat.label}
                 </span>
               </div>
@@ -281,7 +281,7 @@ const Education3DCard = memo(({
           <div className="flex flex-wrap gap-3 text-sm mb-4">
             <motion.span 
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full"
-              style={{ backgroundColor: `${edu.color}10`, color: "#858376", border: `1px solid ${edu.color}20` }}
+              style={{ backgroundColor: `${edu.color}10`, color: "#65635a", border: `1px solid ${edu.color}20` }}
               whileHover={{ scale: 1.05, backgroundColor: `${edu.color}15` }}
             >
               <FaCalendar className="w-3 h-3" style={{ color: edu.color }} />
@@ -289,7 +289,7 @@ const Education3DCard = memo(({
             </motion.span>
             <motion.span 
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full"
-              style={{ backgroundColor: `${edu.color}10`, color: "#858376", border: `1px solid ${edu.color}20` }}
+              style={{ backgroundColor: `${edu.color}10`, color: "#65635a", border: `1px solid ${edu.color}20` }}
               whileHover={{ scale: 1.05, backgroundColor: `${edu.color}15` }}
             >
               <FaMapMarkerAlt className="w-3 h-3" style={{ color: edu.color }} />
@@ -305,7 +305,7 @@ const Education3DCard = memo(({
             </motion.span>
           </div>
 
-          <p className="mb-4 leading-relaxed" style={{ color: "#858376" }}>
+          <p className="mb-4 leading-relaxed" style={{ color: "#65635a" }}>
             {edu.description}
           </p>
 
@@ -332,7 +332,7 @@ const Education3DCard = memo(({
                 <motion.div
                   key={aIdx}
                   className="flex items-start gap-2 text-sm"
-                  style={{ color: "#858376" }}
+                  style={{ color: "#65635a" }}
                   initial={{ opacity: 0, x: -5 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -538,7 +538,7 @@ const Education = () => {
 
           <motion.p 
             className="text-lg max-w-2xl mx-auto leading-relaxed"
-            style={{ color: "#858376" }}
+            style={{ color: "#65635a" }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -615,7 +615,7 @@ const Education = () => {
                   </span>
                   <span 
                     className="text-xs transition-colors duration-300"
-                    style={{ color: hoveredCert === cert.id ? "rgba(255,255,255,0.8)" : "#858376" }}
+                    style={{ color: hoveredCert === cert.id ? "rgba(255,255,255,0.8)" : "#65635a" }}
                   >
                     • {cert.issuer} • {cert.date}
                   </span>

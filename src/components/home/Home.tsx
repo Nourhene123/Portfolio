@@ -139,7 +139,7 @@ const Home = () => {
               Nourhene
             </motion.span>
             <br />
-            <span style={{ color: "#858376" }}>Ferchichi</span>
+            <span style={{ color: "#65635a" }}>Ferchichi</span>
           </motion.h1>
 
           <motion.div
@@ -364,7 +364,7 @@ const Home = () => {
           whileHover={{ scale: 1.1, backgroundColor: "rgba(140, 69, 85, 0.1)" }}
         >
           <div className="home-scroll-wheel" />
-          <span className="text-xs mt-2" style={{ color: "#858376" }}>Scroll</span>
+          <span className="text-xs mt-2" style={{ color: "#65635a" }}>Scroll</span>
         </motion.a>
       </motion.div>
     </div>

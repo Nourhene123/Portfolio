@@ -57,7 +57,7 @@ const NavBar = () => {
     }
   };
   const getNavItemStyle = (isActive: boolean): React.CSSProperties => ({
-    color: isActive ? '#8C4555' : '#858376',
+    color: isActive ? '#8C4555' : '#65635a',
     backgroundColor: isActive ? 'rgba(140, 69, 85, 0.1)' : 'transparent',
     border: isActive ? '1px solid rgba(140, 69, 85, 0.2)' : '1px solid transparent',
   });
@@ -151,6 +151,7 @@ const NavBar = () => {
             className="md:hidden p-2 rounded-lg transition-all duration-300"
             style={{ color: '#8C4555' }}
             aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
           >
             {isMenuOpen ? <FaTimes className="w-6 h-6" /> : <FaBars className="w-6 h-6" />}
           </button>

@@ -116,7 +116,7 @@ const Experience = () => {
 
           <motion.p 
             className="text-lg max-w-2xl mx-auto leading-relaxed"
-            style={{ color: "#858376" }}
+            style={{ color: "#65635a" }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -173,7 +173,7 @@ const Experience = () => {
             <div 
               className="w-6 h-6 rounded-full"
               style={{ 
-                background: "linear-gradient(135deg, #858376 0%, #B58169 100%)",
+                background: "linear-gradient(135deg, #65635a 0%, #B58169 100%)",
                 boxShadow: "0 0 20px rgba(133, 131, 118, 0.4)"
               }}
             />

@@ -183,9 +183,10 @@ export const ExperienceCard = memo(
                       transition={{ duration: 0.5 }}
                     >
                       {exp.logo ? (
-                        <img 
-                          src={exp.logo} 
-                          alt={exp.company} 
+                        <img
+                          src={exp.logo}
+                          alt={exp.company}
+                          loading="lazy"
                           className="w-8 h-8 object-contain"
                           onError={(e) => {
                             (e.target as HTMLImageElement).style.display = 'none';
@@ -235,7 +236,7 @@ export const ExperienceCard = memo(
               <div 
                 className="flex flex-wrap gap-3 text-sm mb-4 pb-4" 
                 style={{ 
-                  color: "#858376", 
+                  color: "#65635a", 
                   borderBottom: `1px solid ${exp.color}12`
                 }}
               >
@@ -275,7 +276,7 @@ export const ExperienceCard = memo(
                         <motion.li 
                           key={i} 
                           className="text-sm flex items-start gap-3 leading-relaxed"
-                          style={{ color: "#858376" }}
+                          style={{ color: "#65635a" }}
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : -10 }}
                           transition={{ delay: i * 0.05, duration: 0.3 }}
@@ -329,7 +330,7 @@ export const ExperienceCard = memo(
                               <motion.li 
                                 key={itemIdx}
                                 className="text-sm flex items-start gap-2.5 leading-relaxed"
-                                style={{ color: "#858376" }}
+                                style={{ color: "#65635a" }}
                                 initial={{ opacity: 0, x: -5 }}
                                 animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : -5 }}
                                 transition={{ delay: 0.2 + sectionIdx * 0.08 + itemIdx * 0.03, duration: 0.2 }}
@@ -354,7 +355,7 @@ export const ExperienceCard = memo(
                         <motion.li 
                           key={i} 
                           className="text-sm flex items-start gap-3 leading-relaxed"
-                          style={{ color: "#858376" }}
+                          style={{ color: "#65635a" }}
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : -10 }}
                           transition={{ delay: i * 0.05, duration: 0.3 }}

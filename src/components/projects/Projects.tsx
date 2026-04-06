@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   FaGithub, 
@@ -97,7 +97,7 @@ const ProjectStats = ({ projects }: { projects: Project[] }) => {
                 >
                   {stat.value}
                 </motion.span>
-                <span className="text-xs font-medium" style={{ color: "#858376" }}>
+                <span className="text-xs font-medium" style={{ color: "#65635a" }}>
                   {stat.label}
                 </span>
               </div>
@@ -258,8 +258,8 @@ const Project3DCard = ({
           </div>
 
           <div className="flex items-center gap-2 mb-3">
-            <FaCalendarAlt className="w-3 h-3" style={{ color: "#858376" }} />
-            <span className="text-xs font-medium" style={{ color: "#858376" }}>
+            <FaCalendarAlt className="w-3 h-3" style={{ color: "#65635a" }} />
+            <span className="text-xs font-medium" style={{ color: "#65635a" }}>
               {project.year}
             </span>
           </div>
@@ -278,7 +278,7 @@ const Project3DCard = ({
           </p>
           <p 
             className="text-sm leading-relaxed mb-4 flex-grow"
-            style={{ color: "#858376" }}
+            style={{ color: "#65635a" }}
           >
             {project.description.slice(0, 120)}...
           </p>
@@ -327,7 +327,7 @@ const Project3DCard = ({
             {project.technologies.length > 4 && (
               <span 
                 className="px-2.5 py-1 text-xs font-medium rounded-full"
-                style={{ color: "#858376" }}
+                style={{ color: "#65635a" }}
               >
                 +{project.technologies.length - 4}
               </span>
@@ -408,6 +408,21 @@ const ProjectsFloatingParticles = () => {
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>("All");
+
+  const closeModal = useCallback(() => setSelectedProject(null), []);
+
+  useEffect(() => {
+    if (!selectedProject) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeModal();
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedProject, closeModal]);
 
   const categories = useMemo(() => ["All", ...new Set(projects.map(p => p.category))], []);
   
@@ -509,7 +524,7 @@ const Projects = () => {
 
             <motion.p 
               className="text-lg max-w-2xl mx-auto leading-relaxed"
-              style={{ color: "#858376" }}
+              style={{ color: "#65635a" }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -538,6 +553,7 @@ const Projects = () => {
                 <motion.button
                   key={category}
                   onClick={() => setActiveFilter(category)}
+                  aria-pressed={activeFilter === category}
                   className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2"
                   style={{
                     backgroundColor: activeFilter === category ? colors.text : colors.bg,
@@ -589,7 +605,7 @@ const Projects = () => {
               animate={{ opacity: 1 }}
               className="text-center py-20"
             >
-              <p style={{ color: "#858376" }}>No projects found in this category.</p>
+              <p style={{ color: "#65635a" }}>No projects found in this category.</p>
             </motion.div>
           )}
         </div>
@@ -597,7 +613,12 @@ const Projects = () => {
 
       <AnimatePresence>
         {selectedProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${selectedProject.title} project details`}
+          >
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -605,7 +626,7 @@ const Projects = () => {
               transition={{ duration: 0.3 }}
               className="absolute inset-0 backdrop-blur-md"
               style={{ backgroundColor: "rgba(44, 42, 53, 0.7)" }}
-              onClick={() => setSelectedProject(null)}
+              onClick={closeModal}
             />
             
             <motion.div
@@ -635,14 +656,16 @@ const Projects = () => {
               />
 
               <motion.button
-                onClick={() => setSelectedProject(null)}
+                onClick={closeModal}
                 className="absolute top-4 right-4 z-10 p-2 rounded-full transition-all duration-300"
-                style={{ 
+                style={{
                   backgroundColor: "rgba(140, 69, 85, 0.08)",
                   color: "#8C4555"
                 }}
                 whileHover={{ scale: 1.1, rotate: 90 }}
                 whileTap={{ scale: 0.9 }}
+                aria-label="Close project details"
+                autoFocus
               >
                 <FaTimes className="w-5 h-5" />
               </motion.button>
@@ -660,7 +683,7 @@ const Projects = () => {
                     >
                       {selectedProject.category}
                     </span>
-                    <span className="text-sm flex items-center gap-1" style={{ color: "#858376" }}>
+                    <span className="text-sm flex items-center gap-1" style={{ color: "#65635a" }}>
                       <FaCalendarAlt className="w-3 h-3" />
                       {selectedProject.year}
                     </span>
@@ -710,7 +733,7 @@ const Projects = () => {
                       <FaLightbulb className="w-5 h-5" style={{ color: "#8C4555" }} />
                       <h3 className="font-semibold" style={{ color: "#2C2A35" }}>Problem</h3>
                     </div>
-                    <p className="text-sm" style={{ color: "#858376" }}>
+                    <p className="text-sm" style={{ color: "#65635a" }}>
                       {selectedProject.problem}
                     </p>
                   </motion.div>
@@ -734,7 +757,7 @@ const Projects = () => {
                         <motion.li 
                           key={idx} 
                           className="text-sm flex items-start gap-2"
-                          style={{ color: "#858376" }}
+                          style={{ color: "#65635a" }}
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.4 + idx * 0.05 }}
@@ -768,7 +791,7 @@ const Projects = () => {
                         <motion.li 
                           key={idx} 
                           className="text-sm flex items-start gap-2 font-medium"
-                          style={{ color: "#858376" }}
+                          style={{ color: "#65635a" }}
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.5 + idx * 0.05 }}

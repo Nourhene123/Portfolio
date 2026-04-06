@@ -57,7 +57,7 @@ const StatItem = ({ icon, value, label, color, delay }: StatItemProps) => (
           {value}
         </motion.span>
         
-        <span className="text-sm font-medium" style={{ color: "#858376" }}>
+        <span className="text-sm font-medium" style={{ color: "#65635a" }}>
           {label}
         </span>
       </div>

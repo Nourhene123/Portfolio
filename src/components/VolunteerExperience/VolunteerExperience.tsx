@@ -111,7 +111,7 @@ const VolunteerStats = ({ experiences }: { experiences: VolunteerExperience[] })
                 >
                   {stat.value}
                 </motion.span>
-                <span className="text-xs font-medium" style={{ color: "#858376" }}>
+                <span className="text-xs font-medium" style={{ color: "#65635a" }}>
                   {stat.label}
                 </span>
               </div>
@@ -283,7 +283,7 @@ const Volunteer3DCard = memo(({
               className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full"
               style={{ 
                 backgroundColor: `${exp.color}10`,
-                color: "#858376",
+                color: "#65635a",
                 border: `1px solid ${exp.color}20`
               }}
             >
@@ -309,7 +309,7 @@ const Volunteer3DCard = memo(({
 
           <p 
             className="text-sm mb-4 flex-grow"
-            style={{ color: "#858376" }}
+            style={{ color: "#65635a" }}
           >
             {exp.short}
           </p>
@@ -335,7 +335,7 @@ const Volunteer3DCard = memo(({
                 <motion.li 
                   key={idx} 
                   className="text-xs flex items-center gap-2"
-                  style={{ color: "#858376" }}
+                  style={{ color: "#65635a" }}
                   initial={{ opacity: 0, x: -5 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -408,7 +408,7 @@ const Volunteer3DCard = memo(({
                   <motion.li 
                       key={idx} 
                       className="flex items-start gap-2"
-                      style={{ color: "#858376" }}
+                      style={{ color: "#65635a" }}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: idx * 0.05 }}
@@ -454,9 +454,10 @@ const Volunteer3DCard = memo(({
                           transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                           onClick={() => window.open(photo, '_blank')}
                         >
-                          <img 
-                            src={photo} 
+                          <img
+                            src={photo}
                             alt={`Experience photo ${idx + 1}`}
+                            loading="lazy"
                             className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                             onError={(e) => {
                               (e.target as HTMLImageElement).style.display = 'none';
@@ -509,9 +510,10 @@ const Volunteer3DCard = memo(({
                           transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                           onClick={() => window.open(cert.image, '_blank')}
                         >
-                          <img 
-                            src={cert.image} 
+                          <img
+                            src={cert.image}
                             alt={cert.name}
+                            loading="lazy"
                             className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                             onError={(e) => {
                               (e.target as HTMLImageElement).style.display = 'none';
@@ -858,7 +860,7 @@ const VolunteerExperience = () => {
 
           <motion.p 
             className="text-lg max-w-2xl mx-auto leading-relaxed"
-            style={{ color: "#858376" }}
+            style={{ color: "#65635a" }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

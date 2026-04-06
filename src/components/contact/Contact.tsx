@@ -91,7 +91,7 @@ const Contact = () => {
               className="w-24 h-1 mx-auto rounded-full mb-6"
               style={{ background: "linear-gradient(90deg, #8C4555, #B58169)" }}
             />
-            <p className="text-lg max-w-2xl mx-auto" style={{ color: "#858376" }}>
+            <p className="text-lg max-w-2xl mx-auto" style={{ color: "#65635a" }}>
               Ready to start your next project? Let's discuss how I can contribute to your team.
             </p>
           </div>
@@ -113,7 +113,7 @@ const Contact = () => {
                 >
                   Contact Information
                 </h3>
-                <p className="mb-4 text-sm" style={{ color: "#858376" }}>
+                <p className="mb-4 text-sm" style={{ color: "#65635a" }}>
                   Available for full-stack AI internships starting January 2026. Open to remote, hybrid, or on-site opportunities.
                 </p>
                 
@@ -121,7 +121,7 @@ const Contact = () => {
                   <a
                     href="mailto:nourhene.ferchichi2001@gmail.com"
                     className="flex items-center gap-3 transition-all duration-300 hover:translate-x-1"
-                    style={{ color: "#858376" }}
+                    style={{ color: "#65635a" }}
                   >
                     <div 
                       className="w-10 h-10 rounded-lg flex items-center justify-center"
@@ -137,7 +137,7 @@ const Contact = () => {
                   <a
                     href="tel:+21621503300"
                     className="flex items-center gap-3 transition-all duration-300 hover:translate-x-1"
-                    style={{ color: "#858376" }}
+                    style={{ color: "#65635a" }}
                   >
                     <div 
                       className="w-10 h-10 rounded-lg flex items-center justify-center"
@@ -163,7 +163,7 @@ const Contact = () => {
                   }}
                 >
                   <BsLinkedin className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" style={{ color: "#8C4555" }} />
-                  <span style={{ color: "#858376" }}>LinkedIn</span>
+                  <span style={{ color: "#65635a" }}>LinkedIn</span>
                 </a>
                 <a
                   href="https://github.com/Nourhene123"
@@ -176,7 +176,7 @@ const Contact = () => {
                   }}
                 >
                   <BsGithub className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" style={{ color: "#8C4555" }} />
-                  <span style={{ color: "#858376" }}>GitHub</span>
+                  <span style={{ color: "#65635a" }}>GitHub</span>
                 </a>
               </div>
             </div>
@@ -212,7 +212,7 @@ const Contact = () => {
                     >
                       Message Sent!
                     </h3>
-                    <p style={{ color: "#858376" }}>
+                    <p style={{ color: "#65635a" }}>
                       Thank you for reaching out. I'll get back to you within 24 hours.
                     </p>
                   </motion.div>
@@ -222,23 +222,27 @@ const Contact = () => {
                     exit={{ opacity: 0 }}
                     onSubmit={handleSubmit}
                     className="space-y-3"
+                    aria-label="Contact form"
                   >
                     <div>
-                      <label 
+                      <label
+                        htmlFor="contact-name"
                         className="block text-sm mb-2"
-                        style={{ color: "#858376" }}
+                        style={{ color: "#65635a" }}
                       >
                         Your Name
                       </label>
                       <input
+                        id="contact-name"
                         type="text"
                         name="name"
                         placeholder="nour"
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-3 py-2.5 rounded-lg focus:outline-none transition-all duration-300"
-                        style={{ 
+                        autoComplete="name"
+                        className="w-full px-3 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8C4555] transition-all duration-300"
+                        style={{
                           backgroundColor: "rgba(140, 69, 85, 0.04)",
                           border: "1px solid rgba(140, 69, 85, 0.12)",
                           color: "#2C2A35"
@@ -246,21 +250,24 @@ const Contact = () => {
                       />
                     </div>
                     <div>
-                      <label 
+                      <label
+                        htmlFor="contact-email"
                         className="block text-sm mb-2"
-                        style={{ color: "#858376" }}
+                        style={{ color: "#65635a" }}
                       >
                         Your Email
                       </label>
                       <input
+                        id="contact-email"
                         type="email"
                         name="email"
                         placeholder="nour@example.com"
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-3 py-2.5 rounded-lg focus:outline-none transition-all duration-300"
-                        style={{ 
+                        autoComplete="email"
+                        className="w-full px-3 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8C4555] transition-all duration-300"
+                        style={{
                           backgroundColor: "rgba(140, 69, 85, 0.04)",
                           border: "1px solid rgba(140, 69, 85, 0.12)",
                           color: "#2C2A35"
@@ -268,21 +275,23 @@ const Contact = () => {
                       />
                     </div>
                     <div>
-                      <label 
+                      <label
+                        htmlFor="contact-message"
                         className="block text-sm mb-2"
-                        style={{ color: "#858376" }}
+                        style={{ color: "#65635a" }}
                       >
                         Your Message
                       </label>
                       <textarea
+                        id="contact-message"
                         name="message"
                         placeholder="Tell me about your project or opportunity..."
                         value={formData.message}
                         onChange={handleChange}
                         required
                         rows={3}
-                        className="w-full px-3 py-2.5 rounded-lg focus:outline-none transition-all duration-300 resize-none"
-                        style={{ 
+                        className="w-full px-3 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8C4555] transition-all duration-300 resize-none"
+                        style={{
                           backgroundColor: "rgba(140, 69, 85, 0.04)",
                           border: "1px solid rgba(140, 69, 85, 0.12)",
                           color: "#2C2A35"
