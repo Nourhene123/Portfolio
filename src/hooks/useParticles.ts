@@ -28,7 +28,7 @@ const seededRandom = (seed: number): number => {
 export const useParticles = (options: UseParticlesOptions = {}) => {
   const {
     count = 20,
-    colors = ["#8C4555", "#B58169", "#858376"],
+    colors = ["#8C4555", "#B58169", "#65635a"],
     minSize = 2,
     maxSize = 6,
     minDuration = 15,

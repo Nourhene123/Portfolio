@@ -29,7 +29,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #858376;
+  color: #65635a;
   font-size: 0.95rem;
   transition: all 0.3s ease;
   background: none;
@@ -48,7 +48,7 @@
 
 .footer-credits {
   text-align: center;
-  color: #858376;
+  color: #65635a;
   font-size: 0.9rem;
 }
 

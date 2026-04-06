@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState, Suspense, Component, type ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from "./components/footer/Footer";
 import NavBar from "./components/Navbar/NavBar";
@@ -14,6 +14,29 @@ const VolunteerExperience = React.lazy(() => import("./components/VolunteerExper
 const Experience = React.lazy(() => import("./components/experience/Experience"));
 const Projects = React.lazy(() => import("./components/projects/Projects"));
 const Contact = React.lazy(() => import("./components/contact/Contact"));
+
+class ErrorBoundary extends Component<
+  { children: ReactNode; fallback?: ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: ReactNode; fallback?: ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback ?? (
+        <div className="text-center py-16 text-[#65635a]">
+          Something went wrong loading this section.
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -40,15 +63,17 @@ function App() {
       <NavBar />
       <Home />
 
-      <Suspense fallback={<div className="h-96" />}>
-        <About />
-        <Skills />
-        <Experience />
-        <Projects />
-        <VolunteerExperience /> 
-        <Education />
-        <Contact />
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<div className="h-96" />}>
+          <About />
+          <Skills />
+          <Experience />
+          <Projects />
+          <VolunteerExperience />
+          <Education />
+          <Contact />
+        </Suspense>
+      </ErrorBoundary>
 
       <Footer />
       <Analytics />

@@ -157,7 +157,8 @@ const About = () => {
                 <div className="relative w-72 h-72 md:w-96 md:h-96 rounded-3xl overflow-hidden shadow-2xl">
                   <img
                     src={profilePic}
-                    alt="Nourhene"
+                    alt="Nourhene Ferchichi"
+                    loading="lazy"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#8C4555]/20 to-transparent" />
@@ -223,7 +224,7 @@ const About = () => {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.4 }}
                 className="text-lg leading-relaxed"
-                style={{ color: "#858376" }}
+                style={{ color: "#65635a" }}
               >
                 Hey, I'm <strong style={{ color: "#8C4555" }}>Nourhene</strong> — a full-stack & AI engineer who codes, dreams,
                 and turns ideas into real-world impact. Currently in my 5th year at TEK-UP, I build
@@ -235,7 +236,7 @@ const About = () => {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.5 }}
                 className="text-lg leading-relaxed"
-                style={{ color: "#858376" }}
+                style={{ color: "#65635a" }}
               >
                 I love when code solves real problems: guiding a teacher through a dashboard,
                 helping a doctor with an AI assistant, or matching the perfect CV to a job.
@@ -246,7 +247,7 @@ const About = () => {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.6 }}
                 className="text-lg leading-relaxed"
-                style={{ color: "#858376" }}
+                style={{ color: "#65635a" }}
               >
                 As <strong style={{ color: "#8C4555" }}>Vice President of AIESEC Bizerte</strong>, I led a team of 20,
                 increased international volunteer participation, and ran a 90+ attendee conference.
@@ -312,7 +313,7 @@ const About = () => {
                   >
                     <Counter value={stat.number} suffix={stat.suffix} />
                   </div>
-                  <div className="text-xs" style={{ color: "#858376" }}>
+                  <div className="text-xs" style={{ color: "#65635a" }}>
                     {stat.label}
                   </div>
                 </motion.div>

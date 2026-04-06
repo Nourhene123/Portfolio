@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://portfolio-nourheneferchichi.vercel.app/sitemap.xml

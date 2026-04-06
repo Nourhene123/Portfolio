@@ -83,7 +83,7 @@ const Skills = () => {
               className="w-24 h-1 mx-auto rounded-full mb-6"
               style={{ background: "linear-gradient(90deg, #8C4555, #B58169)" }}
             />
-            <p className="text-lg max-w-2xl mx-auto" style={{ color: "#858376" }}>
+            <p className="text-lg max-w-2xl mx-auto" style={{ color: "#65635a" }}>
               A dynamic ecosystem of technologies I work with, from AI/ML to cloud infrastructure.
             </p>
           </div>
@@ -125,7 +125,7 @@ const Skills = () => {
                   <h3 className={`font-bold mb-1 ${skill.size === "large" ? "text-2xl" : "text-lg"}`} style={{ color: "#2C2A35" }}>
                     {skill.name}
                   </h3>
-                  <p className="text-sm" style={{ color: "#858376" }}>{skill.desc}</p>
+                  <p className="text-sm" style={{ color: "#65635a" }}>{skill.desc}</p>
                   {skill.size === "large" && (
                     <motion.div
                       initial={{ width: 0 }}
@@ -148,12 +148,13 @@ const Skills = () => {
               onClick={() => setActiveCategory(cat.id)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              aria-pressed={activeCategory === cat.id}
               className={`px-5 py-2.5 rounded-full flex items-center gap-2 font-medium transition-all duration-300 ${
                 activeCategory === cat.id ? "shadow-lg" : "hover:shadow-md"
               }`}
               style={{
                 backgroundColor: activeCategory === cat.id ? "#8C4555" : "#ffffff",
-                color: activeCategory === cat.id ? "#ffffff" : "#858376",
+                color: activeCategory === cat.id ? "#ffffff" : "#65635a",
                 border: "1px solid rgba(140, 69, 85, 0.2)",
               }}
             >
