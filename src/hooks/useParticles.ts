@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 
 export interface Particle {
   id: number;
@@ -36,10 +36,8 @@ export const useParticles = (options: UseParticlesOptions = {}) => {
     maxDelay = 10,
   } = options;
 
-  const [particles, setParticles] = useState<Particle[]>([]);
-
-  useEffect(() => {
-    const newParticles: Particle[] = Array.from({ length: count }, (_, i) => ({
+  return useMemo(() => {
+    return Array.from({ length: count }, (_, i) => ({
       id: i,
       x: seededRandom(i * 100) * 100,
       y: seededRandom(i * 200) * 100,
@@ -48,8 +46,5 @@ export const useParticles = (options: UseParticlesOptions = {}) => {
       delay: seededRandom(i * 500) * maxDelay,
       color: colors[Math.floor(seededRandom(i * 600) * colors.length)],
     }));
-    setParticles(newParticles);
   }, [count, colors, minSize, maxSize, minDuration, maxDuration, maxDelay]);
-
-  return particles;
 };

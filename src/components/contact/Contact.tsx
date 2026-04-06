@@ -4,6 +4,7 @@ import { HiOutlineMail } from "react-icons/hi";
 import { BsGithub, BsLinkedin } from "react-icons/bs";
 import { BiPhoneCall } from "react-icons/bi";
 import { FaPaperPlane, FaCheckCircle, FaSpinner } from "react-icons/fa";
+import emailjs from "emailjs-com";
 import SectionReveal from "../shared/SectionReveal";
 
 const Contact = () => {
@@ -18,17 +19,31 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    
-    // Open mailto after showing success
-    setTimeout(() => {
-      window.location.href = `mailto:nourhene.ferchichi2001@gmail.com?subject=Contact from ${formData.name}&body=${formData.message}`;
-    }, 2000);
+
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+      setFormData({ name: "", email: "", message: "" });
+
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 5000);
+    } catch (error) {
+      console.error("Failed to send message:", error);
+      setIsSubmitting(false);
+      alert("Failed to send message. Please try again or contact me directly via email.");
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -218,7 +233,7 @@ const Contact = () => {
                       <input
                         type="text"
                         name="name"
-                        placeholder="John Doe"
+                        placeholder="nour"
                         value={formData.name}
                         onChange={handleChange}
                         required
@@ -240,7 +255,7 @@ const Contact = () => {
                       <input
                         type="email"
                         name="email"
-                        placeholder="john@example.com"
+                        placeholder="nour@example.com"
                         value={formData.email}
                         onChange={handleChange}
                         required

@@ -11,10 +11,12 @@ export const useCounter = (targetValue: number, options: UseCounterOptions = {})
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true });
+  const hasAnimated = useRef(false);
 
   useEffect(() => {
-    if (!isInView) return;
+    if (!isInView || hasAnimated.current) return;
 
+    hasAnimated.current = true;
     const increment = targetValue / steps;
     let current = 0;
     const timer = setInterval(() => {
