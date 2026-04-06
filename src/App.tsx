@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from "./components/footer/Footer";
-import NavBar from "./components/navbar/NavBar";
+import NavBar from "./components/Navbar/NavBar";
 import Skeleton from "./tools/Skeleton";
 import ScrollToTopButton from "./tools/ScrollToTopButton";
 

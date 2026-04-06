@@ -362,35 +362,67 @@ const Education = () => {
   const education: EducationItem[] = [
     {
       id: "1",
-      degree: "Software Engineering Degree",
+      degree: "Software Information Systems Engineering Degree",
       school: "TEK-UP University",
       location: "Tunis, Tunisia",
-      period: "2021 – 2026",
+      period: "2024 – 2026",
       description:
-        "5-year engineering program specializing in software development, AI, and full-stack technologies.",
+        "Engineering program specializing in software development, information systems, and full-stack technologies.",
       achievements: [
         "Specialized in AI/ML and full-stack development",
-        "Completed multiple end-of-study projects with industry partners",
+        "Completed end-of-study project with industry partner",
         "Active member of university tech community",
       ],
-      gpa: "Strong Academic Standing",
+      gpa: "In Progress",
       color: "#8C4555",
       icon: FaUniversity,
     },
     {
       id: "2",
-      degree: "Baccalaureate in Mathematics",
-      school: "High School",
+      degree: "Professional Master's in Data Science",
+      school: "Faculté des Sciences de Bizerte",
       location: "Bizerte, Tunisia",
-      period: "2020 – 2021",
+      period: "2023 – 2026",
       description:
-        "Mathematics-focused baccalaureate with excellent grades, providing strong analytical foundation.",
+        "Advanced studies in data science, machine learning, and statistical analysis.",
       achievements: [
-        "Strong foundation in mathematics and problem-solving",
+        "Specialized in ML and data analysis",
+        "Research projects in AI applications",
+      ],
+      gpa: "In Progress",
+      color: "#4A90A4",
+      icon: FaUniversity,
+    },
+    {
+      id: "3",
+      degree: "Bachelor's in Software Engineering and Information Systems",
+      school: "Faculté des Sciences de Bizerte",
+      location: "Bizerte, Tunisia",
+      period: "2020 – 2023",
+      description:
+        "Undergraduate studies in software engineering fundamentals, programming, and system design.",
+      achievements: [
+        "Strong foundation in computer science",
+        "Multiple academic projects in software development",
+      ],
+      gpa: "Honors",
+      color: "#B58169",
+      icon: FaGraduationCap,
+    },
+    {
+      id: "4",
+      degree: "High School Diploma in Experimental Sciences",
+      school: "Lycée Mixte de Menzel Bourguiba",
+      location: "Menzel Bourguiba, Tunisia",
+      period: "2019 – 2020",
+      description:
+        "Experimental sciences baccalaureate providing strong foundation in mathematics, physics, and chemistry.",
+      achievements: [
+        "Strong foundation in mathematics and sciences",
         "Developed analytical thinking skills",
       ],
       gpa: "Honors",
-      color: "#4A90A4",
+      color: "#6B5B95",
       icon: FaGraduationCap,
     },
   ];

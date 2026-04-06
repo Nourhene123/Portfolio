@@ -174,15 +174,26 @@ export const ExperienceCard = memo(
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
                     <motion.div 
-                      className="w-11 h-11 rounded-xl flex items-center justify-center"
+                      className="w-11 h-11 rounded-xl flex items-center justify-center overflow-hidden"
                       style={{ 
-                        background: `linear-gradient(135deg, ${exp.color}15 0%, ${exp.color}08 100%)`,
+                        background: exp.logo ? "white" : `linear-gradient(135deg, ${exp.color}15 0%, ${exp.color}08 100%)`,
                         border: `1px solid ${exp.color}25`
                       }}
                       whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
                       transition={{ duration: 0.5 }}
                     >
-                      <IconComponent className="w-5 h-5" style={{ color: exp.color }} />
+                      {exp.logo ? (
+                        <img 
+                          src={exp.logo} 
+                          alt={exp.company} 
+                          className="w-8 h-8 object-contain"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                      ) : (
+                        <IconComponent className="w-5 h-5" style={{ color: exp.color }} />
+                      )}
                     </motion.div>
                     
                     <motion.div 
@@ -257,27 +268,109 @@ export const ExperienceCard = memo(
                 transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
               >
                 <div className="pt-2">
-                  <ul className="space-y-3">
-                    {exp.bullets.map((b, i) => (
-                      <motion.li 
-                        key={i} 
-                        className="text-sm flex items-start gap-3 leading-relaxed"
-                        style={{ color: "#858376" }}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : -10 }}
-                        transition={{ delay: i * 0.05, duration: 0.3 }}
-                      >
-                        <motion.span 
-                          className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0"
-                          style={{ backgroundColor: exp.color }}
-                          whileHover={{ scale: 1.5 }}
-                        />
-                        <span dangerouslySetInnerHTML={{ 
-                          __html: b.replace(/\*\*(.+?)\*\*/g, `<strong style='color:${exp.color}'>$1</strong>`) 
-                        }} />
-                      </motion.li>
-                    ))}
-                  </ul>
+                  {/* Overview bullets */}
+                  {exp.bullets.length > 0 && (
+                    <ul className="space-y-3 mb-4">
+                      {exp.bullets.map((b, i) => (
+                        <motion.li 
+                          key={i} 
+                          className="text-sm flex items-start gap-3 leading-relaxed"
+                          style={{ color: "#858376" }}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : -10 }}
+                          transition={{ delay: i * 0.05, duration: 0.3 }}
+                        >
+                          <motion.span 
+                            className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0"
+                            style={{ backgroundColor: exp.color }}
+                            whileHover={{ scale: 1.5 }}
+                          />
+                          <span>{b}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {/* Sections with headers */}
+                  {exp.sections && (
+                    <div className="space-y-4">
+                      {exp.sections.map((section, sectionIdx) => (
+                        <motion.div
+                          key={sectionIdx}
+                          className="border rounded-xl overflow-hidden"
+                          style={{ 
+                            borderColor: `${exp.color}15`,
+                            backgroundColor: `${exp.color}04`
+                          }}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? 0 : 10 }}
+                          transition={{ delay: 0.1 + sectionIdx * 0.08, duration: 0.3 }}
+                        >
+                          {/* Section Header */}
+                          <div 
+                            className="px-4 py-2 flex items-center gap-2"
+                            style={{ 
+                              backgroundColor: `${exp.color}10`,
+                              borderBottom: `1px solid ${exp.color}15`
+                            }}
+                          >
+                            <span className="text-base">{section.emoji}</span>
+                            <span 
+                              className="text-sm font-semibold"
+                              style={{ color: exp.color }}
+                            >
+                              {section.title}
+                            </span>
+                          </div>
+                          
+                          {/* Section Items */}
+                          <ul className="p-4 space-y-2">
+                            {section.items.map((item, itemIdx) => (
+                              <motion.li 
+                                key={itemIdx}
+                                className="text-sm flex items-start gap-2.5 leading-relaxed"
+                                style={{ color: "#858376" }}
+                                initial={{ opacity: 0, x: -5 }}
+                                animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : -5 }}
+                                transition={{ delay: 0.2 + sectionIdx * 0.08 + itemIdx * 0.03, duration: 0.2 }}
+                              >
+                                <span 
+                                  className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0"
+                                  style={{ backgroundColor: `${exp.color}80` }}
+                                />
+                                <span>{item}</span>
+                              </motion.li>
+                            ))}
+                          </ul>
+                        </motion.div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Fallback: regular bullets if no sections */}
+                  {!exp.sections && exp.bullets.length > 0 && (
+                    <ul className="space-y-3">
+                      {exp.bullets.map((b, i) => (
+                        <motion.li 
+                          key={i} 
+                          className="text-sm flex items-start gap-3 leading-relaxed"
+                          style={{ color: "#858376" }}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : -10 }}
+                          transition={{ delay: i * 0.05, duration: 0.3 }}
+                        >
+                          <motion.span 
+                            className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0"
+                            style={{ backgroundColor: exp.color }}
+                            whileHover={{ scale: 1.5 }}
+                          />
+                          <span dangerouslySetInnerHTML={{ 
+                            __html: b.replace(/\*\*(.+?)\*\*/g, `<strong style='color:${exp.color}'>$1</strong>`) 
+                          }} />
+                        </motion.li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </motion.div>
 

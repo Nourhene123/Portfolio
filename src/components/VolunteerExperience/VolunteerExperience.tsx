@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, memo } from "react";
+import { useState, useRef, useCallback, memo, useMemo } from "react";
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import {
   FaCalendarAlt,
@@ -12,6 +12,8 @@ import {
   FaHeart,
   FaGlobe,
   FaLinkedin,
+  FaImage,
+  FaAward,
 } from "react-icons/fa";
 
 interface VolunteerExperience {
@@ -27,6 +29,8 @@ interface VolunteerExperience {
   metrics: string[];
   color: string;
   icon: string;
+  photos?: string[];
+  certificates?: { name: string; image: string }[];
 }
 
 const VolunteerStats = ({ experiences }: { experiences: VolunteerExperience[] }) => {
@@ -120,36 +124,48 @@ const VolunteerStats = ({ experiences }: { experiences: VolunteerExperience[] })
 };
 
 
-const FloatingParticles = () => {
+const FloatingParticles = memo(() => {
+  const particles = useMemo(() => 
+    Array.from({ length: 12 }).map((_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      color: i % 3 === 0 ? "#8C4555" : i % 3 === 1 ? "#B58169" : "#4A90A4",
+      duration: Math.random() * 8 + 8,
+      delay: Math.random() * 4,
+      xOffset: Math.random() * 20 - 10,
+    })),
+  []);
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {Array.from({ length: 12 }).map((_, i) => (
+      {particles.map((p) => (
         <motion.div
-          key={i}
+          key={p.id}
           className="absolute w-2 h-2 rounded-full"
           style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            background: i % 3 === 0 ? "#8C4555" : i % 3 === 1 ? "#B58169" : "#4A90A4",
+            left: p.left,
+            top: p.top,
+            background: p.color,
             filter: "blur(1px)",
           }}
           animate={{
             y: [0, -40, 0],
-            x: [0, Math.random() * 20 - 10, 0],
+            x: [0, p.xOffset, 0],
             opacity: [0, 0.5, 0],
             scale: [1, 1.3, 1],
           }}
           transition={{
-            duration: Math.random() * 8 + 8,
+            duration: p.duration,
             repeat: Infinity,
-            delay: Math.random() * 4,
+            delay: p.delay,
             ease: "easeInOut",
           }}
         />
       ))}
     </div>
   );
-};
+});
 
 const Volunteer3DCard = memo(({
   exp,
@@ -167,8 +183,8 @@ const Volunteer3DCard = memo(({
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   
-  const mouseXSpring = useSpring(x, { stiffness: 400, damping: 30 });
-  const mouseYSpring = useSpring(y, { stiffness: 400, damping: 30 });
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 25 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 25 });
   
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["8deg", "-8deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-8deg", "8deg"]);
@@ -214,8 +230,8 @@ const Volunteer3DCard = memo(({
       onMouseLeave={handleMouseLeave}
     >
       <motion.article
-        whileHover={{ y: -6, scale: 1.01 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        whileHover={{ y: -4 }}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
         className="group relative rounded-2xl overflow-hidden h-full flex flex-col cursor-pointer"
         style={{ 
           backgroundColor: "rgba(255, 255, 255, 0.95)",
@@ -225,7 +241,7 @@ const Volunteer3DCard = memo(({
         }}
       >
         <div 
-          className="absolute top-0 left-0 right-0 h-1.5 transition-all duration-300 group-hover:h-2"
+          className="absolute top-0 left-0 right-0 h-1 transition-all duration-300 group-hover:h-1.5"
           style={{ 
             background: `linear-gradient(90deg, ${exp.color} 0%, #B58169 100%)` 
           }} 
@@ -239,12 +255,12 @@ const Volunteer3DCard = memo(({
         />
 
         <motion.div 
-          className="absolute inset-0 pointer-events-none"
-          initial={{ x: "-100%", opacity: 0 }}
-          whileHover={{ x: "100%", opacity: [0, 0.35, 0] }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
+          className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+          initial={{ x: "-100%" }}
+          whileHover={{ x: "100%" }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
           style={{
-            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)",
+            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
           }}
         />
 
@@ -259,8 +275,6 @@ const Volunteer3DCard = memo(({
                 color: exp.color,
                 boxShadow: `0 4px 15px ${exp.color}25`
               }}
-              whileHover={{ rotate: [0, -8, 8, 0], scale: 1.05 }}
-              transition={{ duration: 0.5 }}
             >
               {getInitials(exp.title)}
             </motion.div>
@@ -272,7 +286,6 @@ const Volunteer3DCard = memo(({
                 color: "#858376",
                 border: `1px solid ${exp.color}20`
               }}
-              whileHover={{ scale: 1.05 }}
             >
               <FaCalendarAlt className="w-3 h-3" style={{ color: exp.color }} />
               {exp.date}
@@ -307,7 +320,6 @@ const Volunteer3DCard = memo(({
               backgroundColor: `${exp.color}08`,
               border: `1px solid ${exp.color}18`
             }}
-            whileHover={{ scale: 1.02 }}
           >
             <div className="flex items-center gap-2 mb-2">
               <FaTrophy className="w-4 h-4" style={{ color: exp.color }} />
@@ -393,7 +405,7 @@ const Volunteer3DCard = memo(({
                   style={{ borderBottom: `1px solid ${exp.color}12` }}
                 >
                   {exp.details.map((d, idx) => (
-                    <motion.li 
+                  <motion.li 
                       key={idx} 
                       className="flex items-start gap-2"
                       style={{ color: "#858376" }}
@@ -401,15 +413,131 @@ const Volunteer3DCard = memo(({
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: idx * 0.05 }}
                     >
-                      <motion.span 
+                      <span 
                         className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
                         style={{ backgroundColor: exp.color }}
-                        whileHover={{ scale: 1.5 }}
                       />
                       <span>{d}</span>
                     </motion.li>
                   ))}
                 </ul>
+
+                {/* Photos Gallery with Horizontal Scroll */}
+                {exp.photos && exp.photos.length > 0 && (
+                  <motion.div 
+                    className="mb-4 pb-4"
+                    style={{ borderBottom: `1px solid ${exp.color}12` }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <FaImage className="w-4 h-4" style={{ color: exp.color }} />
+                      <span className="text-xs font-semibold" style={{ color: exp.color }}>
+                        Photos ({exp.photos.length})
+                      </span>
+                    </div>
+                    <div 
+                      className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent"
+                      style={{ 
+                        scrollbarWidth: 'thin',
+                        scrollbarColor: `${exp.color}40 transparent`,
+                        msOverflowStyle: 'none'
+                      }}
+                    >
+                      {exp.photos.map((photo, idx) => (
+                        <motion.div
+                          key={idx}
+                          className="relative flex-shrink-0 w-40 h-28 rounded-lg overflow-hidden cursor-pointer snap-start"
+                          style={{ border: `1px solid ${exp.color}20` }}
+                          whileHover={{ scale: 1.05, y: -2 }}
+                          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                          onClick={() => window.open(photo, '_blank')}
+                        >
+                          <img 
+                            src={photo} 
+                            alt={`Experience photo ${idx + 1}`}
+                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = 'none';
+                            }}
+                          />
+                          <div 
+                            className="absolute bottom-1 right-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
+                            style={{ backgroundColor: exp.color, color: 'white' }}
+                          >
+                            {idx + 1}
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Certificates Gallery with Horizontal Scroll */}
+                {exp.certificates && exp.certificates.length > 0 && (
+                  <motion.div 
+                    className="mb-4 pb-4"
+                    style={{ borderBottom: `1px solid ${exp.color}12` }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <FaAward className="w-4 h-4" style={{ color: exp.color }} />
+                      <span className="text-xs font-semibold" style={{ color: exp.color }}>
+                        Certificates ({exp.certificates.length})
+                      </span>
+                    </div>
+                    <div 
+                      className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent"
+                      style={{ 
+                        scrollbarWidth: 'thin',
+                        scrollbarColor: `${exp.color}40 transparent`,
+                        msOverflowStyle: 'none'
+                      }}
+                    >
+                      {exp.certificates.map((cert, idx) => (
+                        <motion.div
+                          key={idx}
+                          className="relative flex-shrink-0 w-40 h-52 rounded-lg overflow-hidden cursor-pointer snap-start"
+                          style={{ 
+                            backgroundColor: `${exp.color}08`,
+                            border: `1px solid ${exp.color}20`
+                          }}
+                          whileHover={{ scale: 1.05, y: -2 }}
+                          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                          onClick={() => window.open(cert.image, '_blank')}
+                        >
+                          <img 
+                            src={cert.image} 
+                            alt={cert.name}
+                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = 'none';
+                            }}
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                            <FaAward className="w-8 h-8" style={{ color: exp.color }} />
+                          </div>
+                          <div 
+                            className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 via-black/50 to-transparent"
+                          >
+                            <span className="text-xs font-medium text-white break-words leading-tight">
+                              {cert.name}
+                            </span>
+                          </div>
+                          <div 
+                            className="absolute top-1 right-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
+                            style={{ backgroundColor: exp.color, color: 'white' }}
+                          >
+                            {idx + 1}
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
@@ -477,33 +605,89 @@ const VolunteerExperience = () => {
   const experiences: VolunteerExperience[] = [
     {
       id: "1",
-      title: "Local Vice President – AIESEC, Outgoing Global Volunteer",
-      organization: "AIESEC Bizerte",
-      date: "2024 – 2025",
-      short: "Led a team to promote global volunteering opportunities.",
+      title: "Local Committee Vice President Outgoing Global Volunteer",
+      organization: "AIESEC in Tunisia",
+      date: "Feb 2024 - Feb 2025 · 1 yr 1 mo",
+      short: "Led a team to boost collaboration and performance through strategic planning.",
       description:
-        "Led a team to promote global volunteering opportunities. Increased program participation by 10% through marketing and micro-events. Partnered with international organizations to facilitate cross-cultural exchange.",
+        "As Vice President, Outgoing Global Volunteer – Local Committee at AIESEC, I led a team to boost collaboration and performance through strategic planning and communication, partnered with global stakeholders to facilitate internships and cross-cultural exchanges, and managed Global Volunteer projects to align with organizational goals. I organized conferences by defining themes and formats to enhance engagement, coordinated events with real-time adjustments for efficiency, oversaw speakers and sessions for timely delivery, and directed a dedicated team to ensure high-quality outcomes.",
       details: [
-        "Led a team to promote global volunteering opportunities",
-        "Increased program participation by 10% through marketing and micro-events",
-        "Partnered with international organizations to facilitate cross-cultural exchange",
-        "Conducted training sessions and strategic planning",
+        "Led a team to boost collaboration and performance through strategic planning and communication",
+        "Partnered with global stakeholders to facilitate internships and cross-cultural exchanges",
+        "Managed Global Volunteer projects to align with organizational goals",
+        "Organized conferences by defining themes and formats to enhance engagement",
+        "Coordinated events with real-time adjustments for efficiency",
+        "Oversaw speakers and sessions for timely delivery",
+        "Directed a dedicated team to ensure high-quality outcomes",
       ],
-      technologies: ["Leadership", "Marketing", "Event Planning", "Team Management"],
-      link: "https://www.linkedin.com/in/nourhene-ferchichi-3aa058251/",
+      technologies: ["Leadership", "Strategic Planning", "Event Management", "Team Management", "Global Relations"],
       metrics: [
-        "Increased participation by 10%",
-        "Led team of 15+ members",
-        "Organized 5+ micro-events",
+        "Led team for 1+ year",
+        "Organized multiple conferences",
+        "Managed cross-cultural exchanges",
       ],
       color: "#8C4555",
-      icon: "leadership"
+      icon: "leadership",
+      certificates: [
+        { name: "NourheneFerchichi_certification", image: "/certificates/nourhene-ferchichi-certification.jpg" }
+      ]
     },
     {
       id: "2",
+      title: "Team Lead",
+      organization: "AIESEC in Tunisia",
+      date: "Feb 2023 - Feb 2024 · 1 yr 1 mo",
+      short: "Led team operations and international exchange programs.",
+      description:
+        "Served as Team Lead managing AIESEC Exchange Programs and web operations. Responsibilities included team management, AIESEC ExPa web management, international relations management, exchange participants management, and co-designing the exchange participant experience.",
+      details: [
+        "Team management and leadership",
+        "AIESEC ExPa Web management",
+        "International Relations Management",
+        "Exchange Participants Management",
+        "Responsible for Exchange Participant experience co-designing and tracking",
+      ],
+      technologies: ["Team Leadership", "Web Management", "International Relations", "Exchange Programs"],
+      metrics: [
+        "Led team for 1 year",
+        "Managed exchange participants",
+        "Coordinated international relations",
+      ],
+      color: "#4A90A4",
+      icon: "team",
+      certificates: [
+        { name: "Certificate of Appreciation", image: "/certificates/team-lead-certificate.jpg" }
+      ]
+    },
+    {
+      id: "3",
+      title: "Member",
+      organization: "AIESEC in Tunisia",
+      date: "Oct 2021 - Feb 2023 · 1 yr 5 mos",
+      short: "Active member contributing to AIESEC initiatives and projects.",
+      description:
+        "Active AIESEC member for over 1 year and 5 months, contributing to various organizational initiatives and developing leadership skills through participation in events and projects.",
+      details: [
+        "Participated in AIESEC initiatives",
+        "Developed leadership skills",
+        "Contributed to organizational projects",
+      ],
+      technologies: ["Leadership", "Teamwork", "Event Participation"],
+      metrics: [
+        "1.5+ years active membership",
+        "Contributed to multiple projects",
+      ],
+      color: "#B58169",
+      icon: "member",
+      certificates: [
+        { name: "Certificate of Appreciation", image: "/certificates/member-certificate.jpg" }
+      ]
+    },
+    {
+      id: "4",
       title: "Conference Manager",
-      organization: "AIESEC Bizerte",
-      date: "17, 18 Nov 2024",
+      organization: "AIESEC in Tunisia",
+      date: "Aug 2024 - Oct 2024 · 3 mos",
       short: "Coordinated a 90+ participant local conference.",
       description:
         "Coordinated a 90+ participant local conference: sessions, themes, and logistics. Adapted real-time schedules to maximize engagement. Managed guest speakers and ensured smooth execution.",
@@ -513,20 +697,23 @@ const VolunteerExperience = () => {
         "Managed guest speakers and ensured smooth execution",
       ],
       technologies: ["Event Management", "Logistics", "Public Speaking", "Coordination"],
-      link: "https://www.linkedin.com/in/nourhene-ferchichi-3aa058251/",
       metrics: [
         "Managed 90+ participants",
         "100% on-time execution",
         "95% satisfaction rate",
       ],
-      color: "#4A90A4",
-      icon: "conference"
+      color: "#6B5B95",
+      icon: "conference",
+      photos: [
+        "/photos/conference-manager-1.jpg",
+        "/photos/conference-manager-2.jpg"
+      ]
     },
     {
-      id: "3",
+      id: "5",
       title: "Conference Organizer",
-      organization: "AIESEC Bizerte",
-      date: "2023 – 2024",
+      organization: "AIESEC in Tunisia",
+      date: "May 2023 - Aug 2023 · 4 mos",
       short: "Directed a 3-day conference with cross-functional team management.",
       description:
         "Directed a 3-day conference with cross-functional team management. Ensured quality delivery and timely execution across all event activities.",
@@ -535,14 +722,42 @@ const VolunteerExperience = () => {
         "Ensured quality delivery and timely execution across all event activities",
       ],
       technologies: ["Project Management", "Agile", "Team Leadership", "Execution"],
-      link: "https://www.linkedin.com/in/nourhene-ferchichi-3aa058251/",
       metrics: [
         "3-day conference execution",
         "Led cross-functional team",
         "Zero incidents",
       ],
-      color: "#6B5B95",
-      icon: "organizer"
+      color: "#5B8C7A",
+      icon: "organizer",
+      certificates: [
+        { name: "Certificate of Appreciation", image: "/certificates/conference-organizer-certificate.jpg" }
+      ]
+    },
+    {
+      id: "6",
+      title: "Expansion Manager",
+      organization: "AIESEC in Tunisia",
+      date: "Jun 2023 - Dec 2023 · 7 mos",
+      short: "Designed and executed market analysis and launch plans to grow AIESEC's footprint.",
+      description:
+        "Designed and executed market analysis, feasibility studies, and launch plans to grow AIESEC's footprint and youth leadership presence nationwide. Collaborated with the Member Committee to align expansion goals with national targets in membership growth, cross-cultural exchanges, and social impact initiatives.",
+      details: [
+        "Designed and executed market analysis, feasibility studies, and launch plans",
+        "Grew AIESEC's footprint and youth leadership presence nationwide",
+        "Collaborated with Member Committee to align expansion goals",
+        "Focused on membership growth, cross-cultural exchanges, and social impact initiatives",
+      ],
+      technologies: ["Market Analysis", "Strategic Planning", "Expansion", "Social Impact"],
+      metrics: [
+        "7 months in role",
+        "Nationwide expansion initiatives",
+        "Aligned with national targets",
+      ],
+      color: "#8C6B45",
+      icon: "expansion",
+      certificates: [
+        { name: "Certificate of Appreciation", image: "/certificates/expansion-manager-certificate.jpg" }
+      ]
     },
   ];
 
