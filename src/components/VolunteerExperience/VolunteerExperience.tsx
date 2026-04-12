@@ -5,6 +5,8 @@ import {
   FaExternalLinkAlt,
   FaChevronDown,
   FaChevronUp,
+  FaChevronLeft,
+  FaChevronRight,
   FaTrophy,
   FaHandsHelping,
   FaUsers,
@@ -167,6 +169,180 @@ const FloatingParticles = memo(() => {
   );
 });
 
+const isVideo = (path: string) => /\.(mp4|webm|mov|avi)$/i.test(path);
+
+const MediaItem = ({
+  src,
+  alt,
+  isVideoFile,
+  dragProps,
+}: {
+  src: string;
+  alt: string;
+  isVideoFile: boolean;
+  dragProps: object;
+}) => {
+  if (isVideoFile) {
+    return (
+      <motion.video
+        key={src}
+        src={src}
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover cursor-grab active:cursor-grabbing"
+        initial={{ x: 300, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ x: -300, opacity: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        {...dragProps}
+      />
+    );
+  }
+  return (
+    <motion.img
+      key={src}
+      src={src}
+      alt={alt}
+      loading="lazy"
+      className="absolute inset-0 w-full h-full object-cover cursor-grab active:cursor-grabbing"
+      initial={{ x: 300, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: -300, opacity: 0 }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      {...dragProps}
+      onError={(e) => {
+        (e.target as HTMLImageElement).style.display = "none";
+      }}
+    />
+  );
+};
+
+const PhotoCarousel = ({
+  photos,
+  captions,
+  color,
+  label,
+  icon,
+}: {
+  photos: string[];
+  captions?: string[];
+  color: string;
+  label: string;
+  icon: "photo" | "certificate";
+}) => {
+  const [current, setCurrent] = useState(0);
+  const total = photos.length;
+
+  const paginate = (dir: number) => {
+    setCurrent((prev) => (prev + dir + total) % total);
+  };
+
+  const swipeConfidenceThreshold = 50;
+  const handleDragEnd = (_: unknown, info: { offset: { x: number }; velocity: { x: number } }) => {
+    const swipe = Math.abs(info.offset.x) * info.velocity.x;
+    if (swipe < -swipeConfidenceThreshold) paginate(1);
+    else if (swipe > swipeConfidenceThreshold) paginate(-1);
+  };
+
+  const dragProps = {
+    drag: "x" as const,
+    dragConstraints: { left: 0, right: 0 },
+    dragElastic: 0.7,
+    onDragEnd: handleDragEnd,
+    onClick: () => window.open(photos[current], "_blank"),
+  };
+
+  return (
+    <motion.div
+      className="mb-4 pb-4"
+      style={{ borderBottom: `1px solid ${color}12` }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2 }}
+    >
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          {icon === "photo" ? (
+            <FaImage className="w-4 h-4" style={{ color }} />
+          ) : (
+            <FaAward className="w-4 h-4" style={{ color }} />
+          )}
+          <span className="text-xs font-semibold" style={{ color }}>
+            {label} ({total})
+          </span>
+        </div>
+        {total > 1 && (
+          <span className="text-[10px] font-medium" style={{ color: "#65635a" }}>
+            {current + 1} / {total}
+          </span>
+        )}
+      </div>
+
+      <div className="relative overflow-hidden rounded-xl" style={{ border: `1px solid ${color}20` }}>
+        <div className="relative w-full aspect-[16/10] overflow-hidden bg-black/5">
+          <AnimatePresence initial={false} mode="popLayout">
+            <MediaItem
+              src={photos[current]}
+              alt={captions?.[current] ?? `${label} ${current + 1}`}
+              isVideoFile={isVideo(photos[current])}
+              dragProps={dragProps}
+            />
+          </AnimatePresence>
+
+          {/* Caption overlay */}
+          {captions?.[current] && (
+            <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/70 to-transparent pointer-events-none">
+              <span className="text-xs font-medium text-white">{captions[current]}</span>
+            </div>
+          )}
+
+          {/* Navigation arrows */}
+          {total > 1 && (
+            <>
+              <button
+                onClick={(e) => { e.stopPropagation(); paginate(-1); }}
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full flex items-center justify-center bg-white/80 backdrop-blur-sm shadow-md transition-transform hover:scale-110"
+                style={{ color }}
+                aria-label="Previous photo"
+              >
+                <FaChevronLeft className="w-3 h-3" />
+              </button>
+              <button
+                onClick={(e) => { e.stopPropagation(); paginate(1); }}
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full flex items-center justify-center bg-white/80 backdrop-blur-sm shadow-md transition-transform hover:scale-110"
+                style={{ color }}
+                aria-label="Next photo"
+              >
+                <FaChevronRight className="w-3 h-3" />
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* Dots */}
+        {total > 1 && (
+          <div className="flex justify-center gap-1.5 py-2 bg-white/50">
+            {photos.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={(e) => { e.stopPropagation(); setCurrent(idx); }}
+                className="w-2 h-2 rounded-full transition-all duration-300"
+                style={{
+                  backgroundColor: idx === current ? color : `${color}30`,
+                  transform: idx === current ? "scale(1.3)" : "scale(1)",
+                }}
+                aria-label={`Go to ${label.toLowerCase()} ${idx + 1}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+};
+
 const Volunteer3DCard = memo(({
   exp,
   isExpanded,
@@ -204,7 +380,7 @@ const Volunteer3DCard = memo(({
   }, [x, y]);
 
   const getInitials = (title: string) => {
-    const w = title.trim().split(" ");
+    const w = title.trim().split(/\s+/).filter(s => s.length > 0);
     return w.length >= 2 ? (w[0][0] + w[1][0]).toUpperCase() : title.slice(0, 2).toUpperCase();
   };
 
@@ -422,123 +598,20 @@ const Volunteer3DCard = memo(({
                   ))}
                 </ul>
 
-                {/* Photos Gallery with Horizontal Scroll */}
+                {/* Photos Swipeable Carousel */}
                 {exp.photos && exp.photos.length > 0 && (
-                  <motion.div 
-                    className="mb-4 pb-4"
-                    style={{ borderBottom: `1px solid ${exp.color}12` }}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    <div className="flex items-center gap-2 mb-3">
-                      <FaImage className="w-4 h-4" style={{ color: exp.color }} />
-                      <span className="text-xs font-semibold" style={{ color: exp.color }}>
-                        Photos ({exp.photos.length})
-                      </span>
-                    </div>
-                    <div 
-                      className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent"
-                      style={{ 
-                        scrollbarWidth: 'thin',
-                        scrollbarColor: `${exp.color}40 transparent`,
-                        msOverflowStyle: 'none'
-                      }}
-                    >
-                      {exp.photos.map((photo, idx) => (
-                        <motion.div
-                          key={idx}
-                          className="relative flex-shrink-0 w-40 h-28 rounded-lg overflow-hidden cursor-pointer snap-start"
-                          style={{ border: `1px solid ${exp.color}20` }}
-                          whileHover={{ scale: 1.05, y: -2 }}
-                          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                          onClick={() => window.open(photo, '_blank')}
-                        >
-                          <img
-                            src={photo}
-                            alt={`Experience photo ${idx + 1}`}
-                            loading="lazy"
-                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).style.display = 'none';
-                            }}
-                          />
-                          <div 
-                            className="absolute bottom-1 right-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
-                            style={{ backgroundColor: exp.color, color: 'white' }}
-                          >
-                            {idx + 1}
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </motion.div>
+                  <PhotoCarousel photos={exp.photos} color={exp.color} label="Photos" icon="photo" />
                 )}
 
-                {/* Certificates Gallery with Horizontal Scroll */}
+                {/* Certificates Swipeable Carousel */}
                 {exp.certificates && exp.certificates.length > 0 && (
-                  <motion.div 
-                    className="mb-4 pb-4"
-                    style={{ borderBottom: `1px solid ${exp.color}12` }}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                  >
-                    <div className="flex items-center gap-2 mb-3">
-                      <FaAward className="w-4 h-4" style={{ color: exp.color }} />
-                      <span className="text-xs font-semibold" style={{ color: exp.color }}>
-                        Certificates ({exp.certificates.length})
-                      </span>
-                    </div>
-                    <div 
-                      className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent"
-                      style={{ 
-                        scrollbarWidth: 'thin',
-                        scrollbarColor: `${exp.color}40 transparent`,
-                        msOverflowStyle: 'none'
-                      }}
-                    >
-                      {exp.certificates.map((cert, idx) => (
-                        <motion.div
-                          key={idx}
-                          className="relative flex-shrink-0 w-40 h-52 rounded-lg overflow-hidden cursor-pointer snap-start"
-                          style={{ 
-                            backgroundColor: `${exp.color}08`,
-                            border: `1px solid ${exp.color}20`
-                          }}
-                          whileHover={{ scale: 1.05, y: -2 }}
-                          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                          onClick={() => window.open(cert.image, '_blank')}
-                        >
-                          <img
-                            src={cert.image}
-                            alt={cert.name}
-                            loading="lazy"
-                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).style.display = 'none';
-                            }}
-                          />
-                          <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                            <FaAward className="w-8 h-8" style={{ color: exp.color }} />
-                          </div>
-                          <div 
-                            className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 via-black/50 to-transparent"
-                          >
-                            <span className="text-xs font-medium text-white break-words leading-tight">
-                              {cert.name}
-                            </span>
-                          </div>
-                          <div 
-                            className="absolute top-1 right-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
-                            style={{ backgroundColor: exp.color, color: 'white' }}
-                          >
-                            {idx + 1}
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </motion.div>
+                  <PhotoCarousel
+                    photos={exp.certificates.map(c => c.image)}
+                    captions={exp.certificates.map(c => c.name)}
+                    color={exp.color}
+                    label="Certificates"
+                    icon="certificate"
+                  />
                 )}
               </motion.div>
             )}
@@ -612,26 +685,39 @@ const VolunteerExperience = () => {
       date: "Feb 2024 - Feb 2025 · 1 yr 1 mo",
       short: "Led a team to boost collaboration and performance through strategic planning.",
       description:
-        "As Vice President, Outgoing Global Volunteer – Local Committee at AIESEC, I led a team to boost collaboration and performance through strategic planning and communication, partnered with global stakeholders to facilitate internships and cross-cultural exchanges, and managed Global Volunteer projects to align with organizational goals. I organized conferences by defining themes and formats to enhance engagement, coordinated events with real-time adjustments for efficiency, oversaw speakers and sessions for timely delivery, and directed a dedicated team to ensure high-quality outcomes.",
+        "My role is to develop strategy and pipelines to ensure a strong leadership experience for my members' growth, while boosting our global volunteering exchange and market expansion. I deliver all the knowledge my members need through sessions at local conferences, monthly department meetings, and one-on-one sessions. I ensure every member in my department receives personal and professional growth through dedicated guidance and mentorship. I track our KPIs, strategy, and planning, and lead attraction campaigns to provide quality knowledge to team leads. I ensure every youth who joins us in a volunteer experience is equipped with all necessary knowledge and supported throughout every part of the customer journey. Additionally, I conduct international calls and meetings to discuss opportunities for internships abroad, accommodation, and everything youth need when going overseas.",
       details: [
-        "Led a team to boost collaboration and performance through strategic planning and communication",
-        "Partnered with global stakeholders to facilitate internships and cross-cultural exchanges",
-        "Managed Global Volunteer projects to align with organizational goals",
-        "Organized conferences by defining themes and formats to enhance engagement",
-        "Coordinated events with real-time adjustments for efficiency",
-        "Oversaw speakers and sessions for timely delivery",
-        "Directed a dedicated team to ensure high-quality outcomes",
+        "Develop strategy and pipelines to ensure strong leadership experience for member growth",
+        "Ensure every member receives personal and professional growth through guidance and mentorship",
+        "Boost global volunteering exchange and market expansion",
+        "Deliver knowledge through sessions at local conferences",
+        "Conduct monthly department meetings and one-on-one sessions",
+        "Track KPIs, strategy, and planning",
+        "Lead attraction campaigns to provide quality knowledge to team leads",
+        "Support youth throughout every part of the customer journey",
+        "Conduct international calls and meetings for overseas internship opportunities",
       ],
       technologies: ["Leadership", "Strategic Planning", "Event Management", "Team Management", "Global Relations"],
       metrics: [
-        "Led team for 1+ year",
-        "Organized multiple conferences",
-        "Managed cross-cultural exchanges",
+        "Led team with strategy-driven member growth for 1+ year",
+        "Conducted monthly department meetings and O2O sessions",
+        "Tracked KPIs and strategic planning initiatives",
+        "Coordinated international calls for overseas opportunities",
       ],
       color: "#8C4555",
       icon: "leadership",
+      photos: [
+       "/photos/dep.jfif",
+        "/photos/dep_meeting.jfif",
+        "/photos/dep_meet.mp4",
+        "/photos/attraction.jfif",
+        "/photos/lcvps.jfif",
+        "/photos/depmee.jfif",
+        "/photos/youthspeekform.jfif",
+        "/photos/lcm.jfif"
+      ],
       certificates: [
-        { name: "NourheneFerchichi_certification", image: "/certificates/nourhene-ferchichi-certification.jpg" }
+        { name: "Vice President Certificate", image: "/certificates/vice-president.png" }
       ]
     },
     {
@@ -657,8 +743,13 @@ const VolunteerExperience = () => {
       ],
       color: "#4A90A4",
       icon: "team",
+        photos: [
+        "/photos/team_leader.jpg",
+        "/photos/oc.jfif",
+        "/photos/ocp.jfif",
+      ],
       certificates: [
-        { name: "Certificate of Appreciation", image: "/certificates/team-lead-certificate.jpg" }
+        { name: "Certificate of Appreciation", image: "/certificates/team-lead-certificate.jfif" }
       ]
     },
     {
@@ -681,13 +772,17 @@ const VolunteerExperience = () => {
       ],
       color: "#B58169",
       icon: "member",
+         photos: [
+        "/photos/oc_member.jpg",
+        "/photos/oc_conference.jpg",
+      ],
       certificates: [
-        { name: "Certificate of Appreciation", image: "/certificates/member-certificate.jpg" }
+        { name: "Certificate of Appreciation", image: "/certificates/member-certificate.png" }
       ]
     },
     {
       id: "4",
-      title: "Conference Manager",
+      title: "Agenda  Manager",
       organization: "AIESEC in Tunisia",
       date: "Aug 2024 - Oct 2024 · 3 mos",
       short: "Coordinated a 90+ participant local conference.",
@@ -705,10 +800,18 @@ const VolunteerExperience = () => {
         "95% satisfaction rate",
       ],
       color: "#6B5B95",
-      icon: "conference",
+      icon: "agenda",
       photos: [
-        "/photos/conference-manager-1.jpg",
-        "/photos/conference-manager-2.jpg"
+        "/photos/conference_manager2.jfif",
+        "/photos/agenda_manager_cover.png",
+        
+        "/photos/agenda_structure.png",
+        
+        "/photos/conference pic.jfif",
+
+        
+        "/photos/conf_manager_1.mp4",
+
       ]
     },
     {
@@ -731,8 +834,13 @@ const VolunteerExperience = () => {
       ],
       color: "#5B8C7A",
       icon: "organizer",
+      photos: [
+        "/photos/ocp1.jpg",
+        "/photos/ocp2.jpg",
+
+      ],
       certificates: [
-        { name: "Certificate of Appreciation", image: "/certificates/conference-organizer-certificate.jpg" }
+        { name: "Conference Organizer Certificate", image: "/certificates/conference-organizer-certificate.jpg" }
       ]
     },
     {
@@ -758,7 +866,7 @@ const VolunteerExperience = () => {
       color: "#8C6B45",
       icon: "expansion",
       certificates: [
-        { name: "Certificate of Appreciation", image: "/certificates/expansion-manager-certificate.jpg" }
+        { name: "Expansion Manager Certificate", image: "/certificates/expansion-manager-certificate.jpg" }
       ]
     },
   ];

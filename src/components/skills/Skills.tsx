@@ -202,34 +202,12 @@ const Skills = () => {
                   </motion.div>
                   <div className="flex flex-col">
                     <span className="font-semibold text-sm" style={{ color: "#2C2A35" }}>{skill.name}</span>
-                    <motion.div
-                      initial={{ opacity: 0, width: 0 }}
-                      animate={{ opacity: hoveredSkill === skill.name ? 1 : 0, width: hoveredSkill === skill.name ? 60 : 0 }}
-                      className="h-1 mt-1 rounded-full overflow-hidden"
-                      style={{ backgroundColor: "#f5f4f2" }}
-                    >
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${skill.level}%` }}
-                        transition={{ delay: 0.1, duration: 0.3 }}
-                        className="h-full rounded-full"
-                        style={{ backgroundColor: skill.color }}
-                      />
-                    </motion.div>
                   </div>
                   <div 
                     className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity -z-10 blur-xl"
                     style={{ backgroundColor: `${skill.color}30` }}
                   />
                 </motion.div>
-                <motion.span
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: hoveredSkill === skill.name ? 1 : 0, scale: hoveredSkill === skill.name ? 1 : 0 }}
-                  className="absolute -top-2 -right-2 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white"
-                  style={{ backgroundColor: skill.color }}
-                >
-                  {skill.level}
-                </motion.span>
               </motion.div>
             ))}
           </AnimatePresence>
