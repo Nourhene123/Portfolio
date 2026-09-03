@@ -382,7 +382,7 @@ const Education = () => {
       degree: "Professional Master's in Data Science",
       school: "Faculté des Sciences de Bizerte",
       location: "Bizerte, Tunisia",
-      period: "2023 – 2026",
+      period: "2023 – 2024",
       description:
         "Advanced studies in data science, machine learning, and statistical analysis.",
       achievements: [

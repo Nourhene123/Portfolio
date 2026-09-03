@@ -4,115 +4,66 @@ import profilePic from "../../assets/images/profilePic.png";
 import cv from "../../assets/pdf/NourheneFerchichi_CV.pdf";
 import { HiDownload } from "react-icons/hi";
 import { IoLogoGithub } from "react-icons/io";
-import { 
-  FaLinkedin, 
-  FaReact,  
-  FaJs, 
-  FaPython, 
-  FaAngular, 
+import {
+  FaLinkedin,
   FaHandPeace,
   FaCode,
   FaArrowRight
 } from "react-icons/fa";
-import { SiTypescript, SiSpring, SiDjango, SiOpenai, SiDocker } from "react-icons/si";
-import { VscCode } from "react-icons/vsc";
 import { MdEmail } from "react-icons/md";
 import { RiSendPlaneFill } from "react-icons/ri";
 import ParticleBackground from "../shared/ParticleBackground";
-import { use3DTilt } from "../../hooks/use3DTilt";
 import { useTyping } from "../../hooks/useTyping";
-import { useReducedMotion } from "../../hooks/useReducedMotion";
 import "./Home.css";
 
-const floatingIcons = [
-  { Icon: VscCode, delay: 0, angle: 0, color: "#007ACC" },
-  { Icon: FaReact, delay: 0.1, angle: 36, color: "#61DAFB" },
-  { Icon: FaAngular, delay: 0.2, angle: 72, color: "#DD0031" },
-  { Icon: SiSpring, delay: 0.3, angle: 108, color: "#6DB33F" },
-  { Icon: FaPython, delay: 0.4, angle: 144, color: "#3776AB" },
-  { Icon: SiDjango, delay: 0.5, angle: 180, color: "#092E20" },
-  { Icon: SiTypescript, delay: 0.6, angle: 216, color: "#3178C6" },
-  { Icon: FaJs, delay: 0.7, angle: 252, color: "#F7DF1E" },
-  { Icon: SiOpenai, delay: 0.8, angle: 288, color: "#10A37F" },
-  { Icon: SiDocker, delay: 0.9, angle: 324, color: "#2496ED" },
+const socialLinks = [
+  { icon: FaLinkedin, href: "https://www.linkedin.com/in/nourhene-ferchichi/", label: "LinkedIn", color: "#8C4555" },
+  { icon: IoLogoGithub, href: "https://github.com/Nourhene123", label: "GitHub", color: "#8C4555" },
+  { icon: MdEmail, href: "mailto:nourhene.ferchichi2001@gmail.com", label: "Email", color: "#8C4555" },
 ];
 
-const socialLinks = [
-  { icon: FaLinkedin, href: "https://www.linkedin.com/in/nourhene-ferchichi/", label: "LinkedIn", color: "#0077b5" },
-  { icon: IoLogoGithub, href: "https://github.com/Nourhene123", label: "GitHub", color: "#333" },
-  { icon: MdEmail, href: "mailto:nourhene.ferchichi@example.com", label: "Email", color: "#EA4335" },
-];
+/* Dot grid SVG pattern */
+const DotGrid = ({ className, rows = 5, cols = 5 }: { className?: string; rows?: number; cols?: number }) => (
+  <svg className={className} width={cols * 16} height={rows * 16} viewBox={`0 0 ${cols * 16} ${rows * 16}`}>
+    {Array.from({ length: rows * cols }).map((_, i) => (
+      <circle
+        key={i}
+        cx={(i % cols) * 16 + 4}
+        cy={Math.floor(i / cols) * 16 + 4}
+        r={2.5}
+        fill="rgba(140, 69, 85, 0.25)"
+      />
+    ))}
+  </svg>
+);
 
 const Home = () => {
-  const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  const { ref: tiltRef, rotateX, rotateY, handleMouseMove, handleMouseLeave } = use3DTilt({
-    stiffness: 150,
-    damping: 25,
-    rotateRange: 5
-  });
 
-  const { displayed: roleText, isTyping: isTypingRole } = useTyping("Full-Stack & AI Engineer", { speed: 80, delay: 800 });
-
+  const { displayed: roleText, isTyping: isTypingRole } = useTyping("Junior Full-Stack & AI Developer", { speed: 80, delay: 800 });
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      id="home" 
+      id="home"
       className="home-container"
     >
       <ParticleBackground />
 
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute w-[600px] h-[600px] rounded-full blur-[120px]"
-          style={{ 
-            background: "radial-gradient(circle, rgba(140, 69, 85, 0.15) 0%, transparent 70%)",
-            left: "10%",
-            top: "20%",
-          }}
-          animate={{
-            x: [0, 50, 0],
-            y: [0, -30, 0],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute w-[500px] h-[500px] rounded-full blur-[100px]"
-          style={{ 
-            background: "radial-gradient(circle, rgba(181, 129, 105, 0.12) 0%, transparent 70%)",
-            right: "5%",
-            bottom: "10%",
-          }}
-          animate={{
-            x: [0, -40, 0],
-            y: [0, 40, 0],
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </div>
-
       <div className="home-content">
+        {/* LEFT — Text content */}
         <motion.div
           initial={{ opacity: 0, x: -60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="home-left"
         >
-
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
-            <span 
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-4"
-              style={{ 
-                backgroundColor: "rgba(140, 69, 85, 0.1)", 
-                color: "#8C4555" 
-              }}
-            >
+            <span className="home-welcome-badge">
               <FaHandPeace className="w-4 h-4" />
               Welcome to my portfolio
             </span>
@@ -125,21 +76,7 @@ const Home = () => {
             className="home-title"
           >
             Hi, I'm{" "}
-            <motion.span 
-              className="home-title-highlight"
-              animate={{ 
-                textShadow: [
-                  "0 0 20px rgba(140, 69, 85, 0)",
-                  "0 0 40px rgba(140, 69, 85, 0.3)",
-                  "0 0 20px rgba(140, 69, 85, 0)"
-                ]
-              }}
-              transition={{ duration: 3, repeat: Infinity }}
-            >
-              Nourhene
-            </motion.span>
-            <br />
-            <span style={{ color: "#65635a" }}>Ferchichi</span>
+            <span className="home-title-highlight">Nourhene Ferchichi</span>
           </motion.h1>
 
           <motion.div
@@ -165,24 +102,23 @@ const Home = () => {
             transition={{ delay: 0.7, duration: 0.6 }}
             className="home-bio"
           >
-            5th-year Software Engineering student at{" "}
-            <span style={{ color: "#8C4555", fontWeight: 600 }}>TEK-UP</span>.
-            Building intelligent full-stack solutions with{" "}
-            <span style={{ color: "#B58169", fontWeight: 600 }}>AI</span> &{" "}
-            <span style={{ color: "#B58169", fontWeight: 600 }}>Cloud</span> technologies.
+            Fresh graduate from{" "}
+            <span style={{ color: "#8C4555", fontWeight: 600 }}>TEK-UP University</span>{" "}
+            developing websites and{" "}
+            <span style={{ color: "#B58169", fontWeight: 600 }}>multi-agent AI systems</span>, working from{" "}
+            <span style={{ color: "#B58169", fontWeight: 600 }}>development to production</span> on{" "}
+            <span style={{ color: "#8C4555", fontWeight: 600 }}>AWS</span>.
           </motion.p>
-
-       
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.6 }}
+            transition={{ delay: 0.9, duration: 0.6 }}
             className="home-buttons"
           >
-            <motion.a 
-              href={cv} 
-              download 
+            <motion.a
+              href={cv}
+              download
               className="home-btn-primary"
               whileHover={{ scale: 1.03, y: -2, boxShadow: "0 10px 30px rgba(140, 69, 85, 0.3)" }}
               whileTap={{ scale: 0.98 }}
@@ -197,8 +133,8 @@ const Home = () => {
                 <FaArrowRight className="w-4 h-4 ml-1" />
               </motion.span>
             </motion.a>
-            <motion.a 
-              href="#contact" 
+            <motion.a
+              href="#contact"
               className="home-btn-secondary"
               whileHover={{ scale: 1.03, y: -2, backgroundColor: "rgba(140, 69, 85, 0.1)" }}
               whileTap={{ scale: 0.98 }}
@@ -226,12 +162,12 @@ const Home = () => {
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 1.4 + idx * 0.1, duration: 0.4 }}
-                whileHover={{ 
-                  y: -4, 
-                  scale: 1.1, 
+                whileHover={{
+                  y: -4,
+                  scale: 1.1,
                   backgroundColor: `${color}20`,
                   borderColor: color,
-                  transition: { duration: 0.2 } 
+                  transition: { duration: 0.2 }
                 }}
                 whileTap={{ scale: 0.95 }}
                 style={{ border: "2px solid transparent" }}
@@ -242,114 +178,112 @@ const Home = () => {
           </motion.div>
         </motion.div>
 
+        {/* RIGHT — Photo with decorative shapes */}
         <motion.div
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="home-right"
         >
-          <motion.div 
-            className="home-image-wrapper"
-            style={{
-              rotateX,
-              rotateY,
-              transformStyle: "preserve-3d",
-            }}
-            ref={tiltRef}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-          >
-            {floatingIcons.map(({ Icon, delay, angle, color }, index) => {
-              const distance = 160;
-              const angleRad = (angle * Math.PI) / 180;
-              const x = Math.cos(angleRad) * distance;
-              const y = Math.sin(angleRad) * distance;
-              return (
-                <motion.div
-                  key={index}
-                  className="home-floating-icon"
-                  initial={{ opacity: 0, scale: 0, rotate: -180 }}
-                  animate={{ 
-                    opacity: 1, 
-                    scale: 1,
-                    rotate: 0,
-                    y: prefersReducedMotion ? 0 : [0, -6, 0],
-                  }}
-                  transition={{
-                    opacity: { delay: 0.8 + delay, duration: 0.5 },
-                    scale: { delay: 0.8 + delay, duration: 0.5, type: "spring", stiffness: 200 },
-                    rotate: { delay: 0.8 + delay, duration: 0.6, ease: "easeOut" },
-                    y: prefersReducedMotion ? {} : { duration: 3 + delay, repeat: Infinity, ease: "easeInOut", delay: delay },
-                  }}
-                  whileHover={{ 
-                    scale: 1.3, 
-                    rotate: 15,
-                    transition: { duration: 0.3 } 
-                  }}
-                  style={{ 
-                    left: `calc(50% + ${x}px)`, 
-                    top: `calc(50% + ${y}px)`,
-                    color: color,
-                    boxShadow: `0 0 20px ${color}40`,
-                  }}
-                >
-                  <Icon className="w-5 h-5" />
-                </motion.div>
-              );
-            })}
-
+          <div className="home-photo-scene">
+            {/* Background blob */}
             <motion.div
-              className="home-image-container"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            >
-             
-              <motion.div 
-                className="home-image-ring"
-                style={{ width: "120%", height: "120%" }}
-                animate={{ 
-                  scale: [1, 1.1, 1],
-                  opacity: [0.3, 0.5, 0.3],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-              <motion.div 
-                className="home-image-ring"
-                style={{ width: "140%", height: "140%" }}
-                animate={{ 
-                  scale: [1, 1.15, 1],
-                  opacity: [0.2, 0.3, 0.2],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 0.5,
-                }}
-              />
-           
-              <div className="home-image-inner">
-                <img
-                  src={profilePic}
-                  alt="Nourhene Ferchichi"
-                  className="home-profile-img"
-                  loading="eager"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#8C4555]/20 to-transparent rounded-full" />
-              </div>
+              className="home-blob"
+              animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            />
 
-              <div 
-                className="absolute -inset-4 rounded-full blur-2xl opacity-40 -z-10"
-                style={{ background: "linear-gradient(135deg, #8C4555, #B58169)" }}
+            {/* Dot grids */}
+            <motion.div
+              className="home-dots home-dots-top"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1, duration: 0.8 }}
+            >
+              <DotGrid rows={4} cols={5} />
+            </motion.div>
+            <motion.div
+              className="home-dots home-dots-bottom"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1.2, duration: 0.8 }}
+            >
+              <DotGrid rows={3} cols={4} />
+            </motion.div>
+
+            {/* Decorative circles */}
+            <motion.div
+              className="home-deco-circle home-deco-circle-1"
+              animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+              className="home-deco-circle home-deco-circle-2"
+              animate={{ scale: [1, 1.1, 1], opacity: [0.4, 0.7, 0.4] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            />
+            <motion.div
+              className="home-deco-circle home-deco-circle-3"
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            />
+
+            {/* Decorative lines */}
+            <motion.div
+              className="home-deco-line home-deco-line-1"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.8, duration: 0.6, ease: "easeOut" }}
+            />
+            <motion.div
+              className="home-deco-line home-deco-line-2"
+              initial={{ scaleY: 0 }}
+              animate={{ scaleY: 1 }}
+              transition={{ delay: 1, duration: 0.6, ease: "easeOut" }}
+            />
+
+            {/* Cross / plus shape */}
+            <motion.div
+              className="home-deco-cross"
+              animate={{ rotate: [0, 90, 180, 270, 360] }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            >
+              <span />
+              <span />
+            </motion.div>
+
+            {/* Profile photo */}
+            <motion.div
+              className="home-photo-container"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4, duration: 0.7, type: "spring", stiffness: 120 }}
+              whileHover={{ scale: 1.03 }}
+            >
+              <img
+                src={profilePic}
+                alt="Nourhene Ferchichi"
+                className="home-profile-img"
+                loading="eager"
               />
             </motion.div>
-          </motion.div>
+
+            {/* Floating stat badge */}
+            <motion.div
+              className="home-float-badge"
+              initial={{ opacity: 0, y: 20, scale: 0.8 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ delay: 1.4, duration: 0.6, type: "spring" }}
+              whileHover={{ scale: 1.05, y: -4 }}
+            >
+              <div className="home-float-badge-dot" />
+              <span>Available for work</span>
+            </motion.div>
+          </div>
         </motion.div>
       </div>
+
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

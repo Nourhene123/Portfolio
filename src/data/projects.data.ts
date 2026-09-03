@@ -8,6 +8,9 @@ export interface Project {
   details: string[];
   technologies: string[];
   github: string;
+  githubFrontend?: string;
+  githubBackend?: string;
+  video?: string;
   liveDemo?: string;
   problem: string;
   impact: string[];
@@ -61,26 +64,31 @@ export const projects: Project[] = [
   {
     id: "1",
     title: "MedFlow",
-    short: "AI-powered SaaS platform for medical clinic management with role-based portals.",
+    short: "Multi-tenant SaaS platform digitizing private clinic operations with AI-powered medical assistance and real-time workflows.",
     description:
-      "MedFlow is a full-stack SaaS solution for clinics, featuring role-based access (admin, doctor, receptionist, patient), real-time dashboards, appointment scheduling, patient records, and an AI diagnostic assistant powered by LLMs.",
+      "MedFlow is a comprehensive healthcare SaaS platform built to close the digital transformation gap in Tunisia's private sector. It replaces paper-based records, phone bookings, and manual billing with a secure, real-time, AI-assisted system — serving 5 distinct roles across multiple clinics from a single platform.",
     details: [
-      "Built responsive portals for all user roles using Next.js 14 + Tailwind + shadcn/ui",
-      "Implemented RBAC authentication with Auth.js and secure session management",
-      "Developed real-time communication via WebSocket for notifications and updates",
-      "Integrated AI diagnostic assistant using LLM for symptom analysis and triage suggestions",
-      "Deployed on Vercel with CI/CD pipeline",
+      "Architected multi-tenant SaaS with complete data isolation across clinics and 5 RBAC roles (Admin, Clinic Manager, Receptionist, Doctor, Patient)",
+      "Built real-time appointment engine with WebSockets — instant sync, drag-and-drop calendar, and live notifications across all interfaces",
+      "Integrated Stripe for online payments alongside automated PDF invoice and prescription generation",
+      "Developed AI chat interface for diagnostic suggestions and intelligent health recommendations for doctors",
+      "Deployed on Amazon EKS with Docker & Kubernetes, Redis caching, and scalable microservices architecture",
     ],
     technologies: [
-      "Next.js 14", "Tailwind", "shadcn/ui", "Django", "PostgreSQL", "Zod", "Auth.js", "Vercel", "WebSocket",
+      "Next.js 15", "React 19", "TypeScript", "TailwindCSS v4",
+      "Django 5", "Django REST Framework", "PostgreSQL", "Redis",
+      "WebSockets", "Stripe", "Docker", "Kubernetes", "Amazon EKS", "JWT",
     ],
     github: "",
+    githubFrontend: "https://github.com/Nourhene123/MedFlow-frontend",
+    githubBackend: "https://github.com/Nourhene123/MedFlow-Backend",
+    video: "/video/medflow_demo.mp4",
     liveDemo: "",
-    problem: "Medical clinics struggle with fragmented patient management systems and lack AI-assisted triage capabilities, leading to inefficient workflows and longer patient wait times.",
+    problem: "Tunisia's private clinics rely on paper records, phone-only bookings, and cash payments — fragmented workflows that slow care delivery and limit growth.",
     impact: [
-      "Reduced patient wait times by 40% through AI-assisted triage",
-      "Streamlined clinic operations with unified role-based platform",
-      "Improved patient satisfaction with real-time updates",
+      "40% improvement in administrative efficiency through automated clinical workflows",
+      "End-to-end digitalization: from patient booking to AI-assisted diagnosis and digital prescriptions",
+      "Scalable multi-clinic architecture supporting concurrent growth across healthcare providers",
     ],
     category: "AI/ML",
     color: "#8C4555",
@@ -103,6 +111,8 @@ export const projects: Project[] = [
       ".NET", "Angular", "SQL Server", "Ollama", "GitLab", "NLP", "CI/CD",
     ],
     github: "",
+    githubFrontend: "https://github.com/Nourhene123/HrAutomation_Frontend",
+    githubBackend: "https://github.com/Nourhene123/HR-Automation-backend-",
     problem: "HR departments spend excessive time manually processing CVs and tracking candidate applications, resulting in delayed hiring decisions and poor candidate experience.",
     impact: [
       "Reduced application processing time by 15%",
@@ -129,7 +139,7 @@ export const projects: Project[] = [
     technologies: [
       "Django", "Angular", "PostgreSQL", "Airflow", "RAG", "NLP", "ETL", "Vector DB",
     ],
-    github: "",
+    github: "https://github.com/Nourhene123/SmartRecruitAI",
     problem: "Recruiters spend 70% of their time manually screening CVs for job matches, missing qualified candidates due to keyword limitations in traditional ATS systems.",
     impact: [
       "Reduced manual screening time by 70%",
@@ -157,6 +167,8 @@ export const projects: Project[] = [
       "Spring Boot", "Angular", "MySQL", "GitLab", "JWT", "Chart.js", "REST API",
     ],
     github: "",
+    githubFrontend: "https://github.com/Nourhene123/frontend_djasskuwebsite",
+    githubBackend: "https://github.com/Nourhene123/backend_djasskuwebsite",
     problem: "Small businesses lack affordable e-commerce solutions with built-in analytics, forcing them to use multiple disconnected tools for sales and customer insights.",
     impact: [
       "Unified e-commerce and analytics in single platform",
@@ -183,7 +195,7 @@ export const projects: Project[] = [
     technologies: [
       "Symfony", "Twig", "MySQL", "GitLab", "Docker", "PHPUnit", "CI/CD", "Nginx",
     ],
-    github: "",
+    github: "https://github.com/Nourhene123/event_projet",
     problem: "Venues struggle with double bookings, manual confirmation processes, and lack of visibility into space utilization across multiple locations.",
     impact: [
       "Eliminated double bookings with real-time availability system",

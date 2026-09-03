@@ -220,21 +220,36 @@ const Project3DCard = ({
             </motion.div>
             
             <div className="flex gap-2">
-              {project.github && (
+              {(project.githubFrontend || project.github) && (
                 <motion.a
-                  href={project.github}
+                  href={project.githubFrontend || project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg transition-all duration-300"
-                  style={{ 
-                    backgroundColor: `${colors.text}10`,
-                    color: colors.text
-                  }}
+                  className="p-2 rounded-lg transition-all duration-300 flex items-center gap-1"
+                  style={{ backgroundColor: `${colors.text}10`, color: colors.text }}
                   onClick={(e) => e.stopPropagation()}
                   whileHover={{ scale: 1.1, backgroundColor: `${colors.text}20` }}
                   whileTap={{ scale: 0.95 }}
+                  title={project.githubFrontend ? "Frontend repo" : "GitHub"}
                 >
-                  <FaGithub className="w-5 h-5" />
+                  <FaGithub className="w-4 h-4" />
+                  {project.githubFrontend && <span className="text-xs font-medium">FE</span>}
+                </motion.a>
+              )}
+              {project.githubBackend && (
+                <motion.a
+                  href={project.githubBackend}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-lg transition-all duration-300 flex items-center gap-1"
+                  style={{ backgroundColor: `${colors.text}10`, color: colors.text }}
+                  onClick={(e) => e.stopPropagation()}
+                  whileHover={{ scale: 1.1, backgroundColor: `${colors.text}20` }}
+                  whileTap={{ scale: 0.95 }}
+                  title="Backend repo"
+                >
+                  <FaGithub className="w-4 h-4" />
+                  <span className="text-xs font-medium">BE</span>
                 </motion.a>
               )}
               {project.liveDemo && (
@@ -700,22 +715,32 @@ const Projects = () => {
                   </p>
                 </div>
 
-                <motion.div 
-                  className="aspect-video rounded-xl mb-6 flex items-center justify-center"
+                <motion.div
+                  className="aspect-video rounded-xl mb-6 overflow-hidden"
                   style={{
                     background: categoryColors[selectedProject.category].gradient,
+                    border: `1px solid ${categoryColors[selectedProject.category].border}`,
                   }}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.2 }}
                 >
-                  <div className="text-center text-white">
-                    <FaRocket className="w-16 h-16 mx-auto mb-3 opacity-80" />
-                    <p className="text-lg font-medium opacity-90">Project Demo Preview</p>
-                    <p className="text-sm mt-1 opacity-70">
-                      Interactive demo coming soon
-                    </p>
-                  </div>
+                  {selectedProject.video ? (
+                    <video
+                      src={selectedProject.video}
+                      controls
+                      className="w-full h-full object-cover"
+                      preload="metadata"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-white">
+                      <div className="text-center">
+                        <FaRocket className="w-16 h-16 mx-auto mb-3 opacity-80" />
+                        <p className="text-lg font-medium opacity-90">Project Demo Preview</p>
+                        <p className="text-sm mt-1 opacity-70">Interactive demo coming soon</p>
+                      </div>
+                    </div>
+                  )}
                 </motion.div>
 
                 <div className="space-y-4 mb-6">
@@ -835,19 +860,55 @@ const Projects = () => {
                   </div>
                 </motion.div>
 
-                <motion.div 
-                  className="flex gap-4"
+                <motion.div
+                  className="flex flex-wrap gap-3"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7 }}
                 >
-                  {selectedProject.github && (
+                  {selectedProject.githubFrontend && (
+                    <motion.a
+                      href={selectedProject.githubFrontend}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-lg transition-all duration-300"
+                      style={{
+                        backgroundColor: categoryColors[selectedProject.category].bg,
+                        color: categoryColors[selectedProject.category].text,
+                        border: `1px solid ${categoryColors[selectedProject.category].border}`
+                      }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <FaGithub className="w-5 h-5" />
+                      Frontend
+                    </motion.a>
+                  )}
+                  {selectedProject.githubBackend && (
+                    <motion.a
+                      href={selectedProject.githubBackend}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-lg transition-all duration-300"
+                      style={{
+                        backgroundColor: categoryColors[selectedProject.category].bg,
+                        color: categoryColors[selectedProject.category].text,
+                        border: `1px solid ${categoryColors[selectedProject.category].border}`
+                      }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <FaGithub className="w-5 h-5" />
+                      Backend
+                    </motion.a>
+                  )}
+                  {!selectedProject.githubFrontend && selectedProject.github && (
                     <motion.a
                       href={selectedProject.github}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 px-5 py-2.5 rounded-lg transition-all duration-300"
-                      style={{ 
+                      style={{
                         backgroundColor: categoryColors[selectedProject.category].bg,
                         color: categoryColors[selectedProject.category].text,
                         border: `1px solid ${categoryColors[selectedProject.category].border}`

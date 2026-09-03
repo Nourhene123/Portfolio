@@ -114,7 +114,7 @@ const Contact = () => {
                   Contact Information
                 </h3>
                 <p className="mb-4 text-sm" style={{ color: "#65635a" }}>
-                  Available for full-stack AI internships starting January 2026. Open to remote, hybrid, or on-site opportunities.
+                  Available for Junior roles ·Open to remote, hybrid, or on-site opportunities.
                 </p>
                 
                 <div className="space-y-3">

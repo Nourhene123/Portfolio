@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaBriefcase, FaCalendarAlt, FaCode, FaRocket } from "react-icons/fa";
+import { FaBriefcase, FaCalendarAlt, FaCode} from "react-icons/fa";
 
 interface StatItemProps {
   icon: React.ReactNode;
@@ -69,14 +69,14 @@ export const CareerStats = () => {
   const stats = [
     {
       icon: <FaBriefcase size={24} />,
-      value: "4",
-      label: "Companies",
+      value: "3",
+      label: "Internships",
       color: "#8C4555",
       delay: 0.1
     },
     {
       icon: <FaCalendarAlt size={24} />,
-      value: "15+",
+      value: "12+",
       label: "Months Experience",
       color: "#B58169",
       delay: 0.2
@@ -88,17 +88,11 @@ export const CareerStats = () => {
       color: "#8C4555",
       delay: 0.3
     },
-    {
-      icon: <FaRocket size={24} />,
-      value: "10+",
-      label: "Projects Delivered",
-      color: "#B58169",
-      delay: 0.4
-    }
+    
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-16">
       {stats.map((stat, index) => (
         <StatItem key={index} {...stat} />
       ))}

@@ -84,7 +84,7 @@ const Skills = () => {
               style={{ background: "linear-gradient(90deg, #8C4555, #B58169)" }}
             />
             <p className="text-lg max-w-2xl mx-auto" style={{ color: "#65635a" }}>
-              A dynamic ecosystem of technologies I work with, from AI/ML to cloud infrastructure.
+              From shipping LLM agents and RAG pipelines to full-stack production systems — these are the tools I build with.
             </p>
           </div>
         </SectionReveal>

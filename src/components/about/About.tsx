@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { FaDownload, FaCode, FaBrain, FaUsers, FaRocket, FaQuoteLeft } from "react-icons/fa";
+import {FaCode, FaBrain, FaUsers, FaRocket, FaQuoteLeft, FaArrowRight } from "react-icons/fa";
 import { BiLogoSpringBoot, BiLogoReact } from "react-icons/bi";
 import { SiPython, SiOpenai } from "react-icons/si";
 import profilePic from "../../assets/images/profilePic.png";
@@ -29,17 +29,17 @@ const About = () => {
   };
   const stats = [
     { number: 12, suffix: "+", label: "Projects Completed", icon: FaRocket },
-    { number: 90, suffix: "+", label: "AIESEC Attendees", icon: FaUsers },
-    { number: 20, suffix: "", label: "Team Members Led", icon: FaBrain },
+    { number: 3, suffix: "", label: "Internships", icon: FaCode },
+    { number: 20, suffix: "", label: "Team Members Led", icon: FaUsers },
   ];
 
   const traits = [
-    { text: "Problem Solver", color: "#8C4555", icon: FaBrain },
-    { text: "Team Leader", color: "#B58169", icon: FaUsers },
-    { text: "AI-Driven", color: "#8C4555", icon: SiOpenai },
-    { text: "Communicator", color: "#B58169", icon: FaRocket },
-    { text: "Full-Stack", color: "#8C4555", icon: BiLogoReact },
-    { text: "Creative", color: "#B58169", icon: FaCode },
+    { text: "Multi agents systems", color: "#8C4555", icon: SiOpenai },
+    { text: "Full-Stack (Nextjs· Nestjs · FastApi)", color: "#B58169", icon: BiLogoReact },
+    { text: "Team Lead · 20 members", color: "#8C4555", icon: FaUsers },
+    { text: "Microservices & DevOps", color: "#B58169", icon: BiLogoSpringBoot },
+    { text: "Fast Learner", color: "#8C4555", icon: FaBrain },
+    { text: "Impact-Focused Builder", color: "#B58169", icon: FaRocket },
   ];
 
   const techStack = [
@@ -218,7 +218,7 @@ const About = () => {
               />
             </div>
 
-            <div className="space-y-4 mb-8">
+         <div className="space-y-4 mb-8">
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -226,9 +226,9 @@ const About = () => {
                 className="text-lg leading-relaxed"
                 style={{ color: "#65635a" }}
               >
-                Hey, I'm <strong style={{ color: "#8C4555" }}>Nourhene</strong> — a full-stack & AI engineer who codes, dreams,
-                and turns ideas into real-world impact. Currently in my 5th year at TEK-UP, I build
-                smart, user-centered systems.
+                Hey, I'm <strong style={{ color: "#8C4555" }}>Nourhene</strong> — a Junior Full-Stack & AI Developer,
+                building AI-powered systems that solve real problems for real people, from the database to the
+                deployment pipeline.
               </motion.p>
 
               <motion.p
@@ -238,8 +238,11 @@ const About = () => {
                 className="text-lg leading-relaxed"
                 style={{ color: "#65635a" }}
               >
-                I love when code solves real problems: guiding a teacher through a dashboard,
-                helping a doctor with an AI assistant, or matching the perfect CV to a job.
+                I care about the moment code meets a user's life — guiding a teacher through a dashboard,
+                helping a doctor with an AI assistant, matching the perfect CV to a job, or orchestrating a
+                multi-agent system that adapts a learner's roadmap in real time. That's the kind of impact I
+                build toward. And I care just as much about what's underneath: microservices that scale,
+                pipelines that ship safely, infrastructure that just works.
               </motion.p>
 
               <motion.p
@@ -249,8 +252,11 @@ const About = () => {
                 className="text-lg leading-relaxed"
                 style={{ color: "#65635a" }}
               >
-                As <strong style={{ color: "#8C4555" }}>Vice President of AIESEC Bizerte</strong>, I led a team of 20,
-                increased international volunteer participation, and ran a 90+ attendee conference.
+                My goal is to join a team where I can ship production AI features, grow fast,
+                and contribute to systems that genuinely matter — while continuing to bridge
+                the gap between{" "}
+                <strong style={{ color: "#8C4555" }}>LLM capabilities</strong> and{" "}
+                <strong style={{ color: "#B58169" }}>real-world product value</strong>.
               </motion.p>
             </div>
 
@@ -320,27 +326,44 @@ const About = () => {
               ))}
             </motion.div>
 
-            <motion.a
-              href="#contact"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 1.2 }}
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-full font-semibold text-white shadow-lg"
-              style={{
-                background: "linear-gradient(135deg, #8C4555, #B58169)",
-              }}
-            >
-              <FaDownload className="w-5 h-5" />
-              <span>Let's Connect</span>
-              <motion.span
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
+            <div className="flex flex-wrap gap-3">
+              <motion.a
+                href="#projects"
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 1.2 }}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-full font-semibold text-white shadow-lg"
+                style={{ background: "linear-gradient(135deg, #8C4555, #B58169)" }}
               >
-                →
-              </motion.span>
-            </motion.a>
+                <FaRocket className="w-5 h-5" />
+                <span>See My Work</span>
+                <motion.span
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <FaArrowRight className="w-4 h-4" />
+                </motion.span>
+              </motion.a>
+
+              <motion.a
+                href="#contact"
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 1.3 }}
+                whileHover={{ scale: 1.05, y: -2, backgroundColor: "rgba(140, 69, 85, 0.08)" }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-full font-semibold"
+                style={{
+                  border: "2px solid #8C4555",
+                  color: "#8C4555",
+                  background: "transparent",
+                }}
+              >
+                <span>Let's Talk</span>
+              </motion.a>
+            </div>
           </motion.div>
         </div>
       </div>
