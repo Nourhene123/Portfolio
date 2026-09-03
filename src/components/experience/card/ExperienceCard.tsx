@@ -9,6 +9,7 @@ import {
   FaBrain,
   FaSchool,
   FaRocket,
+  FaFilePowerpoint,
 } from "react-icons/fa";
 import type { ExperienceEntry } from "../Data";
 
@@ -240,6 +241,25 @@ export const ExperienceCard = memo(
                 )}
               </div>
             </motion.div>
+
+            {/* Presentation link — always visible */}
+            {exp.presentationUrl && (
+              <a
+                href={exp.presentationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-lg text-sm font-medium transition-transform hover:scale-105"
+                style={{
+                  backgroundColor: `${exp.color}12`,
+                  color: exp.color,
+                  border: `1px solid ${exp.color}30`,
+                }}
+              >
+                <FaFilePowerpoint className="w-4 h-4" />
+                View Presentation
+              </a>
+            )}
 
             {/* Tech tags — always visible */}
             <div className="flex flex-wrap gap-2 mt-4 pt-4" style={{ borderTop: `1px solid ${exp.color}12` }}>

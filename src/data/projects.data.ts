@@ -12,6 +12,7 @@ export interface Project {
   githubBackend?: string;
   video?: string;
   liveDemo?: string;
+  presentation?: string;
   problem: string;
   impact: string[];
   images?: string[];
@@ -113,6 +114,7 @@ export const projects: Project[] = [
     github: "",
     githubFrontend: "https://github.com/Nourhene123/HrAutomation_Frontend",
     githubBackend: "https://github.com/Nourhene123/HR-Automation-backend-",
+    presentation: "https://canva.link/90scqbmcihe7t8o",
     problem: "HR departments spend excessive time manually processing CVs and tracking candidate applications, resulting in delayed hiring decisions and poor candidate experience.",
     impact: [
       "Reduced application processing time by 15%",
@@ -140,6 +142,7 @@ export const projects: Project[] = [
       "Django", "Angular", "PostgreSQL", "Airflow", "RAG", "NLP", "ETL", "Vector DB",
     ],
     github: "https://github.com/Nourhene123/SmartRecruitAI",
+    presentation: "https://canva.link/q33ltiwn6oytned",
     problem: "Recruiters spend 70% of their time manually screening CVs for job matches, missing qualified candidates due to keyword limitations in traditional ATS systems.",
     impact: [
       "Reduced manual screening time by 70%",
@@ -150,62 +153,8 @@ export const projects: Project[] = [
     color: "#8C4555",
     year: "2024"
   },
-  {
-    id: "4",
-    title: "E-commerce Analytics",
-    short: "Full-stack online store with real-time product and user analytics dashboard.",
-    description:
-      "A Spring Boot + Angular e-commerce platform with secure authentication, shopping cart, payment integration, and a powerful admin dashboard displaying real-time analytics on products, users, and traffic.",
-    details: [
-      "Built full authentication system with JWT and role-based access",
-      "Implemented shopping cart, wishlist, and secure checkout flow",
-      "Developed real-time analytics engine tracking views, clicks, and conversions",
-      "Created interactive admin dashboard with charts and filters",
-      "Optimized database queries for high-traffic performance",
-    ],
-    technologies: [
-      "Spring Boot", "Angular", "MySQL", "GitLab", "JWT", "Chart.js", "REST API",
-    ],
-    github: "",
-    githubFrontend: "https://github.com/Nourhene123/frontend_djasskuwebsite",
-    githubBackend: "https://github.com/Nourhene123/backend_djasskuwebsite",
-    problem: "Small businesses lack affordable e-commerce solutions with built-in analytics, forcing them to use multiple disconnected tools for sales and customer insights.",
-    impact: [
-      "Unified e-commerce and analytics in single platform",
-      "Enabled data-driven inventory decisions",
-      "Reduced operational costs by eliminating third-party analytics tools",
-    ],
-    category: "Full-Stack",
-    color: "#4A90A4",
-    year: "2024"
-  },
-  {
-    id: "5",
-    title: "Event Booking System",
-    short: "Full-cycle event and space reservation platform with secure booking and CI/CD.",
-    description:
-      "A secure and intuitive event management system allowing users to browse, book, and manage events and spaces. Includes full testing suite, Docker containerization, and automated deployment.",
-    details: [
-      "Designed full-cycle event and space reservation workflow with availability calendar",
-      "Implemented secure and intuitive booking system with confirmation emails",
-      "Wrote comprehensive unit, functional, and integration tests for reliability",
-      "Containerized application with Docker for consistent environments",
-      "Set up CI/CD pipeline with GitLab for automated testing and deployment",
-    ],
-    technologies: [
-      "Symfony", "Twig", "MySQL", "GitLab", "Docker", "PHPUnit", "CI/CD", "Nginx",
-    ],
-    github: "https://github.com/Nourhene123/event_projet",
-    problem: "Venues struggle with double bookings, manual confirmation processes, and lack of visibility into space utilization across multiple locations.",
-    impact: [
-      "Eliminated double bookings with real-time availability system",
-      "Reduced booking confirmation time by 90%",
-      "Improved space utilization visibility by 60%",
-    ],
-    category: "DevOps",
-    color: "#B58169",
-    year: "2023"
-  },
+  
+ 
 ];
 
 export const getCategories = (projectList: Project[]): (ProjectCategory | "All")[] => {

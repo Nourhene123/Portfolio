@@ -468,23 +468,23 @@ const Volunteer3DCard = memo(({
             </motion.div>
           </div>
 
-          <h3 
-            className="text-lg font-bold mb-1 transition-colors duration-300"
+          <h3
+            className="text-lg font-bold mb-1 transition-colors duration-300 sm:min-h-[3.5rem]"
             style={{ color: "#2C2A35" }}
           >
             {exp.title}
           </h3>
-          <motion.p 
+          <motion.p
             className="text-sm font-medium mb-3 flex items-center gap-2"
             style={{ color: exp.color }}
             whileHover={{ x: 2 }}
           >
-            <FaHandsHelping className="w-3 h-3" />
+            <FaHandsHelping className="w-3 h-3 flex-shrink-0" />
             {exp.organization}
           </motion.p>
 
-          <p 
-            className="text-sm mb-4 flex-grow"
+          <p
+            className="text-sm mb-4 sm:min-h-[2.75rem]"
             style={{ color: "#65635a" }}
           >
             {exp.short}

@@ -12,7 +12,8 @@ import {
   FaBrain,
   FaFilter,
   FaTimes,
-  FaCalendarAlt
+  FaCalendarAlt,
+  FaFilePowerpoint
 } from "react-icons/fa";
 import { projects, categoryColors, type Project, type ProjectCategory } from "../../data/projects.data";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
@@ -732,6 +733,19 @@ const Projects = () => {
                       className="w-full h-full object-cover"
                       preload="metadata"
                     />
+                  ) : selectedProject.presentation ? (
+                    <a
+                      href={selectedProject.presentation}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full h-full flex items-center justify-center text-white transition-transform duration-300 hover:scale-[1.02]"
+                    >
+                      <div className="text-center">
+                        <FaFilePowerpoint className="w-16 h-16 mx-auto mb-3 opacity-90" />
+                        <p className="text-lg font-medium opacity-95">View Presentation &amp; Demo</p>
+                        <p className="text-sm mt-1 opacity-75">Full project walkthrough on Canva</p>
+                      </div>
+                    </a>
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-white">
                       <div className="text-center">
@@ -935,6 +949,24 @@ const Projects = () => {
                     >
                       <FaExternalLinkAlt className="w-5 h-5" />
                       Live Demo
+                    </motion.a>
+                  )}
+                  {selectedProject.presentation && (
+                    <motion.a
+                      href={selectedProject.presentation}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-lg transition-all duration-300"
+                      style={{
+                        backgroundColor: categoryColors[selectedProject.category].bg,
+                        color: categoryColors[selectedProject.category].text,
+                        border: `1px solid ${categoryColors[selectedProject.category].border}`
+                      }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <FaFilePowerpoint className="w-5 h-5" />
+                      Presentation &amp; Demo
                     </motion.a>
                   )}
                 </motion.div>

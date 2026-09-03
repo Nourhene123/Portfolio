@@ -15,6 +15,7 @@ export interface ExperienceEntry {
   tools: string[];
   color: string;
   icon: string;
+  presentationUrl?: string;
 }
 
 export const EXPERIENCES: ExperienceEntry[] = [
@@ -91,6 +92,7 @@ export const EXPERIENCES: ExperienceEntry[] = [
   ],
   color: "#8C4555",
   icon: "brain",
+  presentationUrl: "https://canva.link/yk8x95mcx3ooofc",
 },
  {
   role: "Software Engineering Intern",

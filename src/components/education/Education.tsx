@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, memo } from "react";
+import { useRef, useCallback, memo } from "react";
 import { motion, useMotionValue, useSpring, useTransform} from "framer-motion";
 import { 
   FaGraduationCap, 
@@ -357,8 +357,6 @@ const Education3DCard = memo(({
 Education3DCard.displayName = "Education3DCard";
 
 const Education = () => {
-  const [hoveredCert, setHoveredCert] = useState<string | null>(null);
-
   const education: EducationItem[] = [
     {
       id: "1",
@@ -373,23 +371,23 @@ const Education = () => {
         "Completed end-of-study project with industry partner",
         "Active member of university tech community",
       ],
-      gpa: "In Progress",
+      gpa: "Graduated",
       color: "#8C4555",
       icon: FaUniversity,
     },
     {
       id: "2",
-      degree: "Professional Master's in Data Science",
+      degree: "Professional Master's in Data Science — First Year (M1)",
       school: "Faculté des Sciences de Bizerte",
       location: "Bizerte, Tunisia",
       period: "2023 – 2024",
       description:
-        "Advanced studies in data science, machine learning, and statistical analysis.",
+        "Completed the first year (M1) of a Professional Master's, covering data science foundations, machine learning, and statistical analysis.",
       achievements: [
-        "Specialized in ML and data analysis",
+        "Completed M1 coursework in ML and data analysis",
         "Research projects in AI applications",
       ],
-      gpa: "In Progress",
+      gpa: "M1 Completed",
       color: "#4A90A4",
       icon: FaUniversity,
     },
@@ -560,70 +558,7 @@ const Education = () => {
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="text-center"
-        >
-          <motion.h3 
-            className="text-2xl font-bold mb-8"
-            style={{ color: "#2C2A35" }}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            Professional Certifications
-          </motion.h3>
-          <div className="flex flex-wrap justify-center gap-4">
-            {certifications.map((cert, idx) => (
-              <motion.div
-                key={cert.id}
-                initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4 + idx * 0.1, type: "spring", stiffness: 200 }}
-                onMouseEnter={() => setHoveredCert(cert.id)}
-                onMouseLeave={() => setHoveredCert(null)}
-                className="relative group cursor-pointer"
-              >
-                <motion.div
-                  whileHover={{ scale: 1.05, y: -3 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex items-center gap-3 px-6 py-3 rounded-full transition-all duration-300"
-                  style={{
-                    backgroundColor: hoveredCert === cert.id ? cert.color : `${cert.color}10`,
-                    border: `1px solid ${hoveredCert === cert.id ? cert.color : `${cert.color}30`}`,
-                    boxShadow: hoveredCert === cert.id ? `0 8px 25px ${cert.color}40` : `0 4px 15px ${cert.color}20`
-                  }}
-                >
-                  <motion.div
-                    animate={{ rotate: hoveredCert === cert.id ? [0, -10, 10, 0] : 0 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <FaCertificate 
-                      className="w-5 h-5 transition-colors duration-300" 
-                      style={{ color: hoveredCert === cert.id ? "#ffffff" : cert.color }} 
-                    />
-                  </motion.div>
-                  <span 
-                    className="font-semibold text-sm transition-colors duration-300"
-                    style={{ color: hoveredCert === cert.id ? "#ffffff" : "#2C2A35" }}
-                  >
-                    {cert.name}
-                  </span>
-                  <span 
-                    className="text-xs transition-colors duration-300"
-                    style={{ color: hoveredCert === cert.id ? "rgba(255,255,255,0.8)" : "#65635a" }}
-                  >
-                    • {cert.issuer} • {cert.date}
-                  </span>
-                </motion.div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+       
       </div>
     </section>
   );
