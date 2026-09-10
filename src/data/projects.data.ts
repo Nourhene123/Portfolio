@@ -16,7 +16,21 @@ export interface Project {
   problem: string;
   impact: string[];
   images?: string[];
+  /** Optional ML fine-tuning spec — rendered as a dedicated panel in the project modal. */
+  modelTraining?: {
+    /** Base checkpoint that was fine-tuned. */
+    baseModel: string;
+    /** Training data, in one short phrase. */
+    dataset: string;
+    /** Headline outcome (e.g. final loss / epochs). */
+    result: string;
+    /** Hyperparameters, each with an optional plain-language note. */
+    params: { label: string; value: string; note?: string }[];
+  };
+  /** Primary category — drives the card/modal color theme. Keep it as categories[0]. */
   category: ProjectCategory;
+  /** All areas this project covers. First entry is the primary (see `category`). */
+  categories: ProjectCategory[];
   color: string;
   year: string;
 }
@@ -91,7 +105,8 @@ export const projects: Project[] = [
       "End-to-end digitalization: from patient booking to AI-assisted diagnosis and digital prescriptions",
       "Scalable multi-clinic architecture supporting concurrent growth across healthcare providers",
     ],
-    category: "AI/ML",
+    category: "Full-Stack",
+    categories: ["Full-Stack", "Cloud", "AI/ML"],
     color: "#8C4555",
     year: "2025"
   },
@@ -121,7 +136,8 @@ export const projects: Project[] = [
       "Automated 80% of CV screening with AI-powered parsing",
       "Improved candidate experience with real-time tracking",
     ],
-    category: "AI/ML",
+    category: "Full-Stack",
+    categories: ["Full-Stack", "AI/ML", "DevOps"],
     color: "#6B5B95",
     year: "2025"
   },
@@ -132,6 +148,7 @@ export const projects: Project[] = [
     description:
       "An AI-driven system that analyzes CVs and job offers using Retrieval-Augmented Generation (RAG), extracts competencies, scores candidates, and reduces manual screening effort.",
     details: [
+      "Fine-tuned a Sentence-Transformers bi-encoder (all-mpnet-base-v2) on 10k+ CV–job pairs with a cosine-similarity objective",
       "Designed ETL pipeline with Airflow to process CVs and job descriptions",
       "Implemented RAG architecture with Django backend and vector database",
       "Built NLP engine to extract skills, experience levels, and soft competencies",
@@ -139,17 +156,50 @@ export const projects: Project[] = [
       "Reduced manual screening time by 70% in internal testing",
     ],
     technologies: [
-      "Django", "Angular", "PostgreSQL", "Airflow", "RAG", "NLP", "ETL", "Vector DB",
+      "Sentence-Transformers", "PyTorch", "RAG", "NLP", "Django", "Angular", "PostgreSQL", "Airflow", "Vector DB", "ETL",
     ],
     github: "https://github.com/Nourhene123/SmartRecruitAI",
     presentation: "https://canva.link/q33ltiwn6oytned",
     problem: "Recruiters spend 70% of their time manually screening CVs for job matches, missing qualified candidates due to keyword limitations in traditional ATS systems.",
+    modelTraining: {
+      baseModel: "sentence-transformers/all-mpnet-base-v2",
+      dataset: "10,000+ labelled CV–job pairs (matching and non-matching)",
+      result: "Converged to a 0.018 cosine-similarity loss in just 2 epochs",
+      params: [
+        {
+          label: "Batch size",
+          value: "16",
+          note: "The largest batch my laptop could train without running out of memory.",
+        },
+        {
+          label: "Epochs",
+          value: "2",
+          note: "Two passes over the data — enough to converge without overfitting.",
+        },
+        {
+          label: "Optimizer",
+          value: "AdamW",
+          note: "Adam with decoupled weight decay — a safe default for fine-tuning transformers.",
+        },
+        {
+          label: "Learning rate",
+          value: "2e-5",
+          note: "Small steps so the model adapts to our recruitment data gently, without forgetting what it already knew — which is why the loss dropped so fast.",
+        },
+        {
+          label: "Loss",
+          value: "CosineSimilarityLoss",
+          note: "Regresses cosine similarity toward 1.0 for matching pairs and 0.0 for non-matching ones — simple, stable, and a perfect fit for the supervised contrastive objective.",
+        },
+      ],
+    },
     impact: [
       "Reduced manual screening time by 70%",
       "Increased candidate-job match accuracy by 45%",
       "Identified qualified candidates missed by keyword-based systems",
     ],
     category: "AI/ML",
+    categories: ["AI/ML", "Full-Stack", "DevOps"],
     color: "#8C4555",
     year: "2024"
   },
@@ -158,5 +208,5 @@ export const projects: Project[] = [
 ];
 
 export const getCategories = (projectList: Project[]): (ProjectCategory | "All")[] => {
-  return ["All", ...new Set(projectList.map(p => p.category))];
+  return ["All", ...new Set(projectList.flatMap(p => p.categories))];
 };

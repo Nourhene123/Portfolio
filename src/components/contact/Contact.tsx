@@ -55,16 +55,10 @@ const Contact = () => {
   };
 
   return (
-    <section 
-      id="contact" 
+    <section
+      id="contact"
       className="py-16 px-6 relative overflow-hidden"
-      style={{ backgroundColor: "#f5f4f2" }}
     >
-      <div className="absolute top-0 left-0 w-96 h-96 rounded-full opacity-10" 
-        style={{ background: "radial-gradient(circle, #B58169 0%, transparent 70%)" }} />
-      <div className="absolute bottom-0 right-0 w-80 h-80 rounded-full opacity-10" 
-        style={{ background: "radial-gradient(circle, #8C4555 0%, transparent 70%)" }} />
-
       <div className="max-w-5xl mx-auto relative z-10">
         <SectionReveal>
           <div className="text-center mb-12">

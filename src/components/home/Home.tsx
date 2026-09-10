@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import profilePic from "../../assets/images/profilePic.png";
-import cv from "../../assets/pdf/NourheneFerchichi_CV.pdf";
+import cv from "../../assets/pdf/Ferchichi-Nourhene-Cv.pdf";
 import { HiDownload } from "react-icons/hi";
 import { IoLogoGithub } from "react-icons/io";
 import {
@@ -12,7 +12,6 @@ import {
 } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { RiSendPlaneFill } from "react-icons/ri";
-import ParticleBackground from "../shared/ParticleBackground";
 import { useTyping } from "../../hooks/useTyping";
 import "./Home.css";
 
@@ -40,7 +39,7 @@ const DotGrid = ({ className, rows = 5, cols = 5 }: { className?: string; rows?:
 const Home = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const { displayed: roleText, isTyping: isTypingRole } = useTyping("Junior Full-Stack & AI Developer", { speed: 80, delay: 800 });
+  const { displayed: roleText, isTyping: isTypingRole } = useTyping("Junior Software & AI Engineer", { speed: 80, delay: 800 });
 
   return (
     <div
@@ -48,8 +47,6 @@ const Home = () => {
       id="home"
       className="home-container"
     >
-      <ParticleBackground />
-
       <div className="home-content">
         {/* LEFT — Text content */}
         <motion.div
@@ -65,7 +62,7 @@ const Home = () => {
           >
             <span className="home-welcome-badge">
               <FaHandPeace className="w-4 h-4" />
-              Welcome to my portfolio
+              Available for Software &amp; AI roles
             </span>
           </motion.div>
 
@@ -103,11 +100,10 @@ const Home = () => {
             className="home-bio"
           >
             Fresh graduate from{" "}
-            <span style={{ color: "#8C4555", fontWeight: 600 }}>TEK-UP University</span>{" "}
-            developing websites and{" "}
-            <span style={{ color: "#B58169", fontWeight: 600 }}>multi-agent AI systems</span>, working from{" "}
-            <span style={{ color: "#B58169", fontWeight: 600 }}>development to production</span> on{" "}
-            <span style={{ color: "#8C4555", fontWeight: 600 }}>AWS</span>.
+            <strong style={{ color: "#8C4555", fontWeight: 600 }}>TEK-UP University</strong>, building{" "}
+            <span style={{ color: "#B58169", fontWeight: 600 }}>multi-agent AI systems</span> and{" "}
+            <span style={{ color: "#B58169", fontWeight: 600 }}>agentic workflows</span> — from first commit
+            to production on <strong style={{ color: "#2C2A35", fontWeight: 600 }}>AWS</strong>.
           </motion.p>
 
           <motion.div
@@ -118,7 +114,7 @@ const Home = () => {
           >
             <motion.a
               href={cv}
-              download
+              download="Ferchichi-Nourhene-Cv.pdf"
               className="home-btn-primary"
               whileHover={{ scale: 1.03, y: -2, boxShadow: "0 10px 30px rgba(140, 69, 85, 0.3)" }}
               whileTap={{ scale: 0.98 }}
@@ -218,11 +214,6 @@ const Home = () => {
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.div
-              className="home-deco-circle home-deco-circle-2"
-              animate={{ scale: [1, 1.1, 1], opacity: [0.4, 0.7, 0.4] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            />
-            <motion.div
               className="home-deco-circle home-deco-circle-3"
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
@@ -266,18 +257,6 @@ const Home = () => {
                 className="home-profile-img"
                 loading="eager"
               />
-            </motion.div>
-
-            {/* Floating stat badge */}
-            <motion.div
-              className="home-float-badge"
-              initial={{ opacity: 0, y: 20, scale: 0.8 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ delay: 1.4, duration: 0.6, type: "spring" }}
-              whileHover={{ scale: 1.05, y: -4 }}
-            >
-              <div className="home-float-badge-dot" />
-              <span>Available for work</span>
             </motion.div>
           </div>
         </motion.div>

@@ -6,6 +6,7 @@ import Skeleton from "./tools/Skeleton";
 import ScrollToTopButton from "./tools/ScrollToTopButton";
 
 import Home from "./components/home/Home";
+import ParticleBackground from "./components/shared/ParticleBackground";
 
 const About = React.lazy(() => import("./components/about/About"));
 const Skills = React.lazy(() => import("./components/skills/Skills"));
@@ -55,30 +56,33 @@ function App() {
   }
 
   return (
-    <div
-      className={`transition-opacity duration-1000 ease-in-out ${
-        fadeIn ? "opacity-100" : "opacity-0"
-      } bg-gradient-to-b from-[#f5f4f2] via-[#ebe9e6] to-[#e2e0dc] min-h-screen text-[#2C2A35]`}
-    >
-      <NavBar />
-      <Home />
+    <>
+      <ParticleBackground />
+      <div
+        className={`transition-opacity duration-1000 ease-in-out ${
+          fadeIn ? "opacity-100" : "opacity-0"
+        } min-h-screen text-[#2C2A35]`}
+      >
+        <NavBar />
+        <Home />
 
-      <ErrorBoundary>
-        <Suspense fallback={<div className="h-96" />}>
-          <About />
-          <Skills />
-          <Experience />
-          <Projects />
-          <VolunteerExperience />
-          <Education />
-          <Contact />
-        </Suspense>
-      </ErrorBoundary>
+        <ErrorBoundary>
+          <Suspense fallback={<div className="h-96" />}>
+            <About />
+            <Skills />
+            <Experience />
+            <Projects />
+            <VolunteerExperience />
+            <Education />
+            <Contact />
+          </Suspense>
+        </ErrorBoundary>
 
-      <Footer />
-      <Analytics />
-      <ScrollToTopButton />
-    </div>
+        <Footer />
+        <Analytics />
+        <ScrollToTopButton />
+      </div>
+    </>
   );
 }
 

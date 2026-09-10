@@ -1,7 +1,7 @@
-import { BiLogoJava, BiLogoJavascript, BiLogoTypescript, BiLogoReact, BiLogoSpringBoot, BiLogoPostgresql, BiLogoDocker, BiLogoKubernetes, BiLogoGit, BiLogoAws } from "react-icons/bi";
+import { BiLogoJava, BiLogoJavascript, BiLogoTypescript, BiLogoSpringBoot, BiLogoPostgresql, BiLogoDocker, BiLogoKubernetes, BiLogoGit, BiLogoAws } from "react-icons/bi";
 import { IoLogoGithub } from "react-icons/io";
 import { SiMysql, SiNextdotjs, SiDjango, SiPython, SiGitlab, SiTensorflow, SiOpenai, SiGrafana, SiJenkins, SiPostman, SiNestjs, SiLangchain, SiFastapi } from "react-icons/si";
-import { FaAngular, FaBrain, FaCloud, FaCode, FaDatabase, FaServer, FaWrench } from "react-icons/fa";
+import { FaAngular, FaBrain, FaCloud, FaCode, FaDatabase, FaServer, FaWrench, FaMicrosoft, FaRobot } from "react-icons/fa";
 import { GrDocumentText } from "react-icons/gr";
 
 export interface Skill {
@@ -14,10 +14,13 @@ export interface Skill {
 
 export type SkillCategory = "all" | "languages" | "frontend" | "backend" | "database" | "ai" | "devops" | "tools";
 
-export interface CategoryDef {
-  id: SkillCategory;
+/** How skills are grouped into cards on the page (each skill shown once). */
+export interface SkillGroup {
   label: string;
   icon: React.ElementType;
+  /** Accent colour — tints the card background, border and icon. */
+  color: string;
+  categories: SkillCategory[];
 }
 
 export const skills: Skill[] = [
@@ -39,12 +42,15 @@ export const skills: Skill[] = [
   { name: "MySQL",        icon: SiMysql,           color: "#4479a1", level: 85, category: "database" },
   // AI & ML
   { name: "LLMs",         icon: SiOpenai,          color: "#10a37f", level: 85, category: "ai" },
+  { name: "AI Agents",    icon: FaRobot,           color: "#8C4555", level: 85, category: "ai" },
   { name: "RAG",          icon: GrDocumentText,    color: "#ff6b6b", level: 88, category: "ai" },
   { name: "LangChain",    icon: SiLangchain,       color: "#1C3C3C", level: 82, category: "ai" },
   { name: "LangGraph",    icon: FaBrain,           color: "#4a9eff", level: 80, category: "ai" },
+  { name: "NLP",          icon: GrDocumentText,    color: "#8b5cf6", level: 82, category: "ai" },
   { name: "TensorFlow",   icon: SiTensorflow,      color: "#FF6F00", level: 70, category: "ai" },
   // DevOps
   { name: "AWS",          icon: BiLogoAws,         color: "#ff9900", level: 85, category: "devops" },
+  { name: "Azure AI",     icon: FaMicrosoft,       color: "#0078d4", level: 75, category: "devops" },
   { name: "Docker",       icon: BiLogoDocker,      color: "#2496ed", level: 88, category: "devops" },
   { name: "Kubernetes",   icon: BiLogoKubernetes,  color: "#326ce5", level: 75, category: "devops" },
   { name: "CI/CD",        icon: SiJenkins,         color: "#D24939", level: 80, category: "devops" },
@@ -56,73 +62,12 @@ export const skills: Skill[] = [
   { name: "Postman",      icon: SiPostman,         color: "#FF6C37", level: 85, category: "tools" },
 ];
 
-export const categories: CategoryDef[] = [
-  { id: "all",       label: "All Skills", icon: FaCode         },
-  { id: "languages", label: "Languages",  icon: FaCode         },
-  { id: "frontend",  label: "Frontend",   icon: BiLogoReact    },
-  { id: "backend",   label: "Backend",    icon: FaServer       },
-  { id: "database",  label: "Database",   icon: FaDatabase     },
-  { id: "ai",        label: "AI & ML",    icon: FaBrain        },
-  { id: "devops",    label: "DevOps",     icon: FaCloud        },
-  { id: "tools",     label: "Tools",      icon: FaWrench       },
+export const skillGroups: SkillGroup[] = [
+  { label: "AI & ML",        icon: FaBrain,    color: "#8C4555", categories: ["ai"] },
+  { label: "Languages",      icon: FaCode,     color: "#B58169", categories: ["languages"] },
+  { label: "Web & Backend",  icon: FaServer,   color: "#4A90A4", categories: ["frontend", "backend"] },
+  { label: "Databases",      icon: FaDatabase, color: "#6B5B95", categories: ["database"] },
+  { label: "Cloud & DevOps", icon: FaCloud,    color: "#C67B3D", categories: ["devops"] },
+  { label: "Dev Tools",      icon: FaWrench,   color: "#5E8B7E", categories: ["tools"] },
 ];
 
-export interface FeaturedSkill {
-  name: string;
-  desc: string;
-  icon: React.ElementType;
-  color: string;
-  size: "large" | "medium" | "small";
-  gradient: string;
-}
-
-export const featuredSkills: FeaturedSkill[] = [
-  {
-    name: "AI & LLMs",
-    desc: "RAG, LangChain, LangGraph, NLP, AI Agents,React pattern ",
-    icon: FaBrain,
-    color: "#8C4555",
-    size: "large",
-    gradient: "from-[#8C4555] to-[#B58169]",
-  },
-  {
-    name: "Full-Stack",
-    desc: " Next.js, Angular, NestJS, Spring Boot, Django,FastApi",
-    icon: BiLogoReact,
-    color: "#61dafb",
-    size: "medium",
-    gradient: "from-[#61dafb] to-[#3178c6]",
-  },
-  {
-    name: "Cloud & DevOps",
-    desc: "AWS, Docker, Kubernetes, CI/CD,Azure",
-    icon: FaCloud,
-    color: "#ff9900",
-    size: "medium",
-    gradient: "from-[#ff9900] to-[#2496ed]",
-  },
-  {
-    name: "Python",
-    desc: "Django, ML Stack, Data Science",
-    icon: SiPython,
-    color: "#3776ab",
-    size: "small",
-    gradient: "from-[#3776ab] to-[#6db33f]",
-  },
-  {
-    name: "Java",
-    desc: "Spring Boot Ecosystem",
-    icon: BiLogoJava,
-    color: "#f89820",
-    size: "small",
-    gradient: "from-[#f89820] to-[#dd0031]",
-  },
-  {
-    name: "Databases",
-    desc: "PostgreSQL, MySQL",
-    icon: BiLogoPostgresql,
-    color: "#336791",
-    size: "medium",
-    gradient: "from-[#336791] to-[#47a248]",
-  },
-];

@@ -20,44 +20,10 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: linear-gradient(135deg, #f5f4f2 0%, #faf9f7 50%, #f5f4f2 100%);
+  /* Transparent — the site-wide <ParticleBackground /> (rendered once in App)
+     shows through. */
+  background: transparent;
   padding: 6rem 5% 4rem;
-}
-
-/* Animated Background Shapes */
-.home-container::before,
-.home-container::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.3;
-  animation: float-bg 15s ease-in-out infinite;
-}
-
-.home-container::before {
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(140, 69, 85, 0.15) 0%, transparent 70%);
-  top: -10%;
-  right: -5%;
-  animation-delay: 0s;
-}
-
-.home-container::after {
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(181, 129, 105, 0.12) 0%, transparent 70%);
-  bottom: -10%;
-  left: -5%;
-  animation-delay: -7s;
-}
-
-@keyframes float-bg {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(20px, -20px) scale(1.05); }
-  50% { transform: translate(-10px, 15px) scale(0.98); }
-  75% { transform: translate(15px, 5px) scale(1.02); }
 }
 
 /* Content Grid */
@@ -112,12 +78,12 @@
 .home-title-highlight::after {
   content: '';
   position: absolute;
-  bottom: 2px;
-  left: 0;
-  width: 100%;
-  height: 8px;
-  background: linear-gradient(90deg, rgba(140, 69, 85, 0.2), rgba(181, 129, 105, 0.2));
-  border-radius: 4px;
+  left: -0.06em;
+  right: -0.06em;
+  bottom: 0.06em;
+  height: 0.36em;
+  background: linear-gradient(90deg, rgba(140, 69, 85, 0.16), rgba(181, 129, 105, 0.18));
+  border-radius: 3px;
   z-index: -1;
 }
 
@@ -402,9 +368,12 @@
   height: 320px;
   border-radius: 50%;
   overflow: hidden;
-  border: 5px solid white;
-  box-shadow: 0 25px 60px -12px rgba(140, 69, 85, 0.25), 0 0 0 1px rgba(140, 69, 85, 0.08);
-  background: linear-gradient(135deg, #f5f0ed, #ebe5e0);
+  /* Thin gradient ring (#8C4555 -> #B58169) instead of a flat white border */
+  border: 4px solid transparent;
+  background:
+    linear-gradient(135deg, #f5f0ed, #ebe5e0) padding-box,
+    linear-gradient(135deg, #8C4555, #B58169) border-box;
+  box-shadow: 0 25px 60px -12px rgba(140, 69, 85, 0.28);
   flex-shrink: 0;
 }
 
@@ -449,14 +418,6 @@
   border: 3px solid rgba(140, 69, 85, 0.22);
   top: 20px;
   left: 20px;
-}
-
-.home-deco-circle-2 {
-  width: 22px;
-  height: 22px;
-  background: rgba(181, 129, 105, 0.28);
-  bottom: 50px;
-  right: 25px;
 }
 
 .home-deco-circle-3 {
@@ -523,39 +484,6 @@
   transform: translateX(-50%);
 }
 
-/* Floating "Available" badge */
-.home-float-badge {
-  position: absolute;
-  bottom: 55px;
-  right: 0px;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.55rem 1rem;
-  background: white;
-  border-radius: 2rem;
-  box-shadow: 0 8px 30px rgba(140, 69, 85, 0.15), 0 2px 6px rgba(0, 0, 0, 0.06);
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #2C2A35;
-  z-index: 20;
-  border: 1px solid rgba(140, 69, 85, 0.08);
-  white-space: nowrap;
-}
-
-.home-float-badge-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #22c55e;
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-
-@keyframes pulse-dot {
-  0%, 100% { box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2); }
-  50% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.1); }
-}
 .home-scroll {
   position: absolute;
   bottom: 2.5rem;
@@ -667,11 +595,6 @@
   .home-blob {
     width: 240px;
     height: 240px;
-  }
-
-  .home-float-badge {
-    right: 5px;
-    bottom: 40px;
   }
 }
 

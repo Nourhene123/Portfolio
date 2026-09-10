@@ -1,13 +1,7 @@
 .footer {
-     background: linear-gradient(
-        to bottom,  
-        #f5f4f2,
-        #ebe9e6,
-        #e2e0dc
-    );
+  background: transparent;
   width: 100%;
   padding: 1.5rem 2rem;
-  backdrop-filter: blur(10px);
   border-top: 1px solid rgba(133, 131, 118, 0.3);
 }
 

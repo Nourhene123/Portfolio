@@ -6,7 +6,6 @@ import {
   FaCalendar, 
   FaMapMarkerAlt, 
   FaAward, 
-  FaCertificate,
   FaBookOpen,
   FaStar,
   FaMedal,
@@ -27,15 +26,9 @@ interface EducationItem {
   icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
 }
 
-interface Certification {
-  id: string;
-  name: string;
-  issuer: string;
-  date: string;
-  color: string;
-}
 
-const EducationStats = ({ education, certifications }: { education: EducationItem[]; certifications: Certification[] }) => {
+
+const EducationStats = ({ education }: { education: EducationItem[] }) => {
   const yearsOfStudy = "5+";
   const totalAchievements = education.reduce((acc, edu) => acc + edu.achievements.length, 0);
   
@@ -46,12 +39,7 @@ const EducationStats = ({ education, certifications }: { education: EducationIte
       label: "Degrees",
       color: "#8C4555"
     },
-    { 
-      icon: <FaCertificate size={20} />, 
-      value: certifications.length.toString(), 
-      label: "Certifications",
-      color: "#4A90A4"
-    },
+   
     { 
       icon: <FaClock size={20} />, 
       value: yearsOfStudy, 
@@ -67,7 +55,7 @@ const EducationStats = ({ education, certifications }: { education: EducationIte
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12 max-w-3xl mx-auto">
       {stats.map((stat, idx) => (
         <motion.div
           key={stat.label}
@@ -125,36 +113,6 @@ const EducationStats = ({ education, certifications }: { education: EducationIte
   );
 };
 
-const FloatingParticles = () => {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {Array.from({ length: 12 }).map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-2 h-2 rounded-full"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            background: i % 3 === 0 ? "#8C4555" : i % 3 === 1 ? "#B58169" : "#4A90A4",
-            filter: "blur(1px)",
-          }}
-          animate={{
-            y: [0, -40, 0],
-            x: [0, Math.random() * 20 - 10, 0],
-            opacity: [0, 0.5, 0],
-            scale: [1, 1.3, 1],
-          }}
-          transition={{
-            duration: Math.random() * 8 + 8,
-            repeat: Infinity,
-            delay: Math.random() * 4,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </div>
-  );
-};
 
 const Education3DCard = memo(({
   edu,
@@ -214,8 +172,8 @@ const Education3DCard = memo(({
       <motion.article
         whileHover={{ y: -6, scale: 1.01 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="group relative rounded-2xl overflow-hidden h-full"
-        style={{ 
+        className="group relative rounded-2xl overflow-hidden h-full flex flex-col"
+        style={{
           backgroundColor: "rgba(255, 255, 255, 0.95)",
           border: `1px solid ${edu.color}25`,
           boxShadow: `0 4px 20px ${edu.color}10, 0 1px 3px rgba(0,0,0,0.05)`,
@@ -246,7 +204,7 @@ const Education3DCard = memo(({
           }}
         />
 
-        <div className="relative z-10 p-6 md:p-8 pt-8">
+        <div className="relative z-10 p-6 md:p-8 pt-8 flex flex-col flex-1">
           <div className="flex items-start gap-4 mb-6">
             <motion.div 
               className="w-16 h-16 rounded-xl flex items-center justify-center"
@@ -305,13 +263,13 @@ const Education3DCard = memo(({
             </motion.span>
           </div>
 
-          <p className="mb-4 leading-relaxed" style={{ color: "#65635a" }}>
+          <p className="mb-4 leading-relaxed flex-grow" style={{ color: "#65635a" }}>
             {edu.description}
           </p>
 
-          <motion.div 
-            className="rounded-xl p-4 mb-4"
-            style={{ 
+          <motion.div
+            className="rounded-xl p-4"
+            style={{
               backgroundColor: `${edu.color}06`,
               border: `1px solid ${edu.color}15`
             }}
@@ -365,9 +323,9 @@ const Education = () => {
       location: "Tunis, Tunisia",
       period: "2024 – 2026",
       description:
-        "Engineering program specializing in software development, information systems, and full-stack technologies.",
+        "Engineering program specializing in software development, information systems, and distributed architectures.",
       achievements: [
-        "Specialized in AI/ML and full-stack development",
+        "Specialized in AI/ML and software engineering",
         "Completed end-of-study project with industry partner",
         "Active member of university tech community",
       ],
@@ -378,7 +336,7 @@ const Education = () => {
     {
       id: "2",
       degree: "Professional Master's in Data Science — First Year (M1)",
-      school: "Faculté des Sciences de Bizerte",
+      school: "Faculty of Sciences of Bizerte",
       location: "Bizerte, Tunisia",
       period: "2023 – 2024",
       description:
@@ -394,7 +352,7 @@ const Education = () => {
     {
       id: "3",
       degree: "Bachelor's in Software Engineering and Information Systems",
-      school: "Faculté des Sciences de Bizerte",
+      school: "Faculty of Sciences of Bizerte",
       location: "Bizerte, Tunisia",
       period: "2020 – 2023",
       description:
@@ -410,7 +368,7 @@ const Education = () => {
     {
       id: "4",
       degree: "High School Diploma in Experimental Sciences",
-      school: "Lycée Mixte de Menzel Bourguiba",
+      school: "Menzel Bourguiba High School",
       location: "Menzel Bourguiba, Tunisia",
       period: "2019 – 2020",
       description:
@@ -425,51 +383,12 @@ const Education = () => {
     },
   ];
 
-  const certifications: Certification[] = [
-    {
-      id: "1",
-      name: "AWS Cloud Practitioner",
-      issuer: "Amazon Web Services",
-      date: "2024",
-      color: "#8C4555",
-    },
-    {
-      id: "2",
-      name: "Oracle Certified Associate",
-      issuer: "Oracle",
-      date: "2024",
-      color: "#4A90A4",
-    },
-  ];
 
   return (
-    <section 
-      id="education" 
+    <section
+      id="education"
       className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
-      style={{ backgroundColor: "#f5f4f2" }}
     >
-      <FloatingParticles />
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div 
-          className="absolute -top-40 -right-40 w-96 h-96 rounded-full opacity-20"
-          style={{ background: "radial-gradient(circle, #8C4555 0%, transparent 70%)" }}
-          animate={{ scale: [1, 1.2, 1], x: [0, 30, 0], y: [0, -20, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div 
-          className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-15"
-          style={{ background: "radial-gradient(circle, #B58169 0%, transparent 70%)" }}
-          animate={{ scale: [1, 1.3, 1], x: [0, -20, 0], y: [0, 30, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        />
-        <motion.div 
-          className="absolute top-1/3 left-1/4 w-64 h-64 rounded-full opacity-10"
-          style={{ background: "radial-gradient(circle, #4A90A4 0%, transparent 70%)" }}
-          animate={{ scale: [1, 1.15, 1] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        />
-      </div>
-
       <div className="max-w-7xl mx-auto relative z-10">
         
         <motion.div
@@ -504,12 +423,12 @@ const Education = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            Education &{" "}
-            <span 
+            My{" "}
+            <span
               className="relative inline-block"
               style={{ color: "#8C4555" }}
             >
-              Certifications
+              Education
               <motion.svg
                 className="absolute -bottom-2 left-0 w-full"
                 viewBox="0 0 200 12"
@@ -546,7 +465,7 @@ const Education = () => {
           </motion.p>
         </motion.div>
 
-        <EducationStats education={education} certifications={certifications} />
+        <EducationStats education={education} />
 
         <div className="grid md:grid-cols-2 gap-6 mb-16">
           {education.map((edu, idx) => (

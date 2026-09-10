@@ -1,140 +1,113 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
-interface Particle {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
+/**
+ * The single background for the whole site. Rendered once in <App /> as a
+ * position:fixed layer behind every section, so the page scrolls over one
+ * continuous, seamless background — a warm base, a few slow-drifting colour
+ * orbs, and sparse floating dots.
+ *
+ * Every section is transparent; this is the only background.
+ */
+
+type Orb = {
+  color: string;
+  size: string;
+  style: React.CSSProperties;
+  drift: { x: number[]; y: number[] };
   duration: number;
-  delay: number;
-}
+};
+
+const ORBS: Orb[] = [
+  {
+    color: "rgba(140, 69, 85, 0.08)",
+    size: "clamp(320px, 44vw, 620px)",
+    style: { top: "-12%", left: "-10%" },
+    drift: { x: [0, 60, -30, 0], y: [0, -40, 30, 0] },
+    duration: 34,
+  },
+  {
+    color: "rgba(181, 129, 105, 0.07)",
+    size: "clamp(300px, 40vw, 560px)",
+    style: { top: "30%", right: "-14%" },
+    drift: { x: [0, -50, 24, 0], y: [0, 36, -20, 0] },
+    duration: 40,
+  },
+  {
+    color: "rgba(168, 90, 107, 0.055)",
+    size: "clamp(260px, 36vw, 480px)",
+    style: { bottom: "-14%", left: "18%" },
+    drift: { x: [0, 40, -40, 0], y: [0, -28, 16, 0] },
+    duration: 46,
+  },
+];
+
+/** Sparse floating dots, spread across the viewport. */
+const DOTS = [
+  { left: "8%", top: "18%", size: 4, delay: 0 },
+  { left: "82%", top: "12%", size: 3, delay: 2.5 },
+  { left: "24%", top: "68%", size: 5, delay: 1.2 },
+  { left: "68%", top: "78%", size: 3, delay: 3.4 },
+  { left: "48%", top: "34%", size: 3, delay: 4.1 },
+  { left: "92%", top: "54%", size: 4, delay: 1.8 },
+  { left: "14%", top: "44%", size: 3, delay: 5 },
+];
 
 const ParticleBackground = () => {
-  const [particles, setParticles] = useState<Particle[]>([]);
-
-  useEffect(() => {
-    const generateParticles = () => {
-      const newParticles: Particle[] = [];
-      for (let i = 0; i < 30; i++) {
-        newParticles.push({
-          id: i,
-          x: Math.random() * 100,
-          y: Math.random() * 100,
-          size: Math.random() * 3 + 1,
-          duration: Math.random() * 20 + 10,
-          delay: Math.random() * 5,
-        });
-      }
-      setParticles(newParticles);
-    };
-
-    generateParticles();
-  }, []);
+  const reduce = useReducedMotion();
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <motion.div
-        animate={{
-          x: [0, 100, 0],
-          y: [0, -50, 0],
-          scale: [1, 1.2, 1],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="absolute top-1/4 left-1/4 w-96 h-96 bg-bordeaux-600/20 rounded-full blur-3xl"
-      />
-      <motion.div
-        animate={{
-          x: [0, -100, 0],
-          y: [0, 50, 0],
-          scale: [1, 1.3, 1],
-        }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-pink-600/10 rounded-full blur-3xl"
-      />
-
-      {particles.map((particle) => (
+    <div
+      className="fixed inset-0 overflow-hidden pointer-events-none"
+      style={{ zIndex: -1, backgroundColor: "#f5f4f2" }}
+      aria-hidden="true"
+    >
+      {/* Drifting colour orbs */}
+      {ORBS.map((orb, i) => (
         <motion.div
-          key={particle.id}
-          className="absolute rounded-full bg-bordeaux-400/20"
+          key={i}
+          className="absolute rounded-full"
           style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            width: particle.size,
-            height: particle.size,
+            width: orb.size,
+            height: orb.size,
+            background: `radial-gradient(circle at 35% 35%, ${orb.color} 0%, transparent 70%)`,
+            filter: "blur(72px)",
+            ...orb.style,
           }}
-          animate={{
-            y: [-20, -100, -20],
-            opacity: [0, 1, 0],
-            scale: [0.5, 1, 0.5],
+          animate={
+            reduce
+              ? undefined
+              : { x: orb.drift.x, y: orb.drift.y, scale: [1, 1.06, 0.97, 1] }
+          }
+          transition={{ duration: orb.duration, repeat: Infinity, ease: "easeInOut" }}
+        />
+      ))}
+
+      {/* Sparse floating dots */}
+      {DOTS.map((dot, i) => (
+        <motion.span
+          key={`d${i}`}
+          className="absolute rounded-full"
+          style={{
+            left: dot.left,
+            top: dot.top,
+            width: dot.size,
+            height: dot.size,
+            backgroundColor: "rgba(140, 69, 85, 0.16)",
           }}
+          animate={
+            reduce
+              ? { opacity: 0.35 }
+              : { y: [0, -22, 0], opacity: [0.12, 0.4, 0.12] }
+          }
           transition={{
-            duration: particle.duration,
+            duration: 9 + i * 1.5,
             repeat: Infinity,
-            delay: particle.delay,
+            delay: dot.delay,
             ease: "easeInOut",
           }}
         />
       ))}
-
-      <svg className="absolute inset-0 w-full h-full opacity-10">
-        <defs>
-          <pattern
-            id="grid"
-            width="60"
-            height="60"
-            patternUnits="userSpaceOnUse"
-          >
-            <path
-              d="M 60 0 L 0 0 0 60"
-              fill="none"
-              stroke="rgba(203, 213, 225, 0.4)"
-              strokeWidth="0.5"
-            />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" />
-      </svg>
-
-      <motion.div
-        animate={{
-          rotate: 360,
-        }}
-        transition={{
-          duration: 60,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] opacity-10"
-      >
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-3 h-3 bg-bordeaux-400 rounded-full"
-            style={{
-              top: `${50 + 40 * Math.sin((i * Math.PI) / 3)}%`,
-              left: `${50 + 40 * Math.cos((i * Math.PI) / 3)}%`,
-            }}
-            animate={{
-              scale: [1, 1.5, 1],
-              opacity: [0.5, 1, 0.5],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              delay: i * 0.3,
-            }}
-          />
-        ))}
-      </motion.div>
     </div>
   );
 };

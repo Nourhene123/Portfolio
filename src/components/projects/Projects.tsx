@@ -37,15 +37,15 @@ const ProjectStats = ({ projects }: { projects: Project[] }) => {
       label: "Technologies",
       color: "#4A90A4"
     },
-    { 
-      icon: <FaBrain size={20} />, 
-      value: projects.filter(p => p.category === "AI/ML").length.toString(), 
+    {
+      icon: <FaBrain size={20} />,
+      value: projects.filter(p => p.categories.includes("AI/ML")).length.toString(),
       label: "AI Projects",
       color: "#6B5B95"
     },
-    { 
-      icon: <FaLayerGroup size={20} />, 
-      value: categoryOrder.length.toString(), 
+    {
+      icon: <FaLayerGroup size={20} />,
+      value: new Set(projects.flatMap(p => p.categories)).size.toString(),
       label: "Categories",
       color: "#B58169"
     }
@@ -167,28 +167,12 @@ const Project3DCard = ({
           transformStyle: "preserve-3d",
         }}
       >
-        <div 
+        <div
           className="absolute top-0 left-0 right-0 h-1.5 transition-all duration-300 group-hover:h-2"
-          style={{ background: colors.gradient }} 
+          style={{ background: colors.gradient }}
         />
-        <div className="absolute top-3 right-3 z-20">
-          <motion.span
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="px-3 py-1 text-xs font-semibold rounded-full"
-            style={{
-              backgroundColor: colors.bg,
-              color: colors.text,
-              border: `1px solid ${colors.border}`
-            }}
-          >
-            {project.category}
-          </motion.span>
-        </div>
 
-        <div 
+        <div
           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
           style={{
             background: `radial-gradient(circle at 50% 0%, ${colors.text}15 0%, transparent 70%)`
@@ -273,14 +257,33 @@ const Project3DCard = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center gap-2 mb-2">
             <FaCalendarAlt className="w-3 h-3" style={{ color: "#65635a" }} />
             <span className="text-xs font-medium" style={{ color: "#65635a" }}>
               {project.year}
             </span>
           </div>
 
-          <h3 
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {project.categories.map((cat) => {
+              const c = categoryColors[cat];
+              return (
+                <span
+                  key={cat}
+                  className="px-2 py-0.5 text-[0.65rem] font-semibold rounded-full"
+                  style={{
+                    backgroundColor: c.bg,
+                    color: c.text,
+                    border: `1px solid ${c.border}`,
+                  }}
+                >
+                  {cat}
+                </span>
+              );
+            })}
+          </div>
+
+          <h3
             className="text-xl font-bold mb-2 transition-colors duration-300"
             style={{ color: "#2C2A35" }}
           >
@@ -299,24 +302,24 @@ const Project3DCard = ({
             {project.description.slice(0, 120)}...
           </p>
 
-          <motion.div 
-            className="rounded-lg p-3 mb-4"
-            style={{ 
+          <motion.div
+            className="rounded-lg p-3 mb-4 flex items-center min-h-[3.75rem]"
+            style={{
               backgroundColor: colors.bg,
               border: `1px solid ${colors.border}`
             }}
             whileHover={{ scale: 1.02 }}
           >
-            <p 
-              className="text-xs font-medium flex items-center gap-2"
+            <p
+              className="text-xs font-medium flex items-start gap-2"
               style={{ color: colors.text }}
             >
-              <FaChartLine className="w-3 h-3" />
+              <FaChartLine className="w-3 h-3 mt-0.5 shrink-0" />
               {project.impact[0]}
             </p>
           </motion.div>
 
-          <div className="flex flex-wrap gap-2 mt-auto">
+          <div className="flex flex-wrap gap-2 mt-auto content-start min-h-[4rem]">
             {project.technologies.slice(0, 4).map((t, idx) => (
               <motion.span
                 key={idx}
@@ -377,49 +380,6 @@ const Project3DCard = ({
 
 Project3DCard.displayName = "Project3DCard";
 
-const ProjectsFloatingParticles = () => {
-  const prefersReducedMotion = useReducedMotion();
-  const particles = useMemo(() =>
-    Array.from({ length: 15 }, (_, i) => ({
-      id: i,
-      x: `${(i * 47) % 100}%`,
-      y: `${(i * 67) % 100}%`,
-      color: i % 3 === 0 ? "#8C4555" : i % 3 === 1 ? "#B58169" : "#4A90A4",
-      duration: 10 + (i % 10),
-      delay: (i % 5) * 0.5,
-      xOffset: i % 2 === 0 ? 15 : -15,
-    })),
-  []);
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((p) => (
-        <motion.div
-          key={p.id}
-          className="absolute w-2 h-2 rounded-full"
-          style={{
-            left: p.x,
-            top: p.y,
-            background: p.color,
-            filter: "blur(1px)",
-          }}
-          animate={prefersReducedMotion ? {} : {
-            y: [0, -50, 0],
-            x: [0, p.xOffset, 0],
-            opacity: [0, 0.6, 0],
-            scale: [1, 1.5, 1],
-          }}
-          transition={{
-            duration: p.duration,
-            repeat: Infinity,
-            delay: p.delay,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </div>
-  );
-};
 
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -440,41 +400,21 @@ const Projects = () => {
     };
   }, [selectedProject, closeModal]);
 
-  const categories = useMemo(() => ["All", ...new Set(projects.map(p => p.category))], []);
-  
-  const filteredProjects = activeFilter === "All" 
-    ? projects 
-    : projects.filter(p => p.category === activeFilter);
+  const categories = useMemo<(ProjectCategory | "All")[]>(
+    () => ["All", ...categoryOrder.filter(c => projects.some(p => p.categories.includes(c)))],
+    []
+  );
+
+  const filteredProjects = activeFilter === "All"
+    ? projects
+    : projects.filter(p => p.categories.includes(activeFilter as ProjectCategory));
 
   return (
     <>
-      <section 
-        id="projects" 
+      <section
+        id="projects"
         className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
-        style={{ backgroundColor: "#f5f4f2" }}
       >
-        <ProjectsFloatingParticles />
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.div 
-            className="absolute -top-40 -right-40 w-96 h-96 rounded-full opacity-20"
-            style={{ background: "radial-gradient(circle, #B58169 0%, transparent 70%)" }}
-            animate={{ scale: [1, 1.2, 1], x: [0, 30, 0], y: [0, -20, 0] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div 
-            className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-15"
-            style={{ background: "radial-gradient(circle, #8C4555 0%, transparent 70%)" }}
-            animate={{ scale: [1, 1.3, 1], x: [0, -20, 0], y: [0, 30, 0] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          />
-          <motion.div 
-            className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full opacity-10"
-            style={{ background: "radial-gradient(circle, #4A90A4 0%, transparent 70%)" }}
-            animate={{ scale: [1, 1.15, 1] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          />
-        </div>
-
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -546,7 +486,7 @@ const Projects = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.4, duration: 0.5 }}
             >
-              Full-stack applications showcasing AI integration, modern architectures, 
+              Production applications showcasing AI integration, modern architectures,
               and measurable business impact.
             </motion.p>
           </motion.div>
@@ -590,7 +530,7 @@ const Projects = () => {
                         color: activeFilter === category ? "#ffffff" : colors.text
                       }}
                     >
-                      {projects.filter(p => p.category === category).length}
+                      {projects.filter(p => p.categories.includes(category as ProjectCategory)).length}
                     </span>
                   )}
                 </motion.button>
@@ -598,7 +538,6 @@ const Projects = () => {
             })}
           </motion.div>
 
-          {/* Projects Grid */}
           <motion.div 
             layout
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
@@ -688,17 +627,20 @@ const Projects = () => {
 
               <div className="p-8 pt-10">
                 <div className="mb-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span
-                      className="px-3 py-1 text-xs font-semibold rounded-full"
-                      style={{
-                        backgroundColor: categoryColors[selectedProject.category].bg,
-                        color: categoryColors[selectedProject.category].text,
-                        border: `1px solid ${categoryColors[selectedProject.category].border}`
-                      }}
-                    >
-                      {selectedProject.category}
-                    </span>
+                  <div className="flex items-center flex-wrap gap-2 mb-3">
+                    {selectedProject.categories.map((cat) => (
+                      <span
+                        key={cat}
+                        className="px-3 py-1 text-xs font-semibold rounded-full"
+                        style={{
+                          backgroundColor: categoryColors[cat].bg,
+                          color: categoryColors[cat].text,
+                          border: `1px solid ${categoryColors[cat].border}`
+                        }}
+                      >
+                        {cat}
+                      </span>
+                    ))}
                     <span className="text-sm flex items-center gap-1" style={{ color: "#65635a" }}>
                       <FaCalendarAlt className="w-3 h-3" />
                       {selectedProject.year}
@@ -811,9 +753,76 @@ const Projects = () => {
                     </ul>
                   </motion.div>
 
-                  <motion.div 
+                  {selectedProject.modelTraining && (
+                    <motion.div
+                      className="rounded-xl p-4"
+                      style={{
+                        backgroundColor: "rgba(107, 91, 149, 0.05)",
+                        border: "1px solid rgba(107, 91, 149, 0.18)"
+                      }}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.45 }}
+                    >
+                      <div className="flex items-center gap-2 mb-1">
+                        <FaBrain className="w-5 h-5" style={{ color: "#6B5B95" }} />
+                        <h3 className="font-semibold" style={{ color: "#2C2A35" }}>Model Fine-Tuning</h3>
+                      </div>
+                      <p className="text-sm mb-4" style={{ color: "#65635a" }}>
+                        <span className="font-medium" style={{ color: "#2C2A35" }}>
+                          {selectedProject.modelTraining.baseModel}
+                        </span>
+                        {" — fine-tuned on "}
+                        {selectedProject.modelTraining.dataset}
+                      </p>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                        {selectedProject.modelTraining.params.map((param, idx, arr) => (
+                          <motion.div
+                            key={param.label}
+                            className={`rounded-lg p-3 ${
+                              idx === arr.length - 1 && arr.length % 2 === 1 ? "sm:col-span-2" : ""
+                            }`}
+                            style={{ backgroundColor: "#ffffff", border: "1px solid rgba(107, 91, 149, 0.14)" }}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5 + idx * 0.05 }}
+                          >
+                            <div className="flex items-baseline justify-between gap-2">
+                              <span
+                                className="text-[0.7rem] font-semibold uppercase tracking-wide"
+                                style={{ color: "#6B5B95" }}
+                              >
+                                {param.label}
+                              </span>
+                              <span className="text-sm font-bold" style={{ color: "#2C2A35" }}>
+                                {param.value}
+                              </span>
+                            </div>
+                            {param.note && (
+                              <p className="text-xs mt-1 leading-relaxed" style={{ color: "#65635a" }}>
+                                {param.note}
+                              </p>
+                            )}
+                          </motion.div>
+                        ))}
+                      </div>
+
+                      <div
+                        className="rounded-lg px-3 py-2 flex items-center gap-2"
+                        style={{ backgroundColor: "rgba(107, 91, 149, 0.12)" }}
+                      >
+                        <FaChartLine className="w-4 h-4 flex-shrink-0" style={{ color: "#6B5B95" }} />
+                        <span className="text-sm font-semibold" style={{ color: "#2C2A35" }}>
+                          {selectedProject.modelTraining.result}
+                        </span>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  <motion.div
                     className="rounded-xl p-4"
-                    style={{ 
+                    style={{
                       backgroundColor: categoryColors[selectedProject.category].bg,
                       border: `1px solid ${categoryColors[selectedProject.category].border}`
                     }}

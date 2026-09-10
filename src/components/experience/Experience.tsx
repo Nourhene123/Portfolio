@@ -13,7 +13,6 @@ const Experience = () => {
     <section
       id="experience"
       className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
-      style={{ backgroundColor: "#f5f4f2" }}
     >
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Section header */}
@@ -47,7 +46,7 @@ const Experience = () => {
           />
 
           <p className="text-lg max-w-xl mx-auto" style={{ color: "#65635a" }}>
-            3 internships across AI, full-stack, and enterprise platforms — each one shipping real features to real users.
+            3 internships across AI, web, and enterprise platforms — each one shipping real features to real users.
           </p>
         </motion.div>
 

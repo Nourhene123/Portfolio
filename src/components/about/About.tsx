@@ -28,18 +28,18 @@ const About = () => {
     );
   };
   const stats = [
-    { number: 12, suffix: "+", label: "Projects Completed", icon: FaRocket },
+    { number: 6, suffix: "+", label: "Projects Completed", icon: FaRocket },
     { number: 3, suffix: "", label: "Internships", icon: FaCode },
     { number: 20, suffix: "", label: "Team Members Led", icon: FaUsers },
   ];
 
   const traits = [
-    { text: "Multi agents systems", color: "#8C4555", icon: SiOpenai },
-    { text: "Full-Stack (Nextjs· Nestjs · FastApi)", color: "#B58169", icon: BiLogoReact },
+    { text: "Multi-Agent Systems", color: "#8C4555", icon: SiOpenai },
+    { text: "Web Apps (Next.js · Nest.js · FastAPI)", color: "#B58169", icon: BiLogoReact },
     { text: "Team Lead · 20 members", color: "#8C4555", icon: FaUsers },
     { text: "Microservices & DevOps", color: "#B58169", icon: BiLogoSpringBoot },
-    { text: "Fast Learner", color: "#8C4555", icon: FaBrain },
-    { text: "Impact-Focused Builder", color: "#B58169", icon: FaRocket },
+    { text: "Leads with Empathy", color: "#8C4555", icon: FaBrain },
+    { text: "Relentless on Goals", color: "#B58169", icon: FaRocket },
   ];
 
   const techStack = [
@@ -54,43 +54,7 @@ const About = () => {
       ref={sectionRef}
       id="about"
       className="py-24 px-6 relative overflow-hidden"
-      style={{ backgroundColor: "#f5f4f2" }}
     >
-      <div className="absolute inset-0 opacity-30">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `linear-gradient(rgba(140, 69, 85, 0.1) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(140, 69, 85, 0.1) 1px, transparent 1px)`,
-            backgroundSize: "60px 60px",
-          }}
-        />
-      </div>
-
-      {[0, 1, 2, 3, 4].map((i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full blur-3xl"
-          style={{
-            width: 200 + i * 50,
-            height: 200 + i * 50,
-            background: i % 2 === 0 ? "rgba(140, 69, 85, 0.15)" : "rgba(181, 129, 105, 0.15)",
-            left: `${15 + i * 20}%`,
-            top: `${20 + i * 15}%`,
-          }}
-          animate={prefersReducedMotion ? {} : {
-            y: [0, -40, 0],
-            x: [0, 20, 0],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 8 + i * 2,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
       
@@ -154,12 +118,12 @@ const About = () => {
                   }}
                 />
 
-                <div className="relative w-72 h-72 md:w-96 md:h-96 rounded-3xl overflow-hidden shadow-2xl">
+                <div className="relative w-72 h-80 sm:w-80 sm:h-[26rem] md:w-96 md:h-[30rem] lg:w-[27rem] lg:h-[36rem] xl:w-[30rem] xl:h-[42rem] rounded-3xl overflow-hidden shadow-2xl">
                   <img
                     src={profilePic}
                     alt="Nourhene Ferchichi"
                     loading="lazy"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#8C4555]/20 to-transparent" />
                 </div>
@@ -226,9 +190,11 @@ const About = () => {
                 className="text-lg leading-relaxed"
                 style={{ color: "#65635a" }}
               >
-                Hey, I'm <strong style={{ color: "#8C4555" }}>Nourhene</strong> — a Junior Full-Stack & AI Developer,
-                building AI-powered systems that solve real problems for real people, from the database to the
-                deployment pipeline.
+                Hey, I'm <strong style={{ color: "#8C4555" }}>Nourhene</strong> — a Junior Software & AI Engineer
+                who takes an AI feature from a rough idea to running in production, on my own: the agent logic,
+                the backend, the interface, and the pipeline that ships it. For a startup that's{" "}
+                <strong style={{ color: "#B58169" }}>one hire who closes the loop</strong>; for a bigger team,
+                someone who fills the gaps between people.
               </motion.p>
 
               <motion.p
@@ -238,11 +204,10 @@ const About = () => {
                 className="text-lg leading-relaxed"
                 style={{ color: "#65635a" }}
               >
-                I care about the moment code meets a user's life — guiding a teacher through a dashboard,
-                helping a doctor with an AI assistant, matching the perfect CV to a job, or orchestrating a
-                multi-agent system that adapts a learner's roadmap in real time. That's the kind of impact I
-                build toward. And I care just as much about what's underneath: microservices that scale,
-                pipelines that ship safely, infrastructure that just works.
+                What I deliver: <strong style={{ color: "#8C4555" }}>multi-agent systems and RAG pipelines</strong>{" "}
+                that hold up with real users, full-stack apps (Next.js, NestJS, Spring Boot), and the AWS around
+                them — EKS, Docker, CI/CD, monitoring. I've shipped this to production, not just to a demo, and I
+                move fast without needing much hand-holding.
               </motion.p>
 
               <motion.p
@@ -252,11 +217,13 @@ const About = () => {
                 className="text-lg leading-relaxed"
                 style={{ color: "#65635a" }}
               >
-                My goal is to join a team where I can ship production AI features, grow fast,
-                and contribute to systems that genuinely matter — while continuing to bridge
-                the gap between{" "}
-                <strong style={{ color: "#8C4555" }}>LLM capabilities</strong> and{" "}
-                <strong style={{ color: "#B58169" }}>real-world product value</strong>.
+                And I bring real <strong style={{ color: "#B58169" }}>energy</strong> to a team. I lead with{" "}
+                <strong style={{ color: "#8C4555" }}>empathy</strong> as much as logic — I listen, I read what
+                people actually need, and I lift teammates up when they're stuck. I thrive across different
+                backgrounds and cultures, and once I commit to a goal I'll work{" "}
+                <strong style={{ color: "#8C4555" }}>night after night</strong> until it's done right. In an era
+                where AI writes the code, that mix — ownership, drive, and knowing how to work with people — is
+                what I'd want on my own team.
               </motion.p>
             </div>
 

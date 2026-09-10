@@ -16,6 +16,8 @@ export interface ExperienceEntry {
   color: string;
   icon: string;
   presentationUrl?: string;
+  /** Internship completion certificate (attestation de stage) — PDF or image in /public/certificates. */
+  attestationUrl?: string;
 }
 
 export const EXPERIENCES: ExperienceEntry[] = [
@@ -23,7 +25,7 @@ export const EXPERIENCES: ExperienceEntry[] = [
   role: "Software Engineering Intern – AI & FullStack",
   company: "Smartovate | سمارتوفيت",
   logo: "/logos/smartovate.png",
-  period: "Jan 2026 - Juin 2026 · 6 mos",
+  period: "Jan 2026 – June 2026 · 6 mos",
   location: "Remote",
   bullets: [
     "Subul — AI-Powered Learning Platform, an intelligent education platform that uses AI agents to generate personalized certification roadmaps (IoT, Cloud, AI, Cybersecurity) tailored to each learner's level, pace, and goals, built on a comprehensive, scalable microservices architecture.",
@@ -93,6 +95,7 @@ export const EXPERIENCES: ExperienceEntry[] = [
   color: "#8C4555",
   icon: "brain",
   presentationUrl: "https://canva.link/yk8x95mcx3ooofc",
+  attestationUrl: "/certificates/smartovate-attestation.pdf",
 },
  {
   role: "Software Engineering Intern",
@@ -134,7 +137,7 @@ export const EXPERIENCES: ExperienceEntry[] = [
   period: "February 2023 – June 2023 · 6 mos",
   location: "Tunis, Bizerte · On-site",
   bullets: [
-    "Shared Workspace Reservation Platform — a full-stack booking system built with React, NestJS, and PostgreSQL, handling 500+ bookings with real-time availability and secure payments.",
+    "Shared Workspace Reservation Platform — an end-to-end booking system built with React, NestJS, and PostgreSQL, handling 500+ bookings with real-time availability and secure payments.",
   ],
   sections: [
     {

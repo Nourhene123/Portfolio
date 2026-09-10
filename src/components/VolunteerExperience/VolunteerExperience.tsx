@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, memo, useMemo } from "react";
+import { useState, useRef, useCallback, memo } from "react";
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import {
   FaCalendarAlt,
@@ -126,48 +126,6 @@ const VolunteerStats = ({ experiences }: { experiences: VolunteerExperience[] })
 };
 
 
-const FloatingParticles = memo(() => {
-  const particles = useMemo(() => 
-    Array.from({ length: 12 }).map((_, i) => ({
-      id: i,
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      color: i % 3 === 0 ? "#8C4555" : i % 3 === 1 ? "#B58169" : "#4A90A4",
-      duration: Math.random() * 8 + 8,
-      delay: Math.random() * 4,
-      xOffset: Math.random() * 20 - 10,
-    })),
-  []);
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((p) => (
-        <motion.div
-          key={p.id}
-          className="absolute w-2 h-2 rounded-full"
-          style={{
-            left: p.left,
-            top: p.top,
-            background: p.color,
-            filter: "blur(1px)",
-          }}
-          animate={{
-            y: [0, -40, 0],
-            x: [0, p.xOffset, 0],
-            opacity: [0, 0.5, 0],
-            scale: [1, 1.3, 1],
-          }}
-          transition={{
-            duration: p.duration,
-            repeat: Infinity,
-            delay: p.delay,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </div>
-  );
-});
 
 const isVideo = (path: string) => /\.(mp4|webm|mov|avi)$/i.test(path);
 
@@ -874,34 +832,10 @@ const VolunteerExperience = () => {
   const toggleExpand = (id: string) => setExpanded(expanded === id ? null : id);
 
   return (
-    <section 
-      id="volunteering" 
+    <section
+      id="volunteering"
       className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
-      style={{ backgroundColor: "#f5f4f2" }}
     >
-      <FloatingParticles />
-
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div 
-          className="absolute -top-40 -left-40 w-96 h-96 rounded-full opacity-20"
-          style={{ background: "radial-gradient(circle, #B58169 0%, transparent 70%)" }}
-          animate={{ scale: [1, 1.2, 1], x: [0, 20, 0], y: [0, -20, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div 
-          className="absolute -bottom-40 -right-40 w-80 h-80 rounded-full opacity-15"
-          style={{ background: "radial-gradient(circle, #8C4555 0%, transparent 70%)" }}
-          animate={{ scale: [1, 1.3, 1], x: [0, -20, 0], y: [0, 30, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        />
-        <motion.div 
-          className="absolute top-1/2 left-1/4 w-64 h-64 rounded-full opacity-10"
-          style={{ background: "radial-gradient(circle, #4A90A4 0%, transparent 70%)" }}
-          animate={{ scale: [1, 1.15, 1] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        />
-      </div>
-
       <div className="max-w-7xl mx-auto relative z-10">
        
         <motion.div

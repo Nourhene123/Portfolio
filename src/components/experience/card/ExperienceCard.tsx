@@ -10,6 +10,7 @@ import {
   FaSchool,
   FaRocket,
   FaFilePowerpoint,
+  FaCertificate,
 } from "react-icons/fa";
 import type { ExperienceEntry } from "../Data";
 
@@ -242,23 +243,44 @@ export const ExperienceCard = memo(
               </div>
             </motion.div>
 
-            {/* Presentation link — always visible */}
-            {exp.presentationUrl && (
-              <a
-                href={exp.presentationUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-lg text-sm font-medium transition-transform hover:scale-105"
-                style={{
-                  backgroundColor: `${exp.color}12`,
-                  color: exp.color,
-                  border: `1px solid ${exp.color}30`,
-                }}
-              >
-                <FaFilePowerpoint className="w-4 h-4" />
-                View Presentation
-              </a>
+            {/* Presentation & attestation links — always visible */}
+            {(exp.presentationUrl || exp.attestationUrl) && (
+              <div className="flex flex-wrap gap-3 mt-4">
+                {exp.presentationUrl && (
+                  <a
+                    href={exp.presentationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-transform hover:scale-105"
+                    style={{
+                      backgroundColor: `${exp.color}12`,
+                      color: exp.color,
+                      border: `1px solid ${exp.color}30`,
+                    }}
+                  >
+                    <FaFilePowerpoint className="w-4 h-4" />
+                    View Presentation
+                  </a>
+                )}
+                {exp.attestationUrl && (
+                  <a
+                    href={exp.attestationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-transform hover:scale-105"
+                    style={{
+                      backgroundColor: `${exp.color}12`,
+                      color: exp.color,
+                      border: `1px solid ${exp.color}30`,
+                    }}
+                  >
+                    <FaCertificate className="w-4 h-4" />
+                    Internship Certificate
+                  </a>
+                )}
+              </div>
             )}
 
             {/* Tech tags — always visible */}
