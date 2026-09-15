@@ -1,14 +1,7 @@
 import { motion } from "framer-motion";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
-/**
- * The single background for the whole site. Rendered once in <App /> as a
- * position:fixed layer behind every section, so the page scrolls over one
- * continuous, seamless background — a warm base, a few slow-drifting colour
- * orbs, and sparse floating dots.
- *
- * Every section is transparent; this is the only background.
- */
+
 
 type Orb = {
   color: string;
@@ -42,7 +35,6 @@ const ORBS: Orb[] = [
   },
 ];
 
-/** Sparse floating dots, spread across the viewport. */
 const DOTS = [
   { left: "8%", top: "18%", size: 4, delay: 0 },
   { left: "82%", top: "12%", size: 3, delay: 2.5 },
@@ -62,7 +54,7 @@ const ParticleBackground = () => {
       style={{ zIndex: -1, backgroundColor: "#f5f4f2" }}
       aria-hidden="true"
     >
-      {/* Drifting colour orbs */}
+   
       {ORBS.map((orb, i) => (
         <motion.div
           key={i}

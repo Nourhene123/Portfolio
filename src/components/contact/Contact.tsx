@@ -7,6 +7,14 @@ import { FaPaperPlane, FaCheckCircle, FaSpinner } from "react-icons/fa";
 import emailjs from "emailjs-com";
 import SectionReveal from "../shared/SectionReveal";
 
+// EmailJS service/template/public key are not secrets: they're required in the
+// client-side request either way, and Vite inlines VITE_* vars into the bundle
+// regardless of source. Fallbacks keep the form working even if the Vercel
+// project isn't configured with these env vars.
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_psj2v9a";
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_j7ol6ej";
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "ZdoUZIe4S9u64xuj2";
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -22,14 +30,14 @@ const Contact = () => {
 
     try {
       await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
         {
           name: formData.name,
           email: formData.email,
           message: formData.message,
         },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        EMAILJS_PUBLIC_KEY
       );
 
       setIsSubmitting(false);
