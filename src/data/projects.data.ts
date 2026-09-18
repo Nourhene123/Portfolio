@@ -203,8 +203,37 @@ export const projects: Project[] = [
     color: "#8C4555",
     year: "2024"
   },
-  
- 
+  {
+    id: "4",
+    title: "Power Fitness",
+    short: "Personal-coaching platform rebuilt from a legacy PHP monolith into a Spring Boot + Angular monorepo for a real training business.",
+    description:
+      "Power Fitness runs the online coaching business of a personal trainer: a member completes a science-based fitness assessment, receives a coach-reviewed 12-week workout & nutrition roadmap, and tracks progress week over week while the coach manages a full client roster. Originally a PHP/MySQL site that had hit the ceiling of monolithic architecture, it was rewritten ground-up into a layered Spring Boot + Angular monorepo with the same functionality end to end.",
+    details: [
+      "Rebuilt a live client business's platform as a Spring Boot 4 + Angular 17 monorepo with a build-enforced boundary — an ArchUnit test fails CI if a controller reaches into the data layer",
+      "Ported the 7-step assessment → rule-based analyzer → 12-week roadmap generator, plus a full coach review/edit state machine (draft → in review → approve / request changes → resubmit)",
+      "Implemented stateless JWT auth (access + rotating refresh tokens) with Member/Coach/Admin roles and a Flyway-migrated PostgreSQL schema",
+      "Built the member dashboard (habit, weight, and workout tracking) and a coach-side risk-detection service that flags clients falling behind on adherence, with dark/light theming and a collapsible sidebar across both dashboards",
+      "Added a cash-on-delivery shop module and containerized the full stack with Docker Compose and an Nginx reverse proxy",
+      "Backed the rewrite with a three-layer automated test suite — JUnit 5 + Mockito unit tests, Testcontainers + MockMvc integration tests, and Playwright E2E tests driving the real Angular app against the real backend",
+    ],
+    technologies: [
+      "Spring Boot 4", "Java 17", "Angular 17", "PostgreSQL 16", "Flyway",
+      "Spring Security (JWT)", "ArchUnit", "Testcontainers", "JUnit 5", "Mockito",
+      "Playwright", "Docker", "Nginx",
+    ],
+    github: "https://github.com/Nourhene123/Power-Fitness",
+    problem: "A personal trainer's real coaching business ran on a PHP/MySQL site that had hit the ceiling any monolithic PHP app eventually hits: business logic mixed into view scripts, no automated tests, and every new feature risking a regression somewhere unrelated.",
+    impact: [
+      "Rebuilt a live client business's platform end to end with zero functionality loss and an architectural boundary CI enforces automatically",
+      "Took the backend from zero automated tests to three-layer coverage (unit, Testcontainers integration, Playwright E2E) across the core auth, assessment, and program-review flows",
+      "Added a coach-side at-risk detection system and full plan-review workflow that didn't exist in the original site",
+    ],
+    category: "Full-Stack",
+    categories: ["Full-Stack", "DevOps"],
+    color: "#4A90A4",
+    year: "2026"
+  },
 ];
 
 export const getCategories = (projectList: Project[]): (ProjectCategory | "All")[] => {
