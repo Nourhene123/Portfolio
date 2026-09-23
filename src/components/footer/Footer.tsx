@@ -39,7 +39,7 @@ const Footer = () => {
           </button>
         </nav>
         <div className="footer-credits">
-          <p>© 2025 Nourhene Ferchichi</p>
+          <p>© 2026 Nourhene Ferchichi. All rights reserved.</p>
           <p className="built-with">
             Built with <span className="tech">React 19</span> •{" "}
             <span className="tech">Tailwind CSS</span> •{" "}
