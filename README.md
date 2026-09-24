@@ -10,7 +10,6 @@ The site I use to present my work as a Software & AI Engineer. I maintain it lik
 ![Vite 7](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)
 ![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 
-![Portfolio home page](docs/preview.png)
 
 ---
 
