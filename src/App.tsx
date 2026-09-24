@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Suspense, Component, type ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/react";
+import { MotionConfig } from "framer-motion";
 import Footer from "./components/footer/Footer";
 import NavBar from "./components/Navbar/NavBar";
 import Skeleton from "./tools/Skeleton";
@@ -56,7 +57,8 @@ function App() {
   }
 
   return (
-    <>
+    // reducedMotion="user": every Framer Motion animation honours the OS reduced-motion setting.
+    <MotionConfig reducedMotion="user">
       <ParticleBackground />
       <div
         className={`transition-opacity duration-1000 ease-in-out ${
@@ -82,7 +84,7 @@ function App() {
         <Analytics />
         <ScrollToTopButton />
       </div>
-    </>
+    </MotionConfig>
   );
 }
 

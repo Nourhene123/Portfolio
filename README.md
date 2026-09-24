@@ -1,75 +1,90 @@
-# Nourhene Ferchichi — Software & AI Engineer
+# Nourhene Ferchichi — Portfolio
 
-Personal portfolio and engineering showcase.
+The site I use to present my work as a Software & AI Engineer. I maintain it like a production codebase: typed content, CI on every push, performance and accessibility treated as requirements.
 
-**Live:** [portfolio-nourheneferchichi.vercel.app](https://portfolio-nourheneferchichi.vercel.app/)
+**🔗 [portfolio-nourheneferchichi.vercel.app](https://portfolio-nourheneferchichi.vercel.app/)**
 
-![CI](https://github.com/Nourhene123/Portfolio/actions/workflows/ci.yml/badge.svg)
-![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
+[![CI](https://github.com/Nourhene123/Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/Nourhene123/Portfolio/actions/workflows/ci.yml)
+![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
+![TypeScript strict](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
+![Vite 7](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)
+![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
+
+![Portfolio home page](docs/preview.png)
 
 ---
 
-## About
+## At a glance
 
-This is the site I use to present my work, experience and projects. I treat it as a
-production codebase: it has strict typing, CI on every push, a clear split between content and
-presentation, and accessibility and performance as requirements rather than extras.
+| | |
+|---|---|
+| **Stack** | React 19 · TypeScript (strict) · Vite 7 · Tailwind CSS 4 · Framer Motion |
+| **Hosting** | Vercel, with Vercel Analytics and Speed Insights for real-user metrics |
+| **Bundle** | Initial JS ≈ 133 kB gzipped. Every section below the fold is a separate lazy-loaded chunk. |
+| **Quality gates** | ESLint, `tsc -b` type-check and a production build run in [GitHub Actions](.github/workflows/ci.yml) on every push and PR |
+| **Accessibility** | Semantic landmarks, full keyboard navigation, honours `prefers-reduced-motion` across the whole site |
 
-## Tech Stack
+## Engineering decisions
 
-| Layer          | Choice                                          |
-| -------------- | ----------------------------------------------- |
-| UI             | React 19, TypeScript (strict)                   |
-| Build          | Vite 7                                          |
-| Styling        | Tailwind CSS 4                                  |
-| Motion         | Framer Motion                                   |
-| Contact        | EmailJS (serverless form delivery)              |
-| Hosting & RUM  | Vercel, Vercel Analytics, Speed Insights        |
-| Quality        | ESLint, `tsc -b` type-check, GitHub Actions CI  |
+Each decision below lists what I chose, why, and what it costs.
 
-## Engineering Decisions
+### Content is data, not markup
+Projects and skills are typed modules in [`src/data/`](src/data/). Adding a project means adding an object that the compiler checks against the `Project` interface; no component changes.
 
-**Content separated from UI.** Projects and skills are typed data modules
-(`src/data/*.data.ts`). Adding a project is a data change, not a component change.
+```ts
+{
+  id: "4",
+  title: "Power Fitness",
+  category: "Full-Stack",
+  categories: ["Full-Stack", "DevOps", "Cloud"],
+  technologies: ["Spring Boot 4", "Angular 17", "PostgreSQL 16", /* … */],
+  github: "https://github.com/Nourhene123/Power-Fitness",
+  liveDemo: "https://power-fitness-two.vercel.app",
+  // problem, details, impact, …
+}
+```
 
-**Behaviour extracted into hooks.** Interaction logic lives in small, single-purpose hooks
-instead of inside components, so views stay declarative and the logic can be reused:
+*Trade-off:* no CMS, so a non-developer can't edit content. For a personal site that's the right call: every content change goes through a commit and CI, like any code change.
 
-| Hook               | Responsibility                                                   |
-| ------------------ | ---------------------------------------------------------------- |
-| `use3DTilt`        | Pointer-driven 3D tilt transform                                 |
-| `useCounter`       | Animated counters, triggered by `IntersectionObserver`           |
-| `useParticles`     | Deterministic particle layout (stable across re-renders)         |
-| `useTyping`        | Typewriter effect for the hero section                           |
-| `useReducedMotion` | Reads `prefers-reduced-motion` and gates every animation         |
+### Behaviour lives in hooks
+Interaction logic is kept out of components, so views stay declarative:
 
-**Performance budget.** Sections below the fold are code-split with `React.lazy` + `Suspense`,
-wrapped in an error boundary so one failing section can't take down the page. Expensive values are memoized, and particle positions are computed
-deterministically instead of with `Math.random()` at render time, which avoids layout jitter
-on re-render. Real-user metrics are tracked with Vercel Speed Insights.
+| Hook | Responsibility |
+|---|---|
+| `useReducedMotion` | Tracks the OS `prefers-reduced-motion` setting live |
+| `useTyping` | Typewriter effect. It skips straight to the final text under reduced motion and cleans up its timers on unmount. |
+| `useCounter` | Animated counters, started by `IntersectionObserver` |
+| `useParticles` | Deterministic particle layout, stable across re-renders |
+| `use3DTilt` | Pointer-driven 3D tilt |
 
-**Accessibility.** The site uses semantic landmarks and heading hierarchy, full keyboard
-navigation, and respects the OS-level reduced-motion setting.
+On top of the hooks, the app root wraps everything in `<MotionConfig reducedMotion="user">`, so every Framer Motion animation also follows the OS setting, not only the components that check it explicitly.
 
-**Continuous integration.** Every push and pull request runs lint, type-check and a production
-build ([`ci.yml`](.github/workflows/ci.yml)), so `main` is always deployable.
+### Performance
+- **Code splitting.** Everything below the hero is loaded with `React.lazy` and `Suspense`, behind an error boundary. If a section fails to load, the navigation, hero and footer stay usable.
+- **No render-time randomness.** Particle positions are computed deterministically instead of with `Math.random()` during render, which avoids layout jitter on re-render.
+- **Measured in production.** Vercel Speed Insights collects Core Web Vitals from real visitors, not only from lab runs.
 
-## Architecture
+### A single-page app instead of Next.js
+The site is one page with no server data. A static Vite build is simpler to run and deploys anywhere.
+
+*Trade-off:* content renders client-side, so link previews and search engines rely on the static metadata in [`index.html`](index.html): Open Graph tags, canonical URL, [`sitemap.xml`](public/sitemap.xml) and [`robots.txt`](public/robots.txt).
+
+### Contact form without a backend
+The form sends email through EmailJS, so there's no server to host or secure. The EmailJS public key is designed to ship to the browser. Abuse protection (allowed origins, rate limits) is configured in the EmailJS dashboard, not in this code.
+
+## Project structure
 
 ```
 src/
-├── components/      # One folder per page section (home, about, experience, projects, …)
-│   └── shared/      # Cross-section UI (e.g. ParticleBackground)
-├── hooks/           # Reusable interaction and animation logic
-├── data/            # Typed content: projects, skills
-├── tools/           # Generic UI utilities (buttons, skeletons, scroll-to-top)
-└── assets/          # Images and documents
+├── components/   one folder per page section (home, about, experience, projects, …)
+│   └── shared/   cross-section UI: particle background, section reveal
+├── hooks/        reusable interaction and animation logic
+├── data/         typed content: projects, skills
+├── tools/        generic UI utilities: buttons, skeleton, scroll-to-top
+└── assets/       images and documents
 ```
 
-## Running Locally
+## Running locally
 
 Requires Node.js 18+.
 
@@ -78,7 +93,13 @@ npm install
 npm run dev        # http://localhost:5173
 ```
 
-The contact form needs EmailJS credentials in a local `.env` file (it is not committed):
+| Script | Purpose |
+|---|---|
+| `npm run build` | Type-check, then production build |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | ESLint |
+
+The contact form works out of the box with the site's EmailJS configuration. To send to your own EmailJS account, override it in a local `.env` (not committed):
 
 ```
 VITE_EMAILJS_SERVICE_ID=...
@@ -86,18 +107,10 @@ VITE_EMAILJS_TEMPLATE_ID=...
 VITE_EMAILJS_PUBLIC_KEY=...
 ```
 
-| Script            | Purpose                           |
-| ----------------- | --------------------------------- |
-| `npm run build`   | Type-check and production build   |
-| `npm run preview` | Serve the production build        |
-| `npm run lint`    | Run ESLint                        |
-
 ## Contact
 
-- Website: [portfolio-nourheneferchichi.vercel.app](https://portfolio-nourheneferchichi.vercel.app/)
-- GitHub: [@Nourhene123](https://github.com/Nourhene123)
+[Website](https://portfolio-nourheneferchichi.vercel.app/) · [LinkedIn](https://linkedin.com/in/nourhene-ferchichi) · [GitHub](https://github.com/Nourhene123) · [Email](mailto:nourhene.ferchichi2001@gmail.com)
 
 ## License
 
-© 2026 Nourhene Ferchichi. All rights reserved.
-The source is public for review only. See [LICENSE](LICENSE).
+© 2026 Nourhene Ferchichi. All rights reserved. The source is public for review only; see [LICENSE](LICENSE).
